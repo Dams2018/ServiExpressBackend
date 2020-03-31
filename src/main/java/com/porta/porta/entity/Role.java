@@ -1,4 +1,4 @@
-package com.porta.porta.model;
+package com.porta.porta.entity;
 
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;

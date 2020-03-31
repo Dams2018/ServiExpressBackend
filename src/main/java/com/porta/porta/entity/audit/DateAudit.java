@@ -1,4 +1,4 @@
-package com.porta.porta.model.audit;
+package com.porta.porta.entity.audit;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

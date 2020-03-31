@@ -1,4 +1,4 @@
-package com.porta.porta.model;
+package com.porta.porta.entity;
 
 public enum RoleName {
     ROLE_USER,

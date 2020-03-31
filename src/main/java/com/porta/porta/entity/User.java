@@ -1,4 +1,4 @@
-package com.porta.porta.model;
+package com.porta.porta.entity;
 
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.porta.porta.model.audit.DateAudit;
+import com.porta.porta.entity.audit.DateAudit;
 
 import java.util.HashSet;
 import java.util.Set;
