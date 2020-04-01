@@ -5,20 +5,32 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashSet;
 import java.util.Set;
 
-@Table(name = "cliente")
+@Table(name = "cliente", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+        "idcliente"
+    }),
+    @UniqueConstraint(columnNames = {
+        "id_usuario"
+    })
+})
 @Entity
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_cliente;
+    @JsonProperty("idcliente")
+    private Long idcliente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    private User id_usuario;
+    
+    private Long id_usuario;
+    // @ManyToOne
+    // @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    // private User id_usuario;
 
     @NotBlank
     @Size(max = 40)
@@ -39,19 +51,19 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Long getId_cliente() {
-        return id_cliente;
+    public Long getIdcliente() {
+        return idcliente;
     }
 
-    public void setId_cliente(Long id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdcliente(Long idcliente) {
+        this.idcliente = idcliente;
     }
 
-    public User getId_usuario() {
+    public Long getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_usuario(User id_usuario) {
+    public void setId_usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
     }
 
@@ -94,6 +106,5 @@ public class Cliente {
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
 
 }
