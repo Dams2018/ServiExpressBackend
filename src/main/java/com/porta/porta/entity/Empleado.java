@@ -4,19 +4,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "empleado")
 @Entity
 public class Empleado {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_empleado;
 
-    
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     private User id_usuario;
@@ -39,8 +37,6 @@ public class Empleado {
 
     public Empleado() {
     }
-
-
 
     /**
      * @return Long return the id_empleado
