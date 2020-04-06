@@ -59,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
+    //Aqui van los sitios permitidos para cada rol
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
