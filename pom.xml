@@ -8,12 +8,12 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.porta</groupId>
-	<artifactId>porta</artifactId>
+		</parent>
+	<groupId>com.linkpoint</groupId>
+	<artifactId>ServiExpress</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>porta</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ServiExpress</name>
+	<description>Backend Rest Api ServiExpress</description>
 
 	<properties>
 		<java.version>1.8</java.version>
