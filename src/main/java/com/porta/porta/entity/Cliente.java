@@ -5,10 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Table(name = "cliente", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
@@ -23,7 +20,6 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonProperty("idcliente")
     private Long idcliente;
 
     

@@ -11,6 +11,7 @@ import com.porta.porta.payload.SignUpRequest;
 import com.porta.porta.repository.RoleRepository;
 import com.porta.porta.repository.UserRepository;
 import com.porta.porta.security.JwtTokenProvider;
+import com.porta.porta.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,9 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+        @Autowired
+        EmailService emailService;
 
         @Autowired
         AuthenticationManager authenticationManager;
@@ -90,11 +94,10 @@ public class AuthController {
 
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
-
+                emailService.emailSend(signUpRequest.getEmail(),signUpRequest.getName(),signUpRequest.getUsername(),signUpRequest.getPassword());
                 return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
         }
 
-        
         @PostMapping("/signupwork")
         public ResponseEntity<?> registerWork(@Valid @RequestBody SignUpRequest signUpRequest) {
 
