@@ -10,14 +10,12 @@ import com.porta.porta.entity.User;
 import com.porta.porta.repository.ClienteRepository;
 import com.porta.porta.repository.UserRepository;
 import com.porta.porta.service.PersonaServices;
+import com.porta.porta.util.Util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
 
 @Service("servicli")
 public class ClienteServicesImpl extends PersonaServices<Cliente> {
@@ -44,22 +42,14 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 
     @Override
     public boolean crear(Cliente generico) {
-		logger.info("CREANDO CLIENTE");
-		try {
-			 repositorio.save(generico);
-			// Configuration configuration = new Configuration();
-			// configuration.configure("hibernate.cfg.xml");
-			// SessionFactory factory = configuration.buildSessionFactory();
-			// Session session = factory.openSession();
-	
-			// Transaction tx = session.beginTransaction();
-			// User user = session.load(User.class, generico.getId_usuario());
-			// user.setActive(true);
-			// session.update(user);
-			// tx.commit();
-			// session.close();
+		logger.info("CREANDO CLIENTE "+generico.getId_usuario());
 
-			
+		try {
+			User user = userRepository.findById(generico.getId_usuario())
+			.orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			 repositorio.save(generico);
+			 user.setActive(true);
+			 userRepository.save(user);
 			logger.info("CLIENTE CREADA");
 			return true;
 		}catch(Exception e) {

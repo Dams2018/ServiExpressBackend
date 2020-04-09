@@ -2,8 +2,7 @@ package com.porta.porta.controller;
 
 import com.porta.porta.exception.AppException;
 import com.porta.porta.exception.ResourceNotFoundException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.porta.porta.entity.Role;
 import com.porta.porta.entity.RoleName;
 import com.porta.porta.entity.User;
@@ -21,31 +20,25 @@ import com.porta.porta.vo.MensajeVO;
 import com.porta.porta.vo.ResultadoVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;
 import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
@@ -55,14 +48,13 @@ import org.jose4j.keys.AesKey;
 import org.jose4j.lang.ByteUtil;
 import org.jose4j.lang.JoseException;
 
-import javax.jws.soap.SOAPBinding.Use;
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Key;
-import java.util.Base64;
+
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -205,7 +197,7 @@ public class AuthController {
                                 .orElseThrow(() -> new AppException("User Role not set."));
 
                 user.setRoles(Collections.singleton(userRole));
-                user.setActive(false);
+                user.setActive(true);
 
                 User result = userRepository.save(user);
 
