@@ -28,23 +28,24 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 	private ClienteRepository repositorio;
 	private static final Log logger = LogFactory.getLog(ClienteServicesImpl.class);
 	ResultadoVO salida = new ResultadoVO();
+	MensajeVO mensajeError =new MensajeVO();
 	String[] mensajes = new String[3];
 	@Autowired
 	UserRepository userRepository;
 
 	@Override
-	public boolean actualizar(Cliente generico) {
+	public ResponseEntity<?> actualizar(Cliente generico) {
 		logger.info("ACTUALIZANDO CLIENTE");
 		try {
 			Cliente cliente = repositorio.findById(generico.getIdcliente())
-					.orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+					.orElseThrow(() -> new IllegalStateException("IdCliente no existe."));
 			cliente = generico;
 			repositorio.save(cliente);
 			logger.info("CLIENTE ACTUALIZADO");
-			return true;
+			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
-			return false;
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
 	}
 
@@ -56,16 +57,13 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 			if (generico.getIdcliente() != null) {
 				if (generico.getIdcliente() <= 0 || generico.getIdcliente() >= 0) {
 					mensajes = Util.Codigos.MALPARAMETROS.split(";");
-					MensajeVO mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],
-							mensajes[0]);
+					mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],mensajes[0]);
 					salida.setPeticion(mensajeError);
 					return new ResponseEntity<ResultadoVO>(salida, HttpStatus.NOT_ACCEPTABLE);
 				}
 			}
-
 			// Comprabar usuario si existe en la base de datos
-			User user = userRepository.findById(generico.getId_usuario())
-					.orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			User user = userRepository.findById(generico.getId_usuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
 			user.setActive(true);
 			try {
 				repositorio.save(generico);
@@ -79,11 +77,10 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR " + e.getMessage());
 			mensajes = Util.Codigos.PASSWORDSNOCOINCIDENTES.split(";");
-			MensajeVO mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1], mensajes[0]);
+			mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1], mensajes[0]);
 			salida.setPeticion(mensajeError);
 			e.printStackTrace();
 			return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
-
 		}
 
 	}

@@ -39,8 +39,8 @@ public class EntidadController {
 
 
 	@PostMapping("/cliente")
-	public boolean actualizarNota(@RequestBody @Valid Cliente cliente){
-		return servicli.actualizar(cliente);
+	public ResponseEntity<?> actualizarCliente(@RequestBody @Valid Cliente cliente){
+		return ResponseEntity.ok(servicli.actualizar(cliente));
 	}
 
 

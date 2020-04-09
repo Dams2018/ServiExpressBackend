@@ -28,15 +28,15 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 	private static final Log logger = LogFactory.getLog(ClienteServicesImpl.class);
 	
     @Override
-    public boolean actualizar(Empleado generico) {
+    public ResponseEntity<?> actualizar(Empleado generico) {
 		logger.info("ACTUALIZANDO EMPLEADO");
 		try {
 			repositorio.save(generico);
 			logger.info("EMPLEADO ACTUALIZADO");
-			return true;
+			return ResponseEntity.ok(generico);
 		}catch(Exception e) {
 			logger.error("HUBO UN ERROR");
-			return false;
+			return ResponseEntity.ok(null);
 		}
     }
 

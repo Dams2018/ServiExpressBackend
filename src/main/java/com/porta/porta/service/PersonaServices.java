@@ -10,8 +10,8 @@ public abstract class PersonaServices<T> {
         return null;
     }
 
-    public boolean actualizar(T generico) {
-        return false;
+    public ResponseEntity<?> actualizar(T generico) {
+        return null;
     }
 
     public List<T> obtener(T generico) {
