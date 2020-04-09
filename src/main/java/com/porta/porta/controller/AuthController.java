@@ -16,6 +16,9 @@ import com.porta.porta.repository.RoleRepository;
 import com.porta.porta.repository.UserRepository;
 import com.porta.porta.security.JwtTokenProvider;
 import com.porta.porta.service.EmailService;
+import com.porta.porta.util.Util;
+import com.porta.porta.vo.MensajeVO;
+import com.porta.porta.vo.ResultadoVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -50,6 +53,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -72,6 +78,10 @@ public class AuthController {
         @Autowired
         JwtTokenProvider tokenProvider;
 
+        private final Logger log = LoggerFactory.getLogger(this.getClass());
+        ResultadoVO salida = new ResultadoVO();
+        String[] mensajes = new String[3];
+
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -86,33 +96,53 @@ public class AuthController {
         }
 
         // @PostMapping("/check2")
-        // public ResponseEntity<?> check(@Valid @RequestBody ChangeRequest changeRequest) {
-        //         Boolean isAvailable = userRepository.existsByUsername(changeRequest.getUsername());
-        //         Optional<User> list = userRepository.findByUsername(changeRequest.getUsername());
+        // public ResponseEntity<?> check(@Valid @RequestBody ChangeRequest
+        // changeRequest) {
+        // Boolean isAvailable =
+        // userRepository.existsByUsername(changeRequest.getUsername());
+        // Optional<User> list =
+        // userRepository.findByUsername(changeRequest.getUsername());
 
-        //         list.toString();
-        //         try {
-        //                 System.out.println("mapper -> " + new ObjectMapper().writeValueAsString(list));
-        //         } catch (JsonProcessingException e) {
-        //                 // TODO Auto-generated catch block
-        //                 e.printStackTrace();
-        //         }
-        //         return ResponseEntity.ok(isAvailable);
+        // list.toString();
+        // try {
+        // System.out.println("mapper -> " + new
+        // ObjectMapper().writeValueAsString(list));
+        // } catch (JsonProcessingException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
         // }
-
+        // return ResponseEntity.ok(isAvailable);
+        // }
+   
 
         @PutMapping("/changepassword/{id}")
-        public ResponseEntity < User > update(@PathVariable(value = "id") Long employeeId,
-            @Valid @RequestBody ChangeRequest changeRequest) throws ResourceNotFoundException {
-            User user = userRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+        public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") Long userId,
+                        @Valid @RequestBody ChangeRequest changeRequest) throws ResourceNotFoundException {
 
-                user.setPassword(passwordEncoder.encode(changeRequest.getPassword()));
-            final User updatedEmployee = userRepository.save(user);
-            return ResponseEntity.ok(updatedEmployee);
+                try {
+
+                        User user = userRepository.findById(userId).orElseThrow(
+                    () -> new IllegalStateException("IdUsuario no existe."));
+                        user.setPassword(passwordEncoder.encode(changeRequest.getPassword()));
+
+                        mensajes = Util.Codigos.PASSWORDOK.split(";");
+                        String[] timestamp = Util.getCurrentTimeStamp().split(";");
+                        MensajeVO mensaje = new MensajeVO(timestamp[0], timestamp[1], mensajes[1], mensajes[0]);
+                        userRepository.save(user);
+                        salida.setPeticion(mensaje);
+                } catch (Exception e) {
+                        log.error("HA OCURRIDO UN ERROR");
+                        mensajes = Util.Codigos.PASSWORDSNOCOINCIDENTES.split(";");
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        MensajeVO mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],
+                                        mensajes[0]);
+                        salida.setPeticion(mensajeError);
+                        e.printStackTrace();
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
+                }
+                return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
+                // http://127.0.0.1:8090/api/auth/changepassword/1
         }
-
-        
 
         @PutMapping("/signup")
         public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
