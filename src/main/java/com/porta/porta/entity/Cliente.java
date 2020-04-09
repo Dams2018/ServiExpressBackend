@@ -1,14 +1,15 @@
 package com.porta.porta.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Table(name = "cliente", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
@@ -19,19 +20,12 @@ import java.util.Set;
     })
 })
 @Entity
-public class Cliente {
+public class Cliente implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonProperty("idcliente")
     private Long idcliente;
-
-    
     private Long id_usuario;
-    // @ManyToOne
-    // @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    // private User id_usuario;
-
     @NotBlank
     @Size(max = 40)
     private String rut;
@@ -44,9 +38,8 @@ public class Cliente {
     @NotBlank
     @Size(max = 40)
     private String telefono;
-    @NotBlank
-    @Size(max = 40)
-    private String fechaNacimiento;
+
+    private Date fechaNacimiento;
 
     public Cliente() {
     }
@@ -99,12 +92,25 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public Cliente(Long idcliente, Long id_usuario, @NotBlank @Size(max = 40) String rut,
+            @NotBlank @Size(max = 40) String nombre, @NotBlank @Size(max = 40) String apellido,
+            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) Date fechaNacimiento) {
+        this.idcliente = idcliente;
+        this.id_usuario = id_usuario;
+        this.rut = rut;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+ 
 }
