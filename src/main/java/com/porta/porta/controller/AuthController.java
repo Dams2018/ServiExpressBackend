@@ -31,6 +31,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,10 +46,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.jose4j.jwa.AlgorithmConstraints;
+import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;
+import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
+import org.jose4j.jwe.JsonWebEncryption;
+import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
+import org.jose4j.keys.AesKey;
+import org.jose4j.lang.ByteUtil;
+import org.jose4j.lang.JoseException;
 
 import javax.jws.soap.SOAPBinding.Use;
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +92,7 @@ public class AuthController {
         private final Logger log = LoggerFactory.getLogger(this.getClass());
         ResultadoVO salida = new ResultadoVO();
         String[] mensajes = new String[3];
-
+        Key key = new AesKey(ByteUtil.randomBytes(16));
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -95,34 +106,51 @@ public class AuthController {
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
-        // @PostMapping("/check2")
-        // public ResponseEntity<?> check(@Valid @RequestBody ChangeRequest
-        // changeRequest) {
-        // Boolean isAvailable =
-        // userRepository.existsByUsername(changeRequest.getUsername());
-        // Optional<User> list =
-        // userRepository.findByUsername(changeRequest.getUsername());
+        @PutMapping("/test/{id}")
+        public ResponseEntity<?> update(@PathVariable(value = "id") Long userId) throws JoseException {
 
-        // list.toString();
-        // try {
-        // System.out.println("mapper -> " + new
-        // ObjectMapper().writeValueAsString(list));
-        // } catch (JsonProcessingException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // return ResponseEntity.ok(isAvailable);
-        // }
-   
+                // String entradaOriginal = Long.toString(userId);
+                // String cadenaCodificada = Base64.getEncoder().encodeToString(entradaOriginal.getBytes());
+
+                // System.out.println("codificado: " + cadenaCodificada);
+
+                
+                JsonWebEncryption jwe = new JsonWebEncryption();
+                jwe.setPayload(Long.toString(userId));
+                jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
+                jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+                jwe.setKey(key);
+                String serializedJwe = jwe.getCompactSerialization();
+                System.out.println("Serialized Encrypted JWE: " + serializedJwe);
+
+
+                return ResponseEntity.ok(serializedJwe);
+        }
 
         @PutMapping("/changepassword/{id}")
-        public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") Long userId,
-                        @Valid @RequestBody ChangeRequest changeRequest) throws ResourceNotFoundException {
+        public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") String userId,
+                        @Valid @RequestBody ChangeRequest changeRequest) throws ResourceNotFoundException,
+                        JoseException {
+                // byte[] bytesDecodificados = Base64.getDecoder().decode(userId);
+                // String cadenaDecodificada = new String(bytesDecodificados);
+
+                JsonWebEncryption jwe = new JsonWebEncryption();
+                jwe = new JsonWebEncryption();
+                jwe.setAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                KeyManagementAlgorithmIdentifiers.A128KW));
+                jwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256));
+                jwe.setKey(key);
+                jwe.setCompactSerialization(userId);
+                System.out.println("Payload: " + jwe.getPayload());
+
+
+                Long id = Long.parseLong(jwe.getPayload());
 
                 try {
 
-                        User user = userRepository.findById(userId).orElseThrow(
-                    () -> new IllegalStateException("IdUsuario no existe."));
+                        User user = userRepository.findById(id)
+                                        .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
                         user.setPassword(passwordEncoder.encode(changeRequest.getPassword()));
 
                         mensajes = Util.Codigos.PASSWORDOK.split(";");
