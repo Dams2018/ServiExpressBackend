@@ -64,6 +64,17 @@ recuerda cambiar el id usuario por el usuario cliente
 	"fechaNacimiento" : "1989-09-10"
 }
 
+Actulizar de cliente POST
+http://127.0.0.1:8090/entidad/cliente
+{
+	"idcliente" :13,
+	"id_usuario" :1,
+	"rut" : "174244979",
+	"nombre" : "Marco",
+	"apellido" : "Astorga",
+	"telefono" : "324234",
+	"fechaNacimiento" : "1989-09-10"
+}
 
 Para el cambio de contraseña PUT
 PRIMERO 
