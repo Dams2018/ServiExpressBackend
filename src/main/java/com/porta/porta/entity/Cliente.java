@@ -1,5 +1,7 @@
 package com.porta.porta.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import javax.validation.constraints.NotBlank;
@@ -7,27 +9,14 @@ import javax.validation.constraints.Size;
 
 
 
-@Table(name = "cliente", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {
-        "idcliente"
-    }),
-    @UniqueConstraint(columnNames = {
-        "id_usuario"
-    })
-})
+@Table(name = "cliente")
 @Entity
-public class Cliente {
+public class Cliente implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long idcliente;
-
-    
     private Long id_usuario;
-    // @ManyToOne
-    // @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    // private User id_usuario;
-
     @NotBlank
     @Size(max = 40)
     private String rut;
@@ -100,6 +89,18 @@ public class Cliente {
     }
 
     public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Cliente(Long idcliente, Long id_usuario, @NotBlank @Size(max = 40) String rut,
+            @NotBlank @Size(max = 40) String nombre, @NotBlank @Size(max = 40) String apellido,
+            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) String fechaNacimiento) {
+        this.idcliente = idcliente;
+        this.id_usuario = id_usuario;
+        this.rut = rut;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
     }
 
