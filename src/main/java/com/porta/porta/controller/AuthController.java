@@ -93,6 +93,7 @@ public class AuthController {
         ResultadoVO salida = new ResultadoVO();
         String[] mensajes = new String[3];
         Key key = new AesKey(ByteUtil.randomBytes(16));
+
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -106,33 +107,43 @@ public class AuthController {
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
-        @PutMapping("/test/{id}")
-        public ResponseEntity<?> update(@PathVariable(value = "id") Long userId) throws JoseException {
+        // @PutMapping("/requestpass/{id}")
+        // public ResponseEntity<?> update(@PathVariable(value = "id") Long userId)
+        // throws JoseException {
 
-                // String entradaOriginal = Long.toString(userId);
-                // String cadenaCodificada = Base64.getEncoder().encodeToString(entradaOriginal.getBytes());
+        // JsonWebEncryption jwe = new JsonWebEncryption();
+        // jwe.setPayload(Long.toString(userId));
+        // jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
+        // jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+        // jwe.setKey(key);
+        // String serializedJwe = jwe.getCompactSerialization();
+        // System.out.println("Serialized Encrypted JWE: " + serializedJwe);
 
-                // System.out.println("codificado: " + cadenaCodificada);
+        // return ResponseEntity.ok(serializedJwe);
+        // }
 
-                
+        @PutMapping("/requestpass/{username}")
+        public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
+
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+               
+
                 JsonWebEncryption jwe = new JsonWebEncryption();
-                jwe.setPayload(Long.toString(userId));
+                jwe.setPayload(Long.toString(user.getId()));
                 jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
                 jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
                 jwe.setKey(key);
                 String serializedJwe = jwe.getCompactSerialization();
                 System.out.println("Serialized Encrypted JWE: " + serializedJwe);
 
-
                 return ResponseEntity.ok(serializedJwe);
         }
 
         @PutMapping("/changepassword/{id}")
         public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") String userId,
-                        @Valid @RequestBody ChangeRequest changeRequest) throws ResourceNotFoundException,
-                        JoseException {
-                // byte[] bytesDecodificados = Base64.getDecoder().decode(userId);
-                // String cadenaDecodificada = new String(bytesDecodificados);
+                        @Valid @RequestBody ChangeRequest changeRequest)
+                        throws ResourceNotFoundException, JoseException {
 
                 JsonWebEncryption jwe = new JsonWebEncryption();
                 jwe = new JsonWebEncryption();
@@ -143,7 +154,6 @@ public class AuthController {
                 jwe.setKey(key);
                 jwe.setCompactSerialization(userId);
                 System.out.println("Payload: " + jwe.getPayload());
-
 
                 Long id = Long.parseLong(jwe.getPayload());
 
