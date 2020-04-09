@@ -48,13 +48,11 @@ import org.jose4j.keys.AesKey;
 import org.jose4j.lang.ByteUtil;
 import org.jose4j.lang.JoseException;
 
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Key;
 
 import java.util.Collections;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,27 +97,11 @@ public class AuthController {
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
-        // @PutMapping("/requestpass/{id}")
-        // public ResponseEntity<?> update(@PathVariable(value = "id") Long userId)
-        // throws JoseException {
-
-        // JsonWebEncryption jwe = new JsonWebEncryption();
-        // jwe.setPayload(Long.toString(userId));
-        // jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
-        // jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
-        // jwe.setKey(key);
-        // String serializedJwe = jwe.getCompactSerialization();
-        // System.out.println("Serialized Encrypted JWE: " + serializedJwe);
-
-        // return ResponseEntity.ok(serializedJwe);
-        // }
-
         @PutMapping("/requestpass/{username}")
         public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
 
                 User user = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
-               
 
                 JsonWebEncryption jwe = new JsonWebEncryption();
                 jwe.setPayload(Long.toString(user.getId()));
@@ -178,12 +160,13 @@ public class AuthController {
         public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-                        return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
                                         HttpStatus.BAD_REQUEST);
                 }
 
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-                        return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+                        return new ResponseEntity(
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
                                         HttpStatus.BAD_REQUEST);
                 }
 
@@ -194,7 +177,7 @@ public class AuthController {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
                 Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                                .orElseThrow(() -> new AppException("User Role not set."));
+                                .orElseThrow(() -> new AppException("Rol de usuario no establecido"));
 
                 user.setRoles(Collections.singleton(userRole));
                 user.setActive(true);
@@ -205,19 +188,20 @@ public class AuthController {
                                 .buildAndExpand(result.getUsername()).toUri();
                 emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
                                 signUpRequest.getPassword());
-                return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+                return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
 
         @PostMapping("/signupwork")
         public ResponseEntity<?> registerWork(@Valid @RequestBody SignUpRequest signUpRequest) {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-                        return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
                                         HttpStatus.BAD_REQUEST);
                 }
 
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-                        return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+                        return new ResponseEntity(
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
                                         HttpStatus.BAD_REQUEST);
                 }
 
@@ -229,20 +213,20 @@ public class AuthController {
 
                 if (signUpRequest.getRole().equals("1")) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
+                                        .orElseThrow(() -> new AppException("Rol de admin no establecido"));
 
                         user.setRoles(Collections.singleton(userRole));
                 }
                 if (signUpRequest.getRole().equals("3")) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
+                                        .orElseThrow(() -> new AppException("Rol de empleado no establecido"));
 
                         user.setRoles(Collections.singleton(userRole));
 
                 }
                 if (signUpRequest.getRole().equals("4")) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_PROVIDER)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
+                                        .orElseThrow(() -> new AppException("Rol de proveedor no establecido"));
 
                         user.setRoles(Collections.singleton(userRole));
                 } else {
@@ -254,6 +238,21 @@ public class AuthController {
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
 
-                return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+                return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
+
+        // @PutMapping("/requestpass/{id}")
+        // public ResponseEntity<?> update(@PathVariable(value = "id") Long userId)
+        // throws JoseException {
+
+        // JsonWebEncryption jwe = new JsonWebEncryption();
+        // jwe.setPayload(Long.toString(userId));
+        // jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
+        // jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+        // jwe.setKey(key);
+        // String serializedJwe = jwe.getCompactSerialization();
+        // System.out.println("Serialized Encrypted JWE: " + serializedJwe);
+
+        // return ResponseEntity.ok(serializedJwe);
+        // }
 }

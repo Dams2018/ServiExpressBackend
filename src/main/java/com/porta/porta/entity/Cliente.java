@@ -44,6 +44,15 @@ public class Cliente implements Serializable{
     public Cliente() {
     }
 
+    public Cliente(Cliente cliente) {
+        this.id_usuario=cliente.id_usuario;
+        this.nombre= cliente.nombre;
+        this.apellido=cliente.apellido;
+        this.rut=cliente.rut;
+        this.telefono=cliente.telefono;
+        this.fechaNacimiento=cliente.fechaNacimiento;
+    }
+
     public Long getIdcliente() {
         return idcliente;
     }
