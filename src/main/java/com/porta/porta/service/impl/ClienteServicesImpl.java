@@ -75,12 +75,7 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 			}
 
 		} catch (Exception e) {
-			logger.error("HUBO UN ERROR " + e.getMessage());
-			mensajes = Util.Codigos.PASSWORDSNOCOINCIDENTES.split(";");
-			mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1], mensajes[0]);
-			salida.setPeticion(mensajeError);
-			e.printStackTrace();
-			return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
 
 	}

@@ -80,8 +80,9 @@ public class AuthController {
         JwtTokenProvider tokenProvider;
 
         private final Logger log = LoggerFactory.getLogger(this.getClass());
-        ResultadoVO salida = new ResultadoVO();
-        String[] mensajes = new String[3];
+	ResultadoVO salida = new ResultadoVO();
+	MensajeVO mensajeError =new MensajeVO();
+	String[] mensajes = new String[3];
         Key key = new AesKey(ByteUtil.randomBytes(16));
 
         @PostMapping("/signin")
@@ -100,38 +101,46 @@ public class AuthController {
         @PutMapping("/requestpass/{username}")
         public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
 
-                User user = userRepository.findByUsername(username)
-                                .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+                try {
+                        User user = userRepository.findByUsername(username)
+                                        .orElseThrow(() -> new IllegalStateException("Usuario no existe."));
 
-                JsonWebEncryption jwe = new JsonWebEncryption();
-                jwe.setPayload(Long.toString(user.getId()));
-                jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
-                jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
-                jwe.setKey(key);
-                String serializedJwe = jwe.getCompactSerialization();
-                System.out.println("Serialized Encrypted JWE: " + serializedJwe);
+                        JsonWebEncryption jwe = new JsonWebEncryption();
+                        jwe.setPayload(Long.toString(user.getId()));
+                        jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
+                        jwe.setEncryptionMethodHeaderParameter(
+                                        ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+                        jwe.setKey(key);
+                        String serializedJwe = jwe.getCompactSerialization();
+                        System.out.println("Serialized Encrypted JWE: " + serializedJwe);
 
-                return ResponseEntity.ok(serializedJwe);
+                        return ResponseEntity.ok(serializedJwe);
+                } catch (Exception e) {
+                        log.error("HA OCURRIDO UN ERROR " + e.getMessage());
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        salida.setPeticion(mensajeError);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+                }
+
         }
 
         @PutMapping("/changepassword/{id}")
-        public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") String userId,
+        public ResponseEntity<?> update(@PathVariable(value = "id") String userId,
                         @Valid @RequestBody ChangeRequest changeRequest)
                         throws ResourceNotFoundException, JoseException {
 
-                JsonWebEncryption jwe = new JsonWebEncryption();
-                jwe = new JsonWebEncryption();
-                jwe.setAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
-                                KeyManagementAlgorithmIdentifiers.A128KW));
-                jwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
-                                ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256));
-                jwe.setKey(key);
-                jwe.setCompactSerialization(userId);
-                System.out.println("Payload: " + jwe.getPayload());
-
-                Long id = Long.parseLong(jwe.getPayload());
-
                 try {
+                        JsonWebEncryption jwe = new JsonWebEncryption();
+                        jwe = new JsonWebEncryption();
+                        jwe.setAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                        KeyManagementAlgorithmIdentifiers.A128KW));
+                        jwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                        ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256));
+                        jwe.setKey(key);
+                        jwe.setCompactSerialization(userId);
+                        Long id = Long.parseLong(jwe.getPayload());
 
                         User user = userRepository.findById(id)
                                         .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
@@ -143,15 +152,15 @@ public class AuthController {
                         userRepository.save(user);
                         salida.setPeticion(mensaje);
                 } catch (Exception e) {
-                        log.error("HA OCURRIDO UN ERROR");
-                        mensajes = Util.Codigos.PASSWORDSNOCOINCIDENTES.split(";");
+                        log.error("HA OCURRIDO UN ERROR " + e.getMessage());
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        MensajeVO mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],
-                                        mensajes[0]);
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
                         salida.setPeticion(mensajeError);
-                        e.printStackTrace();
-                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+                        
                 }
+
                 return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
                 // http://127.0.0.1:8090/api/auth/changepassword/1
         }
