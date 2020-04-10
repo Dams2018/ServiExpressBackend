@@ -189,7 +189,7 @@ public class AuthController {
                                 .orElseThrow(() -> new AppException("Rol de usuario no establecido"));
 
                 user.setRoles(Collections.singleton(userRole));
-                user.setActive(true);
+                user.setActive(false);
 
                 User result = userRepository.save(user);
 
