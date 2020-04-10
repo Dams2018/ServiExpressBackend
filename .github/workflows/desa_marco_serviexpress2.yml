@@ -28,5 +28,5 @@ jobs:
       with:
         app-name: 'serviexpress2'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_51c323ad9b424e63a7678471ce295f79 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_637d4f331e9c4a148aac4a386075f3cc }}
         package: '${{ github.workspace }}/target/*.jar'
