@@ -169,6 +169,7 @@ public class AuthController {
         public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+                        log.error("¡Este nombre de usuario ya existe!");
                         return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
                                         HttpStatus.BAD_REQUEST);
                 }
