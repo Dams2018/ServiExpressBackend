@@ -13,6 +13,7 @@ import com.porta.porta.service.PersonaServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -27,20 +28,20 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 	private static final Log logger = LogFactory.getLog(ClienteServicesImpl.class);
 	
     @Override
-    public boolean actualizar(Empleado generico) {
+    public ResponseEntity<?> actualizar(Empleado generico) {
 		logger.info("ACTUALIZANDO EMPLEADO");
 		try {
 			repositorio.save(generico);
 			logger.info("EMPLEADO ACTUALIZADO");
-			return true;
+			return ResponseEntity.ok(generico);
 		}catch(Exception e) {
 			logger.error("HUBO UN ERROR");
-			return false;
+			return ResponseEntity.ok(null);
 		}
     }
 
     @Override
-    public boolean crear(Empleado generico) {
+    public ResponseEntity<?> crear(Empleado generico) {
 		logger.info("CREANDO EMPLEADO");
 		try {
 
@@ -49,10 +50,10 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 			repositorio.save(generico);
 			user.setPassword("213213");
 			logger.info("EMPLEADO CREAD0");
-			return true;
+			return ResponseEntity.ok(user);
 		}catch(Exception e) {
 			logger.error("HUBO UN ERROR");
-			return false;
+			return ResponseEntity.ok(null);
 		}
     }
 

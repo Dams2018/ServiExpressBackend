@@ -48,13 +48,11 @@ import org.jose4j.keys.AesKey;
 import org.jose4j.lang.ByteUtil;
 import org.jose4j.lang.JoseException;
 
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Key;
 
 import java.util.Collections;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,8 +80,9 @@ public class AuthController {
         JwtTokenProvider tokenProvider;
 
         private final Logger log = LoggerFactory.getLogger(this.getClass());
-        ResultadoVO salida = new ResultadoVO();
-        String[] mensajes = new String[3];
+	ResultadoVO salida = new ResultadoVO();
+	MensajeVO mensajeError =new MensajeVO();
+	String[] mensajes = new String[3];
         Key key = new AesKey(ByteUtil.randomBytes(16));
 
         @PostMapping("/signin")
@@ -97,6 +96,158 @@ public class AuthController {
 
                 String jwt = tokenProvider.generateToken(authentication);
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        }
+
+        @PutMapping("/requestpass/{username}")
+        public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
+
+                try {
+                        User user = userRepository.findByUsername(username)
+                                        .orElseThrow(() -> new IllegalStateException("Usuario no existe."));
+
+                        JsonWebEncryption jwe = new JsonWebEncryption();
+                        jwe.setPayload(Long.toString(user.getId()));
+                        jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
+                        jwe.setEncryptionMethodHeaderParameter(
+                                        ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
+                        jwe.setKey(key);
+                        String serializedJwe = jwe.getCompactSerialization();
+                        System.out.println("Serialized Encrypted JWE: " + serializedJwe);
+
+                        return ResponseEntity.ok(serializedJwe);
+                } catch (Exception e) {
+                        log.error("HA OCURRIDO UN ERROR " + e.getMessage());
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        salida.setPeticion(mensajeError);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+                }
+
+        }
+
+        @PutMapping("/changepassword/{id}")
+        public ResponseEntity<?> update(@PathVariable(value = "id") String userId,
+                        @Valid @RequestBody ChangeRequest changeRequest)
+                        throws ResourceNotFoundException, JoseException {
+
+                try {
+                        JsonWebEncryption jwe = new JsonWebEncryption();
+                        jwe = new JsonWebEncryption();
+                        jwe.setAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                        KeyManagementAlgorithmIdentifiers.A128KW));
+                        jwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
+                                        ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256));
+                        jwe.setKey(key);
+                        jwe.setCompactSerialization(userId);
+                        Long id = Long.parseLong(jwe.getPayload());
+
+                        User user = userRepository.findById(id)
+                                        .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+                        user.setPassword(passwordEncoder.encode(changeRequest.getPassword()));
+
+                        mensajes = Util.Codigos.PASSWORDOK.split(";");
+                        String[] timestamp = Util.getCurrentTimeStamp().split(";");
+                        MensajeVO mensaje = new MensajeVO(timestamp[0], timestamp[1], mensajes[1], mensajes[0]);
+                        userRepository.save(user);
+                        salida.setPeticion(mensaje);
+                } catch (Exception e) {
+                        log.error("HA OCURRIDO UN ERROR " + e.getMessage());
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        salida.setPeticion(mensajeError);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+                        
+                }
+
+                return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
+                // http://127.0.0.1:8090/api/auth/changepassword/1
+        }
+
+        @PutMapping("/signup")
+        public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+
+                if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
+                                        HttpStatus.BAD_REQUEST);
+                }
+
+                if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                        return new ResponseEntity(
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
+                                        HttpStatus.BAD_REQUEST);
+                }
+
+                // Creating user's account
+                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                                signUpRequest.getPassword());
+
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                                .orElseThrow(() -> new AppException("Rol de usuario no establecido"));
+
+                user.setRoles(Collections.singleton(userRole));
+                user.setActive(true);
+
+                User result = userRepository.save(user);
+
+                URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
+                                .buildAndExpand(result.getUsername()).toUri();
+                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
+                                signUpRequest.getPassword());
+                return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
+        }
+
+        @PostMapping("/signupwork")
+        public ResponseEntity<?> registerWork(@Valid @RequestBody SignUpRequest signUpRequest) {
+
+                if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
+                                        HttpStatus.BAD_REQUEST);
+                }
+
+                if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                        return new ResponseEntity(
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
+                                        HttpStatus.BAD_REQUEST);
+                }
+
+                // Creating user's account
+                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                                signUpRequest.getPassword());
+
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+                if (signUpRequest.getRole().equals("1")) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                                        .orElseThrow(() -> new AppException("Rol de admin no establecido"));
+
+                        user.setRoles(Collections.singleton(userRole));
+                }
+                if (signUpRequest.getRole().equals("3")) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE)
+                                        .orElseThrow(() -> new AppException("Rol de empleado no establecido"));
+
+                        user.setRoles(Collections.singleton(userRole));
+
+                }
+                if (signUpRequest.getRole().equals("4")) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_PROVIDER)
+                                        .orElseThrow(() -> new AppException("Rol de proveedor no establecido"));
+
+                        user.setRoles(Collections.singleton(userRole));
+                } else {
+
+                }
+
+                User result = userRepository.save(user);
+
+                URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
+                                .buildAndExpand(result.getUsername()).toUri();
+
+                return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
 
         // @PutMapping("/requestpass/{id}")
@@ -113,147 +264,4 @@ public class AuthController {
 
         // return ResponseEntity.ok(serializedJwe);
         // }
-
-        @PutMapping("/requestpass/{username}")
-        public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
-
-                User user = userRepository.findByUsername(username)
-                                .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
-               
-
-                JsonWebEncryption jwe = new JsonWebEncryption();
-                jwe.setPayload(Long.toString(user.getId()));
-                jwe.setAlgorithmHeaderValue(KeyManagementAlgorithmIdentifiers.A128KW);
-                jwe.setEncryptionMethodHeaderParameter(ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
-                jwe.setKey(key);
-                String serializedJwe = jwe.getCompactSerialization();
-                System.out.println("Serialized Encrypted JWE: " + serializedJwe);
-
-                return ResponseEntity.ok(serializedJwe);
-        }
-
-        @PutMapping("/changepassword/{id}")
-        public ResponseEntity<ResultadoVO> update(@PathVariable(value = "id") String userId,
-                        @Valid @RequestBody ChangeRequest changeRequest)
-                        throws ResourceNotFoundException, JoseException {
-
-                JsonWebEncryption jwe = new JsonWebEncryption();
-                jwe = new JsonWebEncryption();
-                jwe.setAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
-                                KeyManagementAlgorithmIdentifiers.A128KW));
-                jwe.setContentEncryptionAlgorithmConstraints(new AlgorithmConstraints(ConstraintType.WHITELIST,
-                                ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256));
-                jwe.setKey(key);
-                jwe.setCompactSerialization(userId);
-                System.out.println("Payload: " + jwe.getPayload());
-
-                Long id = Long.parseLong(jwe.getPayload());
-
-                try {
-
-                        User user = userRepository.findById(id)
-                                        .orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
-                        user.setPassword(passwordEncoder.encode(changeRequest.getPassword()));
-
-                        mensajes = Util.Codigos.PASSWORDOK.split(";");
-                        String[] timestamp = Util.getCurrentTimeStamp().split(";");
-                        MensajeVO mensaje = new MensajeVO(timestamp[0], timestamp[1], mensajes[1], mensajes[0]);
-                        userRepository.save(user);
-                        salida.setPeticion(mensaje);
-                } catch (Exception e) {
-                        log.error("HA OCURRIDO UN ERROR");
-                        mensajes = Util.Codigos.PASSWORDSNOCOINCIDENTES.split(";");
-                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        MensajeVO mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],
-                                        mensajes[0]);
-                        salida.setPeticion(mensajeError);
-                        e.printStackTrace();
-                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
-                }
-                return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
-                // http://127.0.0.1:8090/api/auth/changepassword/1
-        }
-
-        @PutMapping("/signup")
-        public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-                if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-                        return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                                        HttpStatus.BAD_REQUEST);
-                }
-
-                if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-                        return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                                        HttpStatus.BAD_REQUEST);
-                }
-
-                // Creating user's account
-                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                                signUpRequest.getPassword());
-
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                                .orElseThrow(() -> new AppException("User Role not set."));
-
-                user.setRoles(Collections.singleton(userRole));
-                user.setActive(true);
-
-                User result = userRepository.save(user);
-
-                URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
-                                .buildAndExpand(result.getUsername()).toUri();
-                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
-                                signUpRequest.getPassword());
-                return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
-        }
-
-        @PostMapping("/signupwork")
-        public ResponseEntity<?> registerWork(@Valid @RequestBody SignUpRequest signUpRequest) {
-
-                if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-                        return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                                        HttpStatus.BAD_REQUEST);
-                }
-
-                if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-                        return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                                        HttpStatus.BAD_REQUEST);
-                }
-
-                // Creating user's account
-                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                                signUpRequest.getPassword());
-
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-                if (signUpRequest.getRole().equals("1")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
-
-                        user.setRoles(Collections.singleton(userRole));
-                }
-                if (signUpRequest.getRole().equals("3")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
-
-                        user.setRoles(Collections.singleton(userRole));
-
-                }
-                if (signUpRequest.getRole().equals("4")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_PROVIDER)
-                                        .orElseThrow(() -> new AppException("User Role not set."));
-
-                        user.setRoles(Collections.singleton(userRole));
-                } else {
-
-                }
-
-                User result = userRepository.save(user);
-
-                URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
-                                .buildAndExpand(result.getUsername()).toUri();
-
-                return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
-        }
 }
