@@ -38,4 +38,11 @@ public class Role {
     public void setName(RoleName name) {
         this.name = name;
     }
+
+    public Role(Long id, RoleName name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    
 }

@@ -85,6 +85,7 @@ public class AuthController {
 	String[] mensajes = new String[3];
         Key key = new AesKey(ByteUtil.randomBytes(16));
 
+
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -170,34 +171,43 @@ public class AuthController {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
                         log.error("¡Este nombre de usuario ya existe!");
-                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
-                                        HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),HttpStatus.BAD_REQUEST);
                 }
 
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
                         return new ResponseEntity(
-                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
-                                        HttpStatus.BAD_REQUEST);
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),HttpStatus.BAD_REQUEST);
                 }
 
                 // Creating user's account
-                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                                signUpRequest.getPassword());
+                User user = new User(signUpRequest.getName(),signUpRequest.getUsername(), signUpRequest.getEmail(),signUpRequest.getPassword());
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                                .orElseThrow(() -> new AppException("Rol de usuario no establecido"));
+                if (signUpRequest.getRole().equals(RoleName.ROLE_CLIENT.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_CLIENT)
+                        .orElseThrow(() -> new AppException("Rol de usuario no establecido"));  
+                        user.setRoles(Collections.singleton(userRole));
+                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_CLIENT.getName()+" registrado exitosamente");
+                }
+                if (signUpRequest.getRole().equals(RoleName.ROLE_COMPANY.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_COMPANY).orElseThrow(() -> new AppException("Rol de empresa no establecido"));
+                        user.setRoles(Collections.singleton(userRole));
+                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_COMPANY.getName()+" registrado exitosamente");
+                } else {
+                        return new ResponseEntity<>("Id role no establecido", HttpStatus.CONFLICT);
+                }
 
-                user.setRoles(Collections.singleton(userRole));
                 user.setActive(false);
 
                 User result = userRepository.save(user);
 
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
-                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
-                                signUpRequest.getPassword());
+                
+
+                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),signUpRequest.getPassword());
+
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
 
@@ -216,37 +226,30 @@ public class AuthController {
                 }
 
                 // Creating user's account
-                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-                                signUpRequest.getPassword());
+                User user = new User(signUpRequest.getName(),signUpRequest.getUsername(), signUpRequest.getEmail(),signUpRequest.getPassword());
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-                if (signUpRequest.getRole().equals("1")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                                        .orElseThrow(() -> new AppException("Rol de admin no establecido"));
-
+                if (signUpRequest.getRole().equals(RoleName.ROLE_ADMIN.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("Rol de admin no establecido"));
                         user.setRoles(Collections.singleton(userRole));
+                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_ADMIN.getName()+" registrado exitosamente");
                 }
-                if (signUpRequest.getRole().equals("3")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE)
-                                        .orElseThrow(() -> new AppException("Rol de empleado no establecido"));
-
+                if (signUpRequest.getRole().equals(RoleName.ROLE_EMPLOYE.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE).orElseThrow(() -> new AppException("Rol de empleado no establecido"));
                         user.setRoles(Collections.singleton(userRole));
+                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_EMPLOYE.getName()+" registrado exitosamente");
 
-                }
-                if (signUpRequest.getRole().equals("4")) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_PROVIDER)
-                                        .orElseThrow(() -> new AppException("Rol de proveedor no establecido"));
-
-                        user.setRoles(Collections.singleton(userRole));
                 } else {
-
+                        return new ResponseEntity<>("Id role no establecido", HttpStatus.CONFLICT);
                 }
+
 
                 User result = userRepository.save(user);
 
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
+                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),signUpRequest.getPassword());
 
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }

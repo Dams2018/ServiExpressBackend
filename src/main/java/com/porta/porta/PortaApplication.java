@@ -7,7 +7,6 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.annotation.PostConstruct;
 
-
 import java.util.TimeZone;
 
 @SpringBootApplication
