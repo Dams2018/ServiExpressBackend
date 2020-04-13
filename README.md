@@ -5,10 +5,12 @@ Servicios aquí están ejemplo de creación de usuario y creación de cliente
 Una vez iniciado el proyecto insertar los siguientes roles y creación de administrador la contraseña de admin es 123456 solo que se inserta encriptada
 
 
+
 Insert into ROLES (ID,NAME) values ('1','ROLE_ADMIN');
-Insert into ROLES (ID,NAME) values ('2','ROLE_USER');
+Insert into ROLES (ID,NAME) values ('2','ROLE_CLIENT');
 Insert into ROLES (ID,NAME) values ('3','ROLE_EMPLOYE');
-Insert into ROLES (ID,NAME) values ('4','ROLE_PROVIDER');
+Insert into ROLES (ID,NAME) values ('4','ROLE_COMPANY');
+
 
 
 Insert into USERS (ID,CREATED_AT,UPDATED_AT,ACTIVE,EMAIL,NAME,PASSWORD,USERNAME) values ('0',to_timestamp('06/04/20 21:55:54,877000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('06/04/20 21:55:54,877000000','DD/MM/RR HH24:MI:SSXFF'),0,'mar.astorgag@alumnos.duoc.cl','admin','$2a$10$DaTuufdd/jZpScQKO18BRu96pZz5Lqn5Yjwl9jSEATRguk273X7H.','admin');
