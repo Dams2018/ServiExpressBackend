@@ -3,7 +3,7 @@ package com.porta.porta.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import com.porta.porta.entity.Cliente;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+
 
 @Service("servicli")
 public class ClienteServicesImpl extends PersonaServices<Cliente> {
@@ -81,8 +83,13 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 	}
 
 	@Override
-	public List<Cliente> obtener(Cliente generico) {
-		logger.info("OBTENIENDO TODOS LOS ELEMENTOS");
+	public List<Cliente> obtenerPorPaginacion(Pageable pageable){
+		return repositorio.findAll(pageable).getContent();
+	}
+
+	@Override
+	public List<Cliente> obtener() {
+		logger.info("OBTENIENDO TODOS LOS CLIENTES");
 		return repositorio.findAll();
 	}
 

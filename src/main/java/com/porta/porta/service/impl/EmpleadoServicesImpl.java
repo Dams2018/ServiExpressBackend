@@ -58,7 +58,7 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
     }
 
     @Override
-    public List<Empleado> obtener(Empleado generico) {
+    public List<Empleado> obtener() {
 		logger.info("OBTENIENDO TODOS LOS ELEMENTOS");
 		return repositorio.findAll();
     }
