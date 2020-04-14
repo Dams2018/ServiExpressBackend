@@ -59,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
+    //Aqui van los sitios permitidos para cada rol
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -83,8 +84,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/auth/**")
-                        .permitAll()
+                        .antMatchers("/api/auth/signin").permitAll()
+                        .antMatchers("/api/auth/signup").permitAll()
+                        .antMatchers("/api/auth/requestpass/{id}").permitAll()
+                        .antMatchers("/api/auth/requestpass/{username}").permitAll()
+                        .antMatchers("/api/auth/changepassword/{id}").permitAll()
+                        .antMatchers("/api/auth/**").hasRole("ADMIN")
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")

@@ -8,12 +8,12 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.porta</groupId>
-	<artifactId>porta</artifactId>
+		</parent>
+	<groupId>com.linkpoint</groupId>
+	<artifactId>ServiExpress</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>porta</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ServiExpress</name>
+	<description>Backend Rest Api ServiExpress</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -72,7 +72,23 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+	    <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		    </dependency>
+			<dependency>
+    <groupId>org.bitbucket.b_c</groupId>
+    <artifactId>jose4j</artifactId>
+    <version>0.7.0</version>
+  </dependency>
+
+  
 	</dependencies>
+
 
 	<build>
 		<plugins>

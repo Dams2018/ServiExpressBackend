@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import com.porta.porta.entity.audit.DateAudit;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,11 +21,14 @@ import java.util.Set;
             "email"
         })
 })
-public class User extends DateAudit {
-    
+public class User extends DateAudit implements Serializable {
+ 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
+
+
+    private boolean active;
 
     @NotBlank
     @Size(max = 40)
@@ -43,6 +47,7 @@ public class User extends DateAudit {
     @NotBlank
     @Size(max = 100)
     private String password;
+    
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -54,7 +59,8 @@ public class User extends DateAudit {
 
     }
 
-    public User(String name, String username, String email, String password) {
+    public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 15) String username,
+            @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 100) String password) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -69,12 +75,12 @@ public class User extends DateAudit {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getName() {
@@ -83,6 +89,14 @@ public class User extends DateAudit {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -108,4 +122,10 @@ public class User extends DateAudit {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public User(Long id, @NotBlank @Size(max = 100) String password) {
+        this.id = id;
+        this.password = password;
+    }
+
 }
