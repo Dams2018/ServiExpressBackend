@@ -1,4 +1,4 @@
-package com.porta.porta.payload;
+package com.serviexpress.apirest.payload;
 
 public class JwtAuthenticationResponse {
     private String accessToken;

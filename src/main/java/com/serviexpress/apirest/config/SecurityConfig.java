@@ -1,8 +1,4 @@
-package com.porta.porta.config;
-
-import com.porta.porta.security.CustomUserDetailsService;
-import com.porta.porta.security.JwtAuthenticationEntryPoint;
-import com.porta.porta.security.JwtAuthenticationFilter;
+package com.serviexpress.apirest.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.serviexpress.apirest.security.CustomUserDetailsService;
+import com.serviexpress.apirest.security.JwtAuthenticationEntryPoint;
+import com.serviexpress.apirest.security.JwtAuthenticationFilter;
 
 
 @Configuration

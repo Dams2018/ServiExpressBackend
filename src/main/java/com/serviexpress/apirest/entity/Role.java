@@ -1,4 +1,4 @@
-package com.porta.porta.entity;
+package com.serviexpress.apirest.entity;
 
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;

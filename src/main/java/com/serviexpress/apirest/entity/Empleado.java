@@ -1,4 +1,4 @@
-package com.porta.porta.entity;
+package com.serviexpress.apirest.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

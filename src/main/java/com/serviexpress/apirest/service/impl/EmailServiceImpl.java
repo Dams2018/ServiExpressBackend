@@ -1,8 +1,6 @@
-package com.porta.porta.service.impl;
+package com.serviexpress.apirest.service.impl;
 
 
-
-import com.porta.porta.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,6 +9,8 @@ import org.thymeleaf.TemplateEngine;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.context.Context;
+
+import com.serviexpress.apirest.service.EmailService;
 
 
 

@@ -1,11 +1,12 @@
-package com.porta.porta.repository;
+package com.serviexpress.apirest.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 
-import com.porta.porta.entity.Role;
-import com.porta.porta.entity.RoleName;
+import com.serviexpress.apirest.entity.Role;
+import com.serviexpress.apirest.entity.RoleName;
+
+import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

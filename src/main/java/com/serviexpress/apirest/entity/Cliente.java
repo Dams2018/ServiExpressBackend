@@ -1,4 +1,4 @@
-package com.porta.porta.entity;
+package com.serviexpress.apirest.entity;
 
 import java.io.Serializable;
 import java.util.Date;

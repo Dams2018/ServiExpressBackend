@@ -1,8 +1,9 @@
-package com.porta.porta.security;
+package com.serviexpress.apirest.security;
 
 
-import com.porta.porta.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.serviexpress.apirest.entity.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

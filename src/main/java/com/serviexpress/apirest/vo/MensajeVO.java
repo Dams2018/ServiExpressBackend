@@ -1,5 +1,5 @@
 
-package com.porta.porta.vo;
+package com.serviexpress.apirest.vo;
 
 import java.io.Serializable;
 

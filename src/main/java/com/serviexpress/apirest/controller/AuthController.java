@@ -1,23 +1,4 @@
-package com.porta.porta.controller;
-
-import com.porta.porta.exception.AppException;
-import com.porta.porta.exception.ResourceNotFoundException;
-
-import com.porta.porta.entity.Role;
-import com.porta.porta.entity.RoleName;
-import com.porta.porta.entity.User;
-import com.porta.porta.payload.ApiResponse;
-import com.porta.porta.payload.ChangeRequest;
-import com.porta.porta.payload.JwtAuthenticationResponse;
-import com.porta.porta.payload.LoginRequest;
-import com.porta.porta.payload.SignUpRequest;
-import com.porta.porta.repository.RoleRepository;
-import com.porta.porta.repository.UserRepository;
-import com.porta.porta.security.JwtTokenProvider;
-import com.porta.porta.service.EmailService;
-import com.porta.porta.util.Util;
-import com.porta.porta.vo.MensajeVO;
-import com.porta.porta.vo.ResultadoVO;
+package com.serviexpress.apirest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +19,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.serviexpress.apirest.entity.Role;
+import com.serviexpress.apirest.entity.RoleName;
+import com.serviexpress.apirest.entity.User;
+import com.serviexpress.apirest.exception.AppException;
+import com.serviexpress.apirest.exception.ResourceNotFoundException;
+import com.serviexpress.apirest.payload.ApiResponse;
+import com.serviexpress.apirest.payload.ChangeRequest;
+import com.serviexpress.apirest.payload.JwtAuthenticationResponse;
+import com.serviexpress.apirest.payload.LoginRequest;
+import com.serviexpress.apirest.payload.SignUpRequest;
+import com.serviexpress.apirest.repository.RoleRepository;
+import com.serviexpress.apirest.repository.UserRepository;
+import com.serviexpress.apirest.security.JwtTokenProvider;
+import com.serviexpress.apirest.service.EmailService;
+import com.serviexpress.apirest.util.Util;
+import com.serviexpress.apirest.vo.MensajeVO;
+import com.serviexpress.apirest.vo.ResultadoVO;
 
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;

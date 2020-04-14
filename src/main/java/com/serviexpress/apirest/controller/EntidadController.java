@@ -1,13 +1,8 @@
-package com.porta.porta.controller;
+package com.serviexpress.apirest.controller;
 
 import java.util.List;
 
 import javax.validation.Valid;
-
-import com.porta.porta.entity.Cliente;
-import com.porta.porta.entity.Empleado;
-import com.porta.porta.service.impl.ClienteServicesImpl;
-import com.porta.porta.service.impl.EmpleadoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.serviexpress.apirest.entity.Cliente;
+import com.serviexpress.apirest.entity.Empleado;
+import com.serviexpress.apirest.service.impl.ClienteServicesImpl;
+import com.serviexpress.apirest.service.impl.EmpleadoServicesImpl;
+
 import org.springframework.data.domain.Pageable;
 
 @RestController

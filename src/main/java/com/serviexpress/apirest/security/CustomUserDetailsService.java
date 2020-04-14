@@ -1,7 +1,4 @@
-package com.porta.porta.security;
-
-import com.porta.porta.entity.User;
-import com.porta.porta.repository.UserRepository;
+package com.serviexpress.apirest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.serviexpress.apirest.entity.User;
+import com.serviexpress.apirest.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

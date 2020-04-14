@@ -1,4 +1,4 @@
-package com.porta.porta.entity;
+package com.serviexpress.apirest.entity;
 
 public enum RoleName {
 

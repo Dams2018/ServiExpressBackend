@@ -1,4 +1,4 @@
-package com.porta.porta.service.impl;
+package com.serviexpress.apirest.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6,20 +6,21 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 
-import com.porta.porta.entity.Cliente;
-import com.porta.porta.entity.User;
-import com.porta.porta.repository.ClienteRepository;
-import com.porta.porta.repository.UserRepository;
-import com.porta.porta.service.PersonaServices;
-import com.porta.porta.util.Util;
-import com.porta.porta.vo.MensajeVO;
-import com.porta.porta.vo.ResultadoVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.serviexpress.apirest.entity.Cliente;
+import com.serviexpress.apirest.entity.User;
+import com.serviexpress.apirest.repository.ClienteRepository;
+import com.serviexpress.apirest.repository.UserRepository;
+import com.serviexpress.apirest.service.PersonaServices;
+import com.serviexpress.apirest.util.Util;
+import com.serviexpress.apirest.vo.MensajeVO;
+import com.serviexpress.apirest.vo.ResultadoVO;
+
 import org.springframework.data.domain.Pageable;
 
 

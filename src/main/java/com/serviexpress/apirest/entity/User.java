@@ -1,12 +1,13 @@
-package com.porta.porta.entity;
+package com.serviexpress.apirest.entity;
 
 import org.hibernate.annotations.NaturalId;
+
+import com.serviexpress.apirest.entity.audit.DateAudit;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.porta.porta.entity.audit.DateAudit;
 
 import java.io.Serializable;
 import java.util.HashSet;

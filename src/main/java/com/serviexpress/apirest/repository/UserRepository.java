@@ -1,11 +1,12 @@
-package com.porta.porta.repository;
+package com.serviexpress.apirest.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.serviexpress.apirest.entity.User;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.porta.porta.entity.User;
 
 @Repository
 public interface  UserRepository extends JpaRepository<User, Long> {
