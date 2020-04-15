@@ -132,7 +132,7 @@ si esta todo ok devolvera respuesta
 
 ## Login POST
 ```
-Login si ingresa con admin por defecto hay una admin creado usuario admin y contraseña 123456
+Ingrese con User admin y contraseña 123456 creado con
 http://127.0.0.1:8090/api/auth/signin POST
 
 {
