@@ -1,3 +1,6 @@
+
+# ServiExpress
+> Inserción de roles y cuenta de adminitrador
 ```
 Servicios aquí están ejemplo de creación de usuario y creación de cliente
 
@@ -26,9 +29,15 @@ SELECT * FROM USERS;
 
 SELECT * FROM USER_ROLES;
 
+```
+# Crear cuenta empleado o cliente
+> Creación de cuenta usuario cliente o cliente empresa PUT
+> rol 2 cliente
+> rol 4 cliente empresa
 
-Creación de cuenta usuario cliente PUT
-el campo role no se toma en cuenta ya que, por defecto tendrá el rol 1
+## Signup PUT
+```
+
 http://127.0.0.1:8090/api/auth/signup
 
 {
@@ -36,10 +45,12 @@ http://127.0.0.1:8090/api/auth/signup
 	"username" : "dams",
 	"email" :"dams@live.cl",
 	"password" : "1234567",
-	"role" : "1"
+	"role" : "2"
 }
 
-Login
+```
+## Login POST
+```
 http://127.0.0.1:8090/api/auth/signin POST
 
 {
@@ -54,9 +65,12 @@ Respuesta
     "tokenType": "Bearer"
 }
 
-Creacion de cliente PUT
+```
+## Creación de cliente PUT
+```
+
 http://127.0.0.1:8090/entidad/cliente
-recuerda cambiar el id usuario por el usuario cliente 
+recuerda cambiar el id usuario por el usuario cliente creado, para el frontend se debe hacer de manera interna.
 {
 	"id_usuario" :1,
 	"rut" : "1234567-8",
@@ -66,7 +80,10 @@ recuerda cambiar el id usuario por el usuario cliente
 	"fechaNacimiento" : "1989-09-10"
 }
 
-Actulizar de cliente POST
+```
+## Actualizar de cliente POST
+```
+
 http://127.0.0.1:8090/entidad/cliente
 {
 	"idcliente" :13,
@@ -78,16 +95,21 @@ http://127.0.0.1:8090/entidad/cliente
 	"fechaNacimiento" : "1989-09-10"
 }
 
-Para el cambio de contraseña PUT
-PRIMERO 
+```
+## Cambio de contraseña PUT
+
+
+> PRIMERO 
+```
 Enviar por url (username)=al nombre de usuario que solicitara el cambio de contraseña
 http://127.0.0.1:8090/api/auth/requestpass/username
 respuesta
 Código de usuario encriptado
 eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.Nv6r_I3Irg7AKNr-PO0lni_dXCzoX_D1SjFNm0uEhSnkcw_h7at6sA.gGxuKBsoxLSo7fVCtlefMQ.rWwFkmnigwlZbNUsQZCg9w.4ypH_Kp1bIkj7iB9lC-blA
-
-SEGUNDO
-después de /api/auth/ insertar el código en la url 
+```
+> SEGUNDO
+```
+Después de /api/auth/ insertar el código en la url 
 http://127.0.0.1:8090/api/auth/changepassword/eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.Nv6r_I3Irg7AKNr-PO0lni_dXCzoX_D1SjFNm0uEhSnkcw_h7at6sA.gGxuKBsoxLSo7fVCtlefMQ.rWwFkmnigwlZbNUsQZCg9w.4ypH_Kp1bIkj7iB9lC-blA
 
 Body
@@ -105,5 +127,103 @@ si esta todo ok devolvera respuesta
     }
 }
 
-para el proceso de empleado y proveedor está en desarrollo pero en teoría seria los mismo
+```
+# Proceso admin o empleado
+
+## Login POST
+```
+Ingrese con User admin y contraseña 123456 creado con
+http://127.0.0.1:8090/api/auth/signin POST
+
+{
+	"usernameOrEmail" : "admin",
+	"password" : "123456"
+}
+
+```
+## Signup Empleado Admin PUT 
+```
+Solo el administrador puede crear estas cuenta, el cual los datos de la cuentas se le enviara al correo registrado, para
+que el adminirador o empleado nuevo continuen con sus datos personales.
+rol 1 admin
+rol 3 empleado
+
+Para ingresar a esta ruta se debe tener token del admin.
+http://127.0.0.1:8090/api/auth/signupwork
+
+{
+	"name" : "marco",
+	"username" : "dams",
+	"email" :"dams@live.cl",
+	"password" : "1234567",
+	"role" : "1"
+}
+
+```
+# Listar Clientes
+
+## Listar Todos los Clientes GET NO RECOMENDADO (Test Mode)
+```
+al igual que crear empleado se debe iniciar con cuenta adiestrador y obtener token para tener acceso a este rest
+http://127.0.0.1:8090/entidad/allclientes
+retornara lista de clientes
+[
+    {
+        "idcliente": 2,
+        "id_usuario": null,
+        "rut": "2434",
+        "nombre": "marco",
+        "apellido": "astorga",
+        "telefono": "234234",
+        "fechaNacimiento": null
+    },
+    {
+        "idcliente": 3,
+        "id_usuario": null,
+        "rut": "2434",
+        "nombre": "marco",
+        "apellido": "astorga",
+        "telefono": "234234",
+        "fechaNacimiento": null
+    },
+]
+```
+## Listar cliente a modo paginación GET RECOMENDADO
+```
+http://127.0.0.1:8090/entidad/clientes?page=0&size=3
+http://127.0.0.1:8090/entidad/clientes?page=0
+
+?page=1 Numero de la pagina por defecto traerá 10 objeto
+&size=3 Cantidad objeto por pagina
+
+[
+    {
+        "idcliente": 2,
+        "id_usuario": null,
+        "rut": "2434",
+        "nombre": "marco",
+        "apellido": "astorga",
+        "telefono": "234234",
+        "fechaNacimiento": null
+    },
+    {
+        "idcliente": 3,
+        "id_usuario": null,
+        "rut": "2434",
+        "nombre": "marco",
+        "apellido": "astorga",
+        "telefono": "234234",
+        "fechaNacimiento": null
+    },
+    {
+        "idcliente": 4,
+        "id_usuario": null,
+        "rut": "2434",
+        "nombre": "marco",
+        "apellido": "astorga",
+        "telefono": "234234",
+        "fechaNacimiento": null
+    }
+]
+
 ```
