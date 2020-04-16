@@ -188,8 +188,8 @@ public class AuthController {
                         .orElseThrow(() -> new AppException("Rol de usuario no establecido"));  
                         user.setRoles(Collections.singleton(userRole));
                         log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_CLIENT.getName()+" registrado exitosamente");
-                }
-                if (signUpRequest.getRole().equals(RoleName.ROLE_COMPANY.getId())) {
+
+                }else if (signUpRequest.getRole().equals(RoleName.ROLE_COMPANY.getId())) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_COMPANY).orElseThrow(() -> new AppException("Rol de empresa no establecido"));
                         user.setRoles(Collections.singleton(userRole));
                         log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_COMPANY.getName()+" registrado exitosamente");
@@ -233,8 +233,8 @@ public class AuthController {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("Rol de admin no establecido"));
                         user.setRoles(Collections.singleton(userRole));
                         log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_ADMIN.getName()+" registrado exitosamente");
-                }
-                if (signUpRequest.getRole().equals(RoleName.ROLE_EMPLOYE.getId())) {
+                        
+                }else if (signUpRequest.getRole().equals(RoleName.ROLE_EMPLOYE.getId())) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE).orElseThrow(() -> new AppException("Rol de empleado no establecido"));
                         user.setRoles(Collections.singleton(userRole));
                         log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_EMPLOYE.getName()+" registrado exitosamente");
