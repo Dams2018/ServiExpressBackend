@@ -10,9 +10,9 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EntityScan(basePackageClasses = { PortaApplication.class, Jsr310JpaConverters.class })
+@EntityScan(basePackageClasses = { ServiApplication.class, Jsr310JpaConverters.class })
 
-public class PortaApplication {
+public class ServiApplication {
 
 	@PostConstruct
 	void init() {
@@ -20,7 +20,7 @@ public class PortaApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(PortaApplication.class, args);
+		SpringApplication.run(ServiApplication.class, args);
 
 	}
 

@@ -16,6 +16,12 @@ import com.serviexpress.apirest.repository.EmpleadoRepository;
 import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.service.PersonaServices;
 
+import org.springframework.data.domain.Pageable;
+import com.serviexpress.apirest.util.Util;
+import com.serviexpress.apirest.vo.MensajeVO;
+import com.serviexpress.apirest.vo.ResultadoVO;
+
+import org.springframework.http.HttpStatus;
 
 @Service("serviemp")
 public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
@@ -25,43 +31,66 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 
 	@Autowired
 	UserRepository userRepository;
-	private static final Log logger = LogFactory.getLog(ClienteServicesImpl.class);
+	private static final Log logger = LogFactory.getLog(EmpleadoServicesImpl.class);
+	ResultadoVO salida = new ResultadoVO();
+	MensajeVO mensajeError =new MensajeVO();
+	String[] mensajes = new String[3];
 	
     @Override
     public ResponseEntity<?> actualizar(Empleado generico) {
 		logger.info("ACTUALIZANDO EMPLEADO");
 		try {
-			repositorio.save(generico);
+			Empleado empleado = repositorio.findById(generico.getIdempleado())
+					.orElseThrow(() -> new IllegalStateException("IdEmpleado no existe."));
+					empleado = generico;
+			repositorio.save(empleado);
 			logger.info("EMPLEADO ACTUALIZADO");
 			return ResponseEntity.ok(generico);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
-			return ResponseEntity.ok(null);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
     }
 
     @Override
     public ResponseEntity<?> crear(Empleado generico) {
 		logger.info("CREANDO EMPLEADO");
+		String[] timestampError = Util.getCurrentTimeStamp().split(";");
 		try {
+			if (generico.getIdempleado() != null) {
+				if (generico.getIdempleado() <= 0 || generico.getIdempleado() >= 0) {
+					mensajes = Util.Codigos.MALPARAMETROS.split(";");
+					mensajeError = new MensajeVO(timestampError[0], timestampError[1], mensajes[1],mensajes[0]);
+					salida.setPeticion(mensajeError);
+					return new ResponseEntity<ResultadoVO>(salida, HttpStatus.NOT_ACCEPTABLE);
+				}
+			}
+			// Comprabar usuario si existe en la base de datos
+			User user = userRepository.findById(generico.getId_usuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			user.setActive(true);
+			try {
+				repositorio.save(generico);
+				userRepository.save(user);
+				logger.info("CLIENTE CREADA");
+				return ResponseEntity.ok(generico);
+			} catch (Exception e) {
+				return new ResponseEntity<>("El usuario, ya cuenta con cliente registrado", HttpStatus.CONFLICT);
+			}
 
-			User user = userRepository.findByUsername(Long.toString(generico.getId_usuario()))
-			.orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
-			repositorio.save(generico);
-			user.setPassword("213213");
-			logger.info("EMPLEADO CREAD0");
-			return ResponseEntity.ok(user);
-		}catch(Exception e) {
-			logger.error("HUBO UN ERROR");
-			return ResponseEntity.ok(null);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
     }
 
-    @Override
-    public List<Empleado> obtener() {
-		logger.info("OBTENIENDO TODOS LOS ELEMENTOS");
-		return repositorio.findAll();
-    }
+	@Override
+	public List<Empleado> obtenerPorPaginacion(Pageable pageable){
+		return repositorio.findAll(pageable).getContent();
+	}
 
+	@Override
+	public List<Empleado> obtener() {
+		logger.info("OBTENIENDO TODOS LOS CLIENTES");
+		return repositorio.findAll();
+	}
 
 }

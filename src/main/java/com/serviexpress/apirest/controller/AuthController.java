@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -210,7 +210,7 @@ public class AuthController {
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
 
-        @PostMapping("/signupwork")
+        @PutMapping("/signupwork")
         public ResponseEntity<?> registerWork(@Valid @RequestBody SignUpRequest signUpRequest) {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -253,6 +253,28 @@ public class AuthController {
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
 
+
+        @PutMapping("/requestid/{username}")
+        public ResponseEntity<?> obtenerID(@PathVariable(value = "username") String username) throws JoseException {
+
+                try {
+                        User user = userRepository.findByUsername(username)
+                                        .orElseThrow(() -> new IllegalStateException("Usuario no existe."));
+
+                        user.getId();
+
+
+                        return ResponseEntity.ok(user.getId());
+                } catch (Exception e) {
+                        log.error("HA OCURRIDO UN ERROR " + e.getMessage());
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        salida.setPeticion(mensajeError);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
+                }
+
+        }
         // @PutMapping("/requestpass/{id}")
         // public ResponseEntity<?> update(@PathVariable(value = "id") Long userId)
         // throws JoseException {
