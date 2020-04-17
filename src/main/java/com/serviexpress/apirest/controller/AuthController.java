@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.serviexpress.apirest.entity.Role;
 import com.serviexpress.apirest.entity.RoleName;
 import com.serviexpress.apirest.entity.User;
+import com.serviexpress.apirest.entity.UserRole;
 import com.serviexpress.apirest.exception.AppException;
 import com.serviexpress.apirest.exception.ResourceNotFoundException;
 import com.serviexpress.apirest.payload.ApiResponse;
@@ -34,12 +35,14 @@ import com.serviexpress.apirest.payload.LoginRequest;
 import com.serviexpress.apirest.payload.SignUpRequest;
 import com.serviexpress.apirest.repository.RoleRepository;
 import com.serviexpress.apirest.repository.UserRepository;
+import com.serviexpress.apirest.repository.UserRoleRepository;
 import com.serviexpress.apirest.security.JwtTokenProvider;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.util.Util;
 import com.serviexpress.apirest.vo.MensajeVO;
 import com.serviexpress.apirest.vo.ResultadoVO;
 
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwa.AlgorithmConstraints.ConstraintType;
 import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
@@ -52,12 +55,14 @@ import org.jose4j.lang.JoseException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Key;
-
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-@CrossOrigin(origins= "*")
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -72,6 +77,9 @@ public class AuthController {
         UserRepository userRepository;
 
         @Autowired
+        UserRoleRepository userRoleRepository;
+
+        @Autowired
         RoleRepository roleRepository;
 
         @Autowired
@@ -81,11 +89,10 @@ public class AuthController {
         JwtTokenProvider tokenProvider;
 
         private final Logger log = LoggerFactory.getLogger(this.getClass());
-	ResultadoVO salida = new ResultadoVO();
-	MensajeVO mensajeError =new MensajeVO();
-	String[] mensajes = new String[3];
+        ResultadoVO salida = new ResultadoVO();
+        MensajeVO mensajeError = new MensajeVO();
+        String[] mensajes = new String[3];
         Key key = new AesKey(ByteUtil.randomBytes(16));
-
 
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,Errors errors) {
@@ -98,13 +105,24 @@ public class AuthController {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 String jwt = tokenProvider.generateToken(authentication);
+                User user = userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new IllegalStateException("UserName existe."));
+                UserRole userRole= userRoleRepository.findById(user.getId()).orElseThrow(() -> new IllegalStateException("UserId no existe."));
+                Role role= roleRepository.findById(userRole.getRoleid()).orElseThrow(() -> new IllegalStateException("RoleId no existe."));
+    
+			JSONObject lista = new JSONObject();
+			lista.put("username", authentication.getName());
+			lista.put("idrole", role.getId());
+			lista.put("rolename", role.getName());
+                        lista.put("accessToken", jwt);
+                        lista.put("tokenType", "Bearer");
+	
+		return new ResponseEntity<Object>(lista, HttpStatus.OK);
                 // if (!errors.hasErrors()) {
                 //         log.warn("DETAIL "+errors.getAllErrors().toString()+ errors.hasErrors());
                 // } 
-                return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+                //return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
-     
         @PutMapping("/requestpass/{username}")
         public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
 
@@ -120,18 +138,18 @@ public class AuthController {
                         jwe.setKey(key);
                         String serializedJwe = jwe.getCompactSerialization();
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
-                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], serializedJwe,"OK DEKU");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], serializedJwe, "OK DEKU");
                         salida.setPeticion(mensajeError);
                         System.out.println("Serialized Encrypted JWE: " + serializedJwe);
                         return new ResponseEntity<ResultadoVO>(salida, HttpStatus.ACCEPTED);
-                        
-                        //return ResponseEntity.ok(serializedJwe);
+
+                        // return ResponseEntity.ok(serializedJwe);
                 } catch (Exception e) {
                         log.error("HA OCURRIDO UN ERROR " + e.getMessage());
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
-                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(), mensajes[0]);
                         salida.setPeticion(mensajeError);
                         return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
                 }
@@ -166,11 +184,11 @@ public class AuthController {
                 } catch (Exception e) {
                         log.error("HA OCURRIDO UN ERROR " + e.getMessage());
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
-                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(), mensajes[0]);
                         salida.setPeticion(mensajeError);
                         return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
-                        
+
                 }
 
                 return new ResponseEntity<ResultadoVO>(salida, HttpStatus.OK);
@@ -182,29 +200,35 @@ public class AuthController {
 
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
                         log.error("¡Este nombre de usuario ya existe!");
-                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
+                                        HttpStatus.BAD_REQUEST);
                 }
 
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
                         return new ResponseEntity(
-                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),HttpStatus.BAD_REQUEST);
+                                        new ApiResponse(false, "¡Dirección de correo electrónico ya está en uso!"),
+                                        HttpStatus.BAD_REQUEST);
                 }
 
                 // Creating user's account
-                User user = new User(signUpRequest.getName(),signUpRequest.getUsername(), signUpRequest.getEmail(),signUpRequest.getPassword());
+                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                                signUpRequest.getPassword());
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
                 if (signUpRequest.getRole().equals(RoleName.ROLE_CLIENT.getId())) {
                         Role userRole = roleRepository.findByName(RoleName.ROLE_CLIENT)
-                        .orElseThrow(() -> new AppException("Rol de usuario no establecido"));  
+                                        .orElseThrow(() -> new AppException("Rol de usuario no establecido"));
                         user.setRoles(Collections.singleton(userRole));
-                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_CLIENT.getName()+" registrado exitosamente");
+                        log.info("Usuario " + signUpRequest.getUsername() + " " + RoleName.ROLE_CLIENT.getName()
+                                        + " registrado exitosamente");
 
-                }else if (signUpRequest.getRole().equals(RoleName.ROLE_COMPANY.getId())) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_COMPANY).orElseThrow(() -> new AppException("Rol de empresa no establecido"));
+                } else if (signUpRequest.getRole().equals(RoleName.ROLE_COMPANY.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_COMPANY)
+                                        .orElseThrow(() -> new AppException("Rol de empresa no establecido"));
                         user.setRoles(Collections.singleton(userRole));
-                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_COMPANY.getName()+" registrado exitosamente");
+                        log.info("Usuario " + signUpRequest.getUsername() + " " + RoleName.ROLE_COMPANY.getName()
+                                        + " registrado exitosamente");
                 } else {
                         return new ResponseEntity<>("Id role no establecido", HttpStatus.CONFLICT);
                 }
@@ -215,9 +239,9 @@ public class AuthController {
 
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
-                
 
-                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),signUpRequest.getPassword());
+                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
+                                signUpRequest.getPassword());
 
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
@@ -237,34 +261,38 @@ public class AuthController {
                 }
 
                 // Creating user's account
-                User user = new User(signUpRequest.getName(),signUpRequest.getUsername(), signUpRequest.getEmail(),signUpRequest.getPassword());
+                User user = new User(signUpRequest.getName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
+                                signUpRequest.getPassword());
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
                 if (signUpRequest.getRole().equals(RoleName.ROLE_ADMIN.getId())) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("Rol de admin no establecido"));
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                                        .orElseThrow(() -> new AppException("Rol de admin no establecido"));
                         user.setRoles(Collections.singleton(userRole));
-                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_ADMIN.getName()+" registrado exitosamente");
-                        
-                }else if (signUpRequest.getRole().equals(RoleName.ROLE_EMPLOYE.getId())) {
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE).orElseThrow(() -> new AppException("Rol de empleado no establecido"));
+                        log.info("Usuario " + signUpRequest.getUsername() + " " + RoleName.ROLE_ADMIN.getName()
+                                        + " registrado exitosamente");
+
+                } else if (signUpRequest.getRole().equals(RoleName.ROLE_EMPLOYE.getId())) {
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_EMPLOYE)
+                                        .orElseThrow(() -> new AppException("Rol de empleado no establecido"));
                         user.setRoles(Collections.singleton(userRole));
-                        log.info("Usuario "+signUpRequest.getUsername()+" "+RoleName.ROLE_EMPLOYE.getName()+" registrado exitosamente");
+                        log.info("Usuario " + signUpRequest.getUsername() + " " + RoleName.ROLE_EMPLOYE.getName()
+                                        + " registrado exitosamente");
 
                 } else {
                         return new ResponseEntity<>("Id role no establecido", HttpStatus.CONFLICT);
                 }
 
-
                 User result = userRepository.save(user);
 
                 URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
                                 .buildAndExpand(result.getUsername()).toUri();
-                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),signUpRequest.getPassword());
+                emailService.emailSend(signUpRequest.getEmail(), signUpRequest.getName(), signUpRequest.getUsername(),
+                                signUpRequest.getPassword());
 
                 return ResponseEntity.created(location).body(new ApiResponse(true, "Usuario registrado exitosamente"));
         }
-
 
         @PutMapping("/requestid/{username}")
         public ResponseEntity<?> obtenerID(@PathVariable(value = "username") String username) throws JoseException {
@@ -275,13 +303,12 @@ public class AuthController {
 
                         user.getId();
 
-
                         return ResponseEntity.ok(user.getId());
                 } catch (Exception e) {
                         log.error("HA OCURRIDO UN ERROR " + e.getMessage());
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");
-                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
-                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(),mensajes[0]);
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], e.getMessage(), mensajes[0]);
                         salida.setPeticion(mensajeError);
                         return new ResponseEntity<ResultadoVO>(salida, HttpStatus.CONFLICT);
                 }
