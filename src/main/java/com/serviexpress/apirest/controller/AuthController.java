@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,15 +88,19 @@ public class AuthController {
 
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,Errors errors) {
 
                 Authentication authentication = authenticationManager
                                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(),
                                                 loginRequest.getPassword()));
-
+                                               
+                                                
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 String jwt = tokenProvider.generateToken(authentication);
+                // if (!errors.hasErrors()) {
+                //         log.warn("DETAIL "+errors.getAllErrors().toString()+ errors.hasErrors());
+                // } 
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
