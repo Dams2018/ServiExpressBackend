@@ -1,8 +1,10 @@
 package com.serviexpress.apirest.payload;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class LoginRequest implements Serializable{
     @NotBlank
     private String usernameOrEmail;
 

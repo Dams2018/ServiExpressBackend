@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,7 @@ import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@CrossOrigin(origins= "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -98,6 +99,7 @@ public class AuthController {
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
+     
         @PutMapping("/requestpass/{username}")
         public ResponseEntity<?> update(@PathVariable(value = "username") String username) throws JoseException {
 
@@ -112,9 +114,14 @@ public class AuthController {
                                         ContentEncryptionAlgorithmIdentifiers.AES_128_CBC_HMAC_SHA_256);
                         jwe.setKey(key);
                         String serializedJwe = jwe.getCompactSerialization();
+                        String[] timestampError = Util.getCurrentTimeStamp().split(";");
+                        mensajes = Util.Codigos.MALPARAMETROS.split(";");    
+                        mensajeError = new MensajeVO(timestampError[0], timestampError[1], serializedJwe,"OK DEKU");
+                        salida.setPeticion(mensajeError);
                         System.out.println("Serialized Encrypted JWE: " + serializedJwe);
-
-                        return ResponseEntity.ok(serializedJwe);
+                        return new ResponseEntity<ResultadoVO>(salida, HttpStatus.ACCEPTED);
+                        
+                        //return ResponseEntity.ok(serializedJwe);
                 } catch (Exception e) {
                         log.error("HA OCURRIDO UN ERROR " + e.getMessage());
                         String[] timestampError = Util.getCurrentTimeStamp().split(";");

@@ -2,9 +2,11 @@
 
 package com.serviexpress.apirest.payload;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.*;
 
-public class SignUpRequest {
+public class SignUpRequest implements Serializable{
     @NotBlank
     @Size(min = 4, max = 40)
     private String name;
