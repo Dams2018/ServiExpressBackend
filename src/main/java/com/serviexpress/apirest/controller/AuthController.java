@@ -111,6 +111,8 @@ public class AuthController {
     
 			JSONObject lista = new JSONObject();
 			lista.put("username", authentication.getName());
+			lista.put("Avtivo", user.isActive());
+			lista.put("iduser", user.getId());
 			lista.put("idrole", role.getId());
 			lista.put("rolename", role.getName());
                         lista.put("accessToken", jwt);
