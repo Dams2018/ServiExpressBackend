@@ -4,7 +4,7 @@ Este projecto es generado [SPRINGBOOT](https://spring.io/)
 >Es necesario Eclipse o Visual Studio Code e instalar SpringBoot y Maven para este proyecto
 
 > Backend  SpringBoot
->La creación de tablas se realiza mediante hibérnate, por ende, no es necesario tener un script de base de dato, solo será necesario >insertar los datos que están a continuación.
+>La creación de tablas se realiza mediante hibérnate, por ende, no es necesario tener un script de base de dato, solo será necesario insertar los datos que están a continuación.
 >Estos servicios, para poder probarlo se deberá utilizar algún cliente REST por ejemplo [POSTMAN](https://www.postman.com/).
 
 >FrontEnd Angular
