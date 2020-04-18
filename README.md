@@ -17,7 +17,7 @@ Insert into ROLES (ID,NAME) values ('4','ROLE_COMPANY');
 
 
 Insert into USERS (ID,CREATED_AT,UPDATED_AT,ACTIVE,EMAIL,NAME,PASSWORD,USERNAME) values ('0',to_timestamp('06/04/20 21:55:54,877000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('06/04/20 21:55:54,877000000','DD/MM/RR HH24:MI:SSXFF'),0,'mar.astorgag@alumnos.duoc.cl','admin','$2a$10$DaTuufdd/jZpScQKO18BRu96pZz5Lqn5Yjwl9jSEATRguk273X7H.','admin');
-Insert into USER_ROLES (USER_ID,ROLE_ID) values ('0','1');
+Insert into USER_ROLES (USERID,ROLEID) values ('0','1');
 
 
 COMMIT WORK;
@@ -61,8 +61,13 @@ Te devolverá un token parecido a este
 
 Respuesta
 {
-    "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2NDQ2NjExLCJleHAiOjE1ODcwNTE0MTF9.vS9FEyAIFeZIX4ICNH19Afw6O4PwAsPzPQ2mbKyc958nsOILmghoRglBEkZquakX_I1fef1tzHeVMQwdQB8wlw",
-    "tokenType": "Bearer"
+    "iduser": 0,
+    "idrole": 1,
+    "Avtivo": false,
+    "rolename": "ROLE_ADMIN",
+    "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwIiwiaWF0IjoxNTg3MjIxMjA5LCJleHAiOjE1ODc4MjYwMDl9.xek-608wKSg7xBs6Xzpf7v89fp95kq5N3AAV2zDAnJYXJR7aRthdrIGbic8BTqPTzCJoQjI3p2eiocPSxZwxtg",
+    "tokenType": "Bearer",
+    "username": "admin"
 }
 
 ```
