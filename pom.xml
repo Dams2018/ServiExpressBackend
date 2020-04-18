@@ -10,9 +10,9 @@
 		<!-- lookup parent from repository -->
 		</parent>
 	<groupId>com.linkpoint</groupId>
-	<artifactId>ServiExpress</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>ServiExpress</name>
+	<artifactId>ServiExpressBakend</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+	<name>ServiExpressBakend</name>
 	<description>Backend Rest Api ServiExpress</description>
 
 	<properties>
