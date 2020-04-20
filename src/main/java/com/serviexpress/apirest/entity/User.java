@@ -60,7 +60,7 @@ public class User extends DateAudit implements Serializable {
 
     }
 
-    public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 15) String username,
+    public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 40) String username,
             @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 100) String password) {
         this.name = name;
         this.username = username;
