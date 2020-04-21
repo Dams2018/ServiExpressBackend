@@ -1,3 +1,20 @@
+![](https://github.com/juliojimenez-98/ServiExpressFront/blob/master/logo.jpg?raw=true)
+
+# ServiExpressBackend
+
+Este projecto es generado [SPRINGBOOT](https://spring.io/) 
+>Es necesario Eclipse o Visual Studio Code e instalar SpringBoot y Maven para este proyecto
+
+> Backend  SpringBoot
+>La creación de tablas se realiza mediante hibérnate, por ende, no es necesario tener un script de base de dato, solo será necesario insertar los datos que están a continuación.
+>Estos servicios, para poder probarlo se deberá utilizar algún cliente REST por ejemplo [POSTMAN](https://www.postman.com/).
+
+>FrontEnd Angular
+>Aquí podrá encontrar el cliente el que se esta conectando a estos servicios
+>[ServiExpressFront](https://github.com/juliojimenez-98/ServiExpressFront)
+
+
+
 
 # ServiExpress
 > Inserción de roles y cuenta de adminitrador
@@ -74,7 +91,7 @@ Respuesta
 ## Creación de cliente PUT
 ```
 
-http://127.0.0.1:8090/entidad/cliente
+http://127.0.0.1:8090/api/entidad/cliente
 recuerda cambiar el id usuario por el usuario cliente creado, para el frontend se debe hacer de manera interna.
 {
 	"id_usuario" :1,
@@ -89,7 +106,7 @@ recuerda cambiar el id usuario por el usuario cliente creado, para el frontend s
 ## Actualizar de cliente POST
 ```
 
-http://127.0.0.1:8090/entidad/cliente
+http://127.0.0.1:8090/api/entidad/cliente
 {
 	"idcliente" :13,
 	"id_usuario" :1,
@@ -170,7 +187,7 @@ http://127.0.0.1:8090/api/auth/signupwork
 ## Listar Todos los Clientes GET NO RECOMENDADO (Test Mode)
 ```
 al igual que crear empleado se debe iniciar con cuenta adiestrador y obtener token para tener acceso a este rest
-http://127.0.0.1:8090/entidad/allclientes
+http://127.0.0.1:8090/api/entidad/allclientes
 retornara lista de clientes
 [
     {
@@ -195,8 +212,8 @@ retornara lista de clientes
 ```
 ## Listar cliente a modo paginación GET RECOMENDADO
 ```
-http://127.0.0.1:8090/entidad/clientes?page=0&size=3
-http://127.0.0.1:8090/entidad/clientes?page=0
+http://127.0.0.1:8090/api/entidad/clientes?page=0&size=3
+http://127.0.0.1:8090/api/entidad/clientes?page=0
 
 ?page=1 Numero de la pagina por defecto traerá 10 objeto
 &size=3 Cantidad objeto por pagina

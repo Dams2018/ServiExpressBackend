@@ -22,7 +22,7 @@ import com.serviexpress.apirest.service.impl.EmpleadoServicesImpl;
 import org.springframework.data.domain.Pageable;
 
 @RestController
-@RequestMapping("/entidad")
+@RequestMapping("/api/entidad")
 public class EntidadController {
 
 	@Autowired
