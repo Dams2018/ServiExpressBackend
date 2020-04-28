@@ -113,6 +113,7 @@ public class AuthController {
 			lista.put("username", authentication.getName());
 			lista.put("Avtivo", user.isActive());
 			lista.put("iduser", user.getId());
+			lista.put("name", user.getName());
 			lista.put("idrole", role.getId());
 			lista.put("rolename", role.getName());
                         lista.put("accessToken", jwt);
