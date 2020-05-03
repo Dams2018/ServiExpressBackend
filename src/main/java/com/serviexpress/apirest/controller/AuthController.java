@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -113,6 +113,7 @@ public class AuthController {
 			lista.put("username", authentication.getName());
 			lista.put("Avtivo", user.isActive());
 			lista.put("iduser", user.getId());
+			lista.put("name", user.getName());
 			lista.put("idrole", role.getId());
 			lista.put("rolename", role.getName());
                         lista.put("accessToken", jwt);

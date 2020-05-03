@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         .permitAll()
                         .antMatchers("/api/auth/signin").permitAll()
                         .antMatchers("/api/auth/signup").permitAll()
+                        .antMatchers("/api/auth/signupwork").permitAll()
+                        .antMatchers("/api/entidad/cliente").permitAll()
                         .antMatchers("/api/auth/requestpass/{id}").permitAll()
                         .antMatchers("/api/auth/requestpass/{username}").permitAll()
                         .antMatchers("/api/auth/changepassword/{id}").permitAll()
