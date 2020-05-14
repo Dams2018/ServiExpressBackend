@@ -71,10 +71,10 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 			try {
 				repositorio.save(generico);
 				userRepository.save(user);
-				logger.info("CLIENTE CREADA");
+				logger.info("EMPLEADO CREADO");
 				return ResponseEntity.ok(generico);
 			} catch (Exception e) {
-				return new ResponseEntity<>("El usuario, ya cuenta con cliente registrado", HttpStatus.CONFLICT);
+				return new ResponseEntity<>("El usuario, ya cuenta con empleado registrado", HttpStatus.CONFLICT);
 			}
 
 		} catch (Exception e) {
