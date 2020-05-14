@@ -38,7 +38,7 @@ public class Empleado implements Serializable {
     private String telefono;
     @NotBlank
     @Size(max = 40)
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
 
     public Empleado() {
     }
@@ -100,17 +100,17 @@ public class Empleado implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
     public Empleado(Long idempleado, Long id_usuario, @NotBlank @Size(max = 40) String rut,
             @NotBlank @Size(max = 40) String nombre, @NotBlank @Size(max = 40) String apellido,
-            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) String fechaNacimiento) {
+            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) Date fechaNacimiento) {
         this.idempleado = idempleado;
         this.id_usuario = id_usuario;
         this.rut = rut;
@@ -119,5 +119,7 @@ public class Empleado implements Serializable {
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
     }
+
+ 
 
 }
