@@ -20,6 +20,10 @@ import javax.validation.constraints.Size;
 @Entity
 public class Cliente implements Serializable{
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8715864315878470306L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idcliente;
