@@ -33,8 +33,8 @@ public class VehiculoServicesImpl extends VehiculoServices<Vehiculo> {
 	@Autowired
 	ClienteRepository clienteRepository;
 
-
-	//SIRVE PARA ACTULIZAR O DESCATIVAR EL VEICHUILO SIEMPRE CUENDO SE ACTULISE EL ACTIVO DEBE IR TRUE Y SI SE VA BORRAR EN LA VISTA MANDAR UN FALSE EN ACTIVO
+	// SIRVE PARA ACTULIZAR O DESCATIVAR EL VEICHUILO SIEMPRE CUENDO SE ACTULISE EL
+	// ACTIVO DEBE IR TRUE Y SI SE VA BORRAR EN LA VISTA MANDAR UN FALSE EN ACTIVO
 	@Override
 	public ResponseEntity<?> actualizar(Vehiculo generico) {
 		logger.info("ACTUALIZANDO VEHÍCULO CLIENTE");
@@ -53,14 +53,26 @@ public class VehiculoServicesImpl extends VehiculoServices<Vehiculo> {
 
 	@Override
 	public ResponseEntity<?> crear(Vehiculo generico) {
+		boolean existe;
 		logger.info("CREANDO VEHÍCULO CLIENTE " + generico.getIdcliente());
 		try {
 
 			Optional<Vehiculo> vehiculo = repositorio.findByPatenteAndIdcliente(generico.getPatente(),
 					generico.getIdcliente());
 
-			System.out.println(vehiculo.get().isActive());
+			existe = vehiculo.isPresent();
 
+			if (existe == false) {
+				try {
+
+					generico.setActive(true);
+					repositorio.save(generico);
+					logger.info("VEHÍCULO CREADO");
+					return ResponseEntity.ok(generico);
+				} catch (Exception e) {
+					return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+				}
+			}
 			if (!vehiculo.get().isActive()) {
 				try {
 
@@ -78,21 +90,14 @@ public class VehiculoServicesImpl extends VehiculoServices<Vehiculo> {
 				}
 			}
 
-			if (vehiculo.isPresent()) {
+			else if (vehiculo.isPresent()) {
 				return new ResponseEntity<>("!Ups¡ ya tienes registrada esta patente", HttpStatus.CONFLICT);
-			}
-			try {
-				generico.setActive(true);
-				repositorio.save(generico);
-				logger.info("VEHÍCULO CREADO");
-				return ResponseEntity.ok(generico);
-			} catch (Exception e) {
-				return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 			}
 
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
+		return null;
 
 	}
 
