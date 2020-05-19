@@ -105,7 +105,7 @@ public class AuthController {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 String jwt = tokenProvider.generateToken(authentication);
-                User user = userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new IllegalStateException("UserName existe."));
+                User user = userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new IllegalStateException("UserName no existe."));
                 UserRole userRole= userRoleRepository.findById(user.getId()).orElseThrow(() -> new IllegalStateException("UserId no existe."));
                 Role role= roleRepository.findById(userRole.getRoleid()).orElseThrow(() -> new IllegalStateException("RoleId no existe."));
     
@@ -200,7 +200,6 @@ public class AuthController {
 
         @PutMapping("/signup")
         public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
                         log.error("¡Este nombre de usuario ya existe!");
                         return new ResponseEntity(new ApiResponse(false, "¡Este nombre de usuario ya existe!"),
