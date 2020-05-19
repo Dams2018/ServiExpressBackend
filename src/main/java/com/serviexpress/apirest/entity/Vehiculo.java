@@ -34,6 +34,9 @@ public class Vehiculo implements Serializable{
     @Size(max = 15)
     private String marca;
     @NotBlank
+    @Size(max = 25)
+    private String modelo;
+    @NotBlank
     @Size(max = 15)
     private String tipovehiculo;
     @NotBlank
@@ -51,6 +54,7 @@ public class Vehiculo implements Serializable{
         this.idcliente = vehiculo.idcliente;
         this.patente = vehiculo.patente;
         this.marca = vehiculo.marca;
+        this.modelo = vehiculo.modelo;
         this.tipovehiculo = vehiculo.tipovehiculo;
         this.anio = vehiculo.anio;
         this.nrochasis = vehiculo.nrochasis;
@@ -88,7 +92,14 @@ public class Vehiculo implements Serializable{
     public void setMarca(String marca) {
         this.marca = marca;
     }
+    
+    public String getModelo() {
+        return modelo;
+    }
 
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
     public String getTipovehiculo() {
         return tipovehiculo;
     }
@@ -122,12 +133,13 @@ public class Vehiculo implements Serializable{
     }
 
     public Vehiculo(Long idvehiculo, Long idcliente, @NotBlank @Size(max = 8) String patente,
-            @NotBlank @Size(max = 15) String marca, @NotBlank @Size(max = 15) String tipovehiculo,
+            @NotBlank @Size(max = 15) String marca,@NotBlank @Size(max = 25) String modelo, @NotBlank @Size(max = 15) String tipovehiculo,
             @NotBlank @Size(max = 4) String anio, @Size(max = 40) String nrochasis, boolean active) {
         this.idvehiculo = idvehiculo;
         this.idcliente = idcliente;
         this.patente = patente;
         this.marca = marca;
+        this.modelo = modelo;
         this.tipovehiculo = tipovehiculo;
         this.anio = anio;
         this.nrochasis = nrochasis;
