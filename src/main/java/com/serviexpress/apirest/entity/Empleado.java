@@ -36,8 +36,6 @@ public class Empleado implements Serializable {
     @NotBlank
     @Size(max = 40)
     private String telefono;
-    @NotBlank
-    @Size(max = 40)
     private Date fechaNacimiento;
 
     public Empleado() {
