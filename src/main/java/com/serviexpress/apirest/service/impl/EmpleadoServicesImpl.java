@@ -66,7 +66,7 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 				}
 			}
 			// Comprabar usuario si existe en la base de datos
-			User user = userRepository.findById(generico.getId_usuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			User user = userRepository.findById(generico.getIdusuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
 			user.setActive(true);
 			try {
 				repositorio.save(generico);
