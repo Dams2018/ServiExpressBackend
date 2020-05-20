@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.serviexpress.apirest.entity.Cliente;
+import com.serviexpress.apirest.entity.Empleado;
 import com.serviexpress.apirest.entity.Role;
 import com.serviexpress.apirest.entity.RoleName;
 import com.serviexpress.apirest.entity.User;
@@ -33,6 +35,8 @@ import com.serviexpress.apirest.payload.ChangeRequest;
 import com.serviexpress.apirest.payload.JwtAuthenticationResponse;
 import com.serviexpress.apirest.payload.LoginRequest;
 import com.serviexpress.apirest.payload.SignUpRequest;
+import com.serviexpress.apirest.repository.ClienteRepository;
+import com.serviexpress.apirest.repository.EmpleadoRepository;
 import com.serviexpress.apirest.repository.RoleRepository;
 import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.repository.UserRoleRepository;
@@ -58,6 +62,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +93,12 @@ public class AuthController {
         @Autowired
         JwtTokenProvider tokenProvider;
 
+        @Autowired
+        ClienteRepository clienteRepository;
+
+        @Autowired
+        EmpleadoRepository empleadoRepository;
+
         private final Logger log = LoggerFactory.getLogger(this.getClass());
         ResultadoVO salida = new ResultadoVO();
         MensajeVO mensajeError = new MensajeVO();
@@ -95,35 +106,67 @@ public class AuthController {
         Key key = new AesKey(ByteUtil.randomBytes(16));
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,Errors errors) {
+        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, Errors errors) {
 
                 Authentication authentication = authenticationManager
                                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(),
                                                 loginRequest.getPassword()));
-                                               
-                                                
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 String jwt = tokenProvider.generateToken(authentication);
-                User user = userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new IllegalStateException("UserName existe."));
-                UserRole userRole= userRoleRepository.findById(user.getId()).orElseThrow(() -> new IllegalStateException("UserId no existe."));
-                Role role= roleRepository.findById(userRole.getRoleid()).orElseThrow(() -> new IllegalStateException("RoleId no existe."));
-    
-			JSONObject lista = new JSONObject();
-			lista.put("username", authentication.getName());
-			lista.put("Avtivo", user.isActive());
-			lista.put("iduser", user.getId());
-			lista.put("name", user.getName());
-			lista.put("idrole", role.getId());
-			lista.put("rolename", role.getName());
-                        lista.put("accessToken", jwt);
-                        lista.put("tokenType", "Bearer");
-	
-		return new ResponseEntity<Object>(lista, HttpStatus.OK);
-                // if (!errors.hasErrors()) {
-                //         log.warn("DETAIL "+errors.getAllErrors().toString()+ errors.hasErrors());
-                // } 
-                //return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+                User user = userRepository.findByUsername(authentication.getName())
+                                .orElseThrow(() -> new IllegalStateException("UserName no existe."));
+                UserRole userRole = userRoleRepository.findById(user.getId())
+                                .orElseThrow(() -> new IllegalStateException("UserId no existe."));
+                Role role = roleRepository.findById(userRole.getRoleid())
+                                .orElseThrow(() -> new IllegalStateException("RoleId no existe."));
+
+                JSONObject lista = new JSONObject();
+
+
+                lista.put("username", authentication.getName());
+                lista.put("Avtivo", user.isActive());
+                lista.put("iduser", user.getId());
+                lista.put("name", user.getName());
+                lista.put("idrole", role.getId());
+                lista.put("rolename", role.getName());
+                lista.put("accessToken", jwt);
+                lista.put("tokenType", "Bearer");
+
+                if (!user.isActive()) {
+
+                        return new ResponseEntity<Object>(lista, HttpStatus.OK);
+
+                } else {
+
+                        if (role.getId()==2||role.getId()==4) {
+                                Optional<Cliente> cliente = clienteRepository.findByIdusuario(user.getId());
+
+                                lista.put("idcliente", cliente.get().getIdcliente());
+                                lista.put("rut", cliente.get().getRut());
+                                lista.put("name", cliente.get().getNombre());
+                                lista.put("apellido", cliente.get().getApellido());
+                                lista.put("fechaNacimiento", cliente.get().getFechaNacimiento());
+                                lista.put("telefono", cliente.get().getTelefono());
+                        } else {
+
+                                Optional<Empleado> empleado = empleadoRepository.findByIdusuario(user.getId());
+
+                                lista.put("idempleado", empleado.get().getIdempleado());
+                                lista.put("rut", empleado.get().getRut());
+                                lista.put("name", empleado.get().getNombre());
+                                lista.put("apellido", empleado.get().getApellido());
+                                lista.put("fechaNacimiento", empleado.get().getFechaNacimiento());
+                                lista.put("telefono", empleado.get().getTelefono());
+                                
+                        }
+
+
+                }
+
+                return new ResponseEntity<Object>(lista, HttpStatus.OK);
+
         }
 
         @PutMapping("/requestpass/{username}")

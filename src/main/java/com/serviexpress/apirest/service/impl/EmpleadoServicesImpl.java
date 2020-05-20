@@ -66,15 +66,15 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 				}
 			}
 			// Comprabar usuario si existe en la base de datos
-			User user = userRepository.findById(generico.getId_usuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			User user = userRepository.findById(generico.getIdusuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
 			user.setActive(true);
 			try {
 				repositorio.save(generico);
 				userRepository.save(user);
-				logger.info("CLIENTE CREADA");
+				logger.info("EMPLEADO CREADO");
 				return ResponseEntity.ok(generico);
 			} catch (Exception e) {
-				return new ResponseEntity<>("El usuario, ya cuenta con cliente registrado", HttpStatus.CONFLICT);
+				return new ResponseEntity<>("El usuario, ya cuenta con empleado registrado", HttpStatus.CONFLICT);
 			}
 
 		} catch (Exception e) {
