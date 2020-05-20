@@ -153,7 +153,7 @@ public class AuthController {
 
                                 Optional<Empleado> empleado = empleadoRepository.findByIdusuario(user.getId());
 
-                                lista.put("idcliente", empleado.get().getIdusuario());
+                                lista.put("idempleado", empleado.get().getIdempleado());
                                 lista.put("rut", empleado.get().getRut());
                                 lista.put("name", empleado.get().getNombre());
                                 lista.put("apellido", empleado.get().getApellido());
