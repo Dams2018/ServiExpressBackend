@@ -47,7 +47,7 @@ public class EntidadController {
 
 	@GetMapping(value = "/clientes")
 	public List<Cliente> obtenerClientes(Pageable pageable) {
-		System.out.println("empleado.getNombre()");
+		//System.out.println("empleado.getNombre()");
 		return servicli.obtenerPorPaginacion(pageable);
 	}
 
