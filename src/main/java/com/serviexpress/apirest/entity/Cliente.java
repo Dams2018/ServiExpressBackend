@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
         "idcliente"
     }),
     @UniqueConstraint(columnNames = {
-        "id_usuario"
+        "idusuario"
     })
 })
 @Entity
@@ -27,7 +27,7 @@ public class Cliente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idcliente;
-    private Long id_usuario;
+    private Long idusuario;
     @NotBlank
     @Size(max = 40)
     private String rut;
@@ -47,12 +47,16 @@ public class Cliente implements Serializable{
     }
 
     public Cliente(Cliente cliente) {
-        this.id_usuario=cliente.id_usuario;
+        this.idusuario=cliente.idusuario;
         this.nombre= cliente.nombre;
         this.apellido=cliente.apellido;
         this.rut=cliente.rut;
         this.telefono=cliente.telefono;
         this.fechaNacimiento=cliente.fechaNacimiento;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
     public Long getIdcliente() {
@@ -63,12 +67,12 @@ public class Cliente implements Serializable{
         this.idcliente = idcliente;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public Long getIdusuario() {
+        return idusuario;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setIdusuario(Long idusuario) {
+        this.idusuario = idusuario;
     }
 
     public String getRut() {
@@ -111,17 +115,12 @@ public class Cliente implements Serializable{
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Cliente(Long idcliente, Long id_usuario, @NotBlank @Size(max = 40) String rut,
-            @NotBlank @Size(max = 40) String nombre, @NotBlank @Size(max = 40) String apellido,
-            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) Date fechaNacimiento) {
-        this.idcliente = idcliente;
-        this.id_usuario = id_usuario;
-        this.rut = rut;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.fechaNacimiento = fechaNacimiento;
+    @Override
+    public String toString() {
+        return "Cliente [apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", idcliente=" + idcliente
+                + ", idusuario=" + idusuario + ", nombre=" + nombre + ", rut=" + rut + ", telefono=" + telefono + "]";
     }
+
 
  
 }

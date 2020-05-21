@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
         "idempleado"
     }),
     @UniqueConstraint(columnNames = {
-        "id_usuario"
+        "idusuario"
     })
 })
 @Entity
@@ -22,7 +22,7 @@ public class Empleado implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idempleado;
 
-    private Long id_usuario;
+    private Long idusuario;
 
     @NotBlank
     @Size(max = 40)
@@ -42,7 +42,7 @@ public class Empleado implements Serializable {
     }
 
     public Empleado(Empleado empleado) {
-        this.id_usuario=empleado.id_usuario;
+        this.idusuario=empleado.idusuario;
         this.nombre= empleado.nombre;
         this.apellido=empleado.apellido;
         this.rut=empleado.rut;
@@ -58,13 +58,6 @@ public class Empleado implements Serializable {
         this.idempleado = idempleado;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
-    }
-
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
-    }
 
     public String getRut() {
         return rut;
@@ -106,17 +99,20 @@ public class Empleado implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Empleado(Long idempleado, Long id_usuario, @NotBlank @Size(max = 40) String rut,
-            @NotBlank @Size(max = 40) String nombre, @NotBlank @Size(max = 40) String apellido,
-            @NotBlank @Size(max = 40) String telefono, @NotBlank @Size(max = 40) Date fechaNacimiento) {
-        this.idempleado = idempleado;
-        this.id_usuario = id_usuario;
-        this.rut = rut;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.fechaNacimiento = fechaNacimiento;
+    public Long getIdusuario() {
+        return idusuario;
     }
+
+    public void setIdusuario(Long idusuario) {
+        this.idusuario = idusuario;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado [apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", idempleado=" + idempleado
+                + ", idusuario=" + idusuario + ", nombre=" + nombre + ", rut=" + rut + ", telefono=" + telefono + "]";
+    }
+
 
  
 
