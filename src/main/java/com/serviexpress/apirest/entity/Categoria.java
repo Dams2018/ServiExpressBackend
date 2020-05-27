@@ -63,5 +63,14 @@ public class Categoria implements Serializable {
         this.descripción = categoria.descripción;
     }
 
+    public Long getIdcategoria() {
+        return idcategoria;
+    }
+
+    public void setIdcategoria(Long idcategoria) {
+        this.idcategoria = idcategoria;
+    }
+
+    
 
 }
