@@ -46,7 +46,7 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 					empleado = generico;
 			repositorio.save(empleado);
 			JSONObject lista = new JSONObject();
-			lista.put("idcliente", empleado.getIdempleado());
+			lista.put("idempleado", empleado.getIdempleado());
 			lista.put("rut", empleado.getRut());
 			lista.put("name", empleado.getNombre());
 			lista.put("apellido", empleado.getApellido());
@@ -80,7 +80,7 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 				repositorio.save(generico);
 				userRepository.save(user);
 				JSONObject lista = new JSONObject();
-				lista.put("idcliente", generico.getIdempleado());
+				lista.put("idempleado", generico.getIdempleado());
 				lista.put("rut", generico.getRut());
 				lista.put("name", generico.getNombre());
 				lista.put("apellido", generico.getApellido());
