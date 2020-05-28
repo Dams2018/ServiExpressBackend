@@ -53,7 +53,7 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 			lista.put("fechaNacimiento", cliente.getFechaNacimiento());
 			lista.put("telefono", cliente.getTelefono());
 			logger.info("EMPLEADO ACTUALIZADO");
-			return ResponseEntity.ok(lista);
+			return new ResponseEntity<Object>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -87,7 +87,7 @@ public class ClienteServicesImpl extends PersonaServices<Cliente> {
 				lista.put("apellido", generico.getApellido());
 				lista.put("fechaNacimiento", generico.getFechaNacimiento());
 				lista.put("telefono", generico.getTelefono());
-				return ResponseEntity.ok(lista);
+				return new ResponseEntity<Object>(lista, HttpStatus.OK);
 			} catch (Exception e) {
 				return new ResponseEntity<>("El usuario, ya cuenta con cliente registrado", HttpStatus.CONFLICT);
 			}
