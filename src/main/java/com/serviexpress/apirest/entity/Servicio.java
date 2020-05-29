@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class Servicio implements Serializable {
 
     /**
-     *
+     * al momento de selecionar un servicio capturar id categoria enviarla al buscar productos con el id de categoria cargrar combocx de prodcuto esto para reserva
      */
     private static final long serialVersionUID = 1L;
 
@@ -23,12 +23,11 @@ public class Servicio implements Serializable {
     private String nombre;
     @NotBlank
     @Size(max = 255)
-    private String descripción;
+    private String descripcion;
     private double valorbase;
     private Long categoria;
 
-    //si deponde mostra productos para el front esto para que no se me olvide
-    private boolean depende;
+
 
     public Servicio() {
     }
@@ -53,13 +52,7 @@ public class Servicio implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDescripción() {
-        return descripción;
-    }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
-    }
 
     public double getValorbase() {
         return valorbase;
@@ -83,28 +76,28 @@ public class Servicio implements Serializable {
 
         this.idservicio = servicio.idservicio;
         this.nombre = servicio.nombre;
-        this.descripción = servicio.descripción;
+        this.descripcion = servicio.descripcion;
         this.valorbase = servicio.valorbase;
         this.categoria = servicio.categoria;
-        this.depende = servicio.depende;
     }
 
-    public boolean isDepende() {
-        return depende;
-    }
 
-    public void setDepende(boolean depende) {
-        this.depende = depende;
-    }
 
     public Servicio(Long idservicio, @NotBlank @Size(max = 20) String nombre,
-            @NotBlank @Size(max = 255) String descripción, double valorbase, Long categoria, boolean depende) {
+            @NotBlank @Size(max = 255) String descripcion, double valorbase, Long categoria) {
         this.idservicio = idservicio;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
         this.valorbase = valorbase;
         this.categoria = categoria;
-        this.depende = depende;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }
