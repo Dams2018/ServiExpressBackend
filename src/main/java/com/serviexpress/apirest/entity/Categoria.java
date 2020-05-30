@@ -23,7 +23,7 @@ public class Categoria implements Serializable {
     @Size(max = 20)
     private String nombre;
     @Size(max = 255)
-    private String descripción;
+    private String descripcion;
 
 
     public Categoria() {
@@ -42,25 +42,25 @@ public class Categoria implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 
-    public Categoria(Long idcategoria, @NotBlank @Size(max = 20) String nombre, @Size(max = 255) String descripción) {
+    public Categoria(Long idcategoria, @NotBlank @Size(max = 20) String nombre, @Size(max = 255) String descripcion) {
         this.idcategoria = idcategoria;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
     }
 
     public Categoria( Categoria categoria) {
         this.idcategoria = categoria.idcategoria;
         this.nombre = categoria.nombre;
-        this.descripción = categoria.descripción;
+        this.descripcion = categoria.descripcion;
     }
 
     public Long getIdcategoria() {
