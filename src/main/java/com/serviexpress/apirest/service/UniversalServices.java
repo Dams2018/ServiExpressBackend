@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 
 
-public abstract class VehiculoServices<T> {
+public abstract class UniversalServices<T> {
 
     public  ResponseEntity<?> crear(T generico) {
         return null;
@@ -23,7 +23,7 @@ public abstract class VehiculoServices<T> {
         return null;
     }
 
-    public List<T> obtenerTodosPaginacion(Pageable pageable){
+    public List<T> obtenerPorPaginacion(Pageable pageable){
         return null;
     }
 }
