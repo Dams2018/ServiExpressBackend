@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 
 @Table(name = "Reserva", uniqueConstraints = {
@@ -31,6 +30,7 @@ public class Reserva implements Serializable{
     private String servicios;
     private Date fechareserva;
     private String horareserva;
+    private int estado;
 
 
 
@@ -81,13 +81,6 @@ public class Reserva implements Serializable{
         this.horareserva = horareserva;
     }
 
-    public Reserva(Long idreserva, Long idcliente, String servicios, Date fechareserva, String horareserva) {
-        this.idreserva = idreserva;
-        this.idcliente = idcliente;
-        this.servicios = servicios;
-        this.fechareserva = fechareserva;
-        this.horareserva = horareserva;
-    }
 
     public Reserva( Reserva reserva) {
 
@@ -96,6 +89,25 @@ public class Reserva implements Serializable{
         this.servicios = reserva.servicios;
         this.fechareserva = reserva.fechareserva;
         this.horareserva = reserva.horareserva;
+        this.estado = reserva.estado;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public Reserva(Long idreserva, Long idcliente, String servicios, Date fechareserva, String horareserva,
+            int estado) {
+        this.idreserva = idreserva;
+        this.idcliente = idcliente;
+        this.servicios = servicios;
+        this.fechareserva = fechareserva;
+        this.horareserva = horareserva;
+        this.estado = estado;
     }
 
 
