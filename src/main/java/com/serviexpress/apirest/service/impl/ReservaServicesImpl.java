@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.serviexpress.apirest.entity.HistorialReserva;
 import com.serviexpress.apirest.entity.Reserva;
 import com.serviexpress.apirest.repository.ReservaRepository;
 import com.serviexpress.apirest.service.UniversalServices;
@@ -51,8 +52,8 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	public ResponseEntity<?> crear(Reserva generico) {
 		logger.info("CREANDO PRODUCTO");
 		try {
-//FALTAN VALIDACIONES REVISAR DESPUES
 			repositorio.save(generico);
+			//falta agregar el historial de reserva
 			logger.info("PRODUCTO CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {

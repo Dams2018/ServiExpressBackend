@@ -23,7 +23,7 @@ public class EstadoReserva implements Serializable{
 
     @Id
     private Long idreserva;
-    private Long nombre;
+    private String nombre;
 
 
 
@@ -38,12 +38,19 @@ public class EstadoReserva implements Serializable{
         this.idreserva = idreserva;
     }
 
-    public Long getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(Long nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public EstadoReserva(Long idreserva, String nombre) {
+        this.idreserva = idreserva;
+        this.nombre = nombre;
+    }
+
+  
 
 }
