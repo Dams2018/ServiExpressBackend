@@ -26,4 +26,7 @@ public abstract class VehiculoServices<T> {
     public List<T> obtenerTodosPaginacion(Pageable pageable){
         return null;
     }
+    public List<T> obtenerTodosPaginacion(Long id){
+        return null;
+    }
 }
