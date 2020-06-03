@@ -14,6 +14,10 @@ public class Producto implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+  
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -77,14 +81,7 @@ public class Producto implements Serializable {
         this.idproducto = idproducto;
     }
 
-    public Producto(Long idproducto, @NotBlank @Size(max = 20) String nombre,
-            @NotBlank @Size(max = 255) String descripcion, double valorbase, Long categoria) {
-        this.idproducto = idproducto;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.valorbase = valorbase;
-        this.categoria = categoria;
-    }
+
 
     
     public Producto( Producto producto) {
@@ -93,6 +90,12 @@ public class Producto implements Serializable {
         this.descripcion = producto.descripcion;
         this.valorbase = producto.valorbase;
         this.categoria = producto.categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto [categoria=" + categoria + ", descripcion=" + descripcion + ", idproducto=" + idproducto
+                + ", nombre=" + nombre + ", valorbase=" + valorbase + "]";
     }
 
 }

@@ -42,12 +42,12 @@ public class ServicioController {
 	}
 
 	@PostMapping("/servicio")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Servicio servicio) {
+	public ResponseEntity<?> actualizarServicio(@RequestBody @Valid Servicio servicio) {
 		return ResponseEntity.ok(servicioServicesImpl.actualizar(servicio));
 	}
 
 	@GetMapping(value = "/servicios")
-	public List<Servicio> obtenerCategoria(Pageable pageable) {
+	public List<Servicio> obtenerServicio(Pageable pageable) {
 		
 		return servicioServicesImpl.obtenerPorPaginacion(pageable);
 	}
