@@ -98,4 +98,13 @@ public class Producto implements Serializable {
                 + ", nombre=" + nombre + ", valorbase=" + valorbase + "]";
     }
 
+    public Producto(Long idproducto, @NotBlank @Size(max = 20) String nombre,
+            @NotBlank @Size(max = 255) String descripcion, double valorbase, Long categoria) {
+        this.idproducto = idproducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.valorbase = valorbase;
+        this.categoria = categoria;
+    }
+
 }
