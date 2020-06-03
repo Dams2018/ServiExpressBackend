@@ -110,5 +110,9 @@ public class VehiculoServicesImpl extends VehiculoServices<Vehiculo> {
 	public List<Vehiculo> obtenerTodosPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
 	}
+	@Override
+	public List<Vehiculo> obtenerTodosPaginacion(Long id){
+		return repositorio.findAllByIdcliente(id);
+	}
 
 }

@@ -20,4 +20,5 @@ public interface  VehiculoRepository extends JpaRepository<Vehiculo, Serializabl
     Optional<Vehiculo> findByPatenteAndIdcliente(String patente,Long id);
     public abstract Page<Vehiculo> findAll(Pageable pageable);
     public abstract Page<Vehiculo> findAllByIdcliente(Pageable pageable,Long id);
+    public abstract List<Vehiculo> findAllByIdcliente(Long id);
 }
