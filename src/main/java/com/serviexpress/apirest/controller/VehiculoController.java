@@ -46,7 +46,7 @@ public class VehiculoController {
 		return vehiculoServicesImpl.obtenerPorPaginacion(pageable, idCliente);
 	}
 	@GetMapping(value = "/{idCliente}/allvehiculo")
-	public List<Vehiculo> obtenerVehiculos(Pageable pageable, @PathVariable(value = "idCliente") Long idCliente) {
+	public List<Vehiculo> obtenerVehiculos( @PathVariable(value = "idCliente") Long idCliente) {
 		return vehiculoServicesImpl.obtenerTodosPaginacion(idCliente);
 	}
 
