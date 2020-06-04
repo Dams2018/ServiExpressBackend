@@ -50,6 +50,12 @@ public class ProductoController {
 		return productoServicesImpl.obtenerPorPaginacion(pageable,idCategoria);
 	}
 
+	@GetMapping("/producto/{idproducto}")
+	public Producto show(@PathVariable Long idproducto){
+		
+		return productoServicesImpl.findByIdProducto(idproducto);
+	}
+
 
 	@GetMapping(value = "/allproducto")
 	public List<Producto> allServicios(Pageable pageable) {
