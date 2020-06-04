@@ -11,6 +11,7 @@ import com.serviexpress.apirest.service.impl.ReservaServicesImpl;
 
 import org.jose4j.json.internal.json_simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,16 +56,18 @@ public class ReservaController {
 	//para lista de clientes
 	@GetMapping(value = "/{idCliente}/cliente")
 	public ResponseEntity<?> obtenerReservaCliente(final Pageable pageable, @PathVariable(value = "idCliente") final Long idCliente) {
-		final List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable, idCliente);
-		ReservaResponse reservaResponse = new ReservaResponse();
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable, idCliente);
 		JSONArray array = new JSONArray(); 
-		for (final Reserva reserva2 : reserva) {
-			System.out.println(reserva2.getIdreserva());
+		for ( Reserva reserva2 : reserva) {
+			ReservaResponse reservaResponse = new ReservaResponse();
 			reservaResponse.setIdreserva(reserva2.getIdreserva());
-			System.out.println(reservaResponse.toString());
-			array.add(reservaResponse.toString());
+			reservaResponse.setFechareserva(reserva2.getFechareserva());
+			array.add(reservaResponse);
+		
 		}
+
 		return ResponseEntity.ok(array);
+
 	}
 
 
