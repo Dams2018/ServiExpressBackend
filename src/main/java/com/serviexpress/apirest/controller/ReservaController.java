@@ -10,7 +10,6 @@ import com.serviexpress.apirest.payload.ReservaResponse;
 import com.serviexpress.apirest.service.impl.ReservaServicesImpl;
 
 import org.jose4j.json.internal.json_simple.JSONArray;
-import org.jose4j.json.internal.json_simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +56,6 @@ public class ReservaController {
 	@GetMapping(value = "/{idCliente}/cliente")
 	public ResponseEntity<?> obtenerReservaCliente(final Pageable pageable, @PathVariable(value = "idCliente") final Long idCliente) {
 		final List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable, idCliente);
-		List <ReservaResponse> listReservaResponse;
 		ReservaResponse reservaResponse = new ReservaResponse();
 		JSONArray array = new JSONArray(); 
 		for (final Reserva reserva2 : reserva) {
@@ -66,16 +64,6 @@ public class ReservaController {
 		}
 		return ResponseEntity.ok(array);
 	}
-
-	public List<ReservaResponse> convertirLista(List<ReservaResponse> Reservas){
-		List<ReservaResponse> mreserva = new ArrayList<>();
-		
-		for(ReservaResponse reserva : Reservas) {
-			mreserva.add(new ReservaResponse(reserva));
-		}
-		return mreserva;
-	}
-
 
 
 	//para lista por estado
