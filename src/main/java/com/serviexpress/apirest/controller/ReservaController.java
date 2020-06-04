@@ -59,8 +59,10 @@ public class ReservaController {
 		ReservaResponse reservaResponse = new ReservaResponse();
 		JSONArray array = new JSONArray(); 
 		for (final Reserva reserva2 : reserva) {
+			System.out.println(reserva2.getIdreserva());
 			reservaResponse.setIdreserva(reserva2.getIdreserva());
-			array.add(reservaResponse);
+			System.out.println(reservaResponse.toString());
+			array.add(reservaResponse.toString());
 		}
 		return ResponseEntity.ok(array);
 	}
