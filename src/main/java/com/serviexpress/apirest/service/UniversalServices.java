@@ -1,6 +1,10 @@
 package com.serviexpress.apirest.service;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
+
+import com.serviexpress.apirest.entity.Reserva;
+import com.serviexpress.apirest.payload.ReservaResponse;
+
 import org.springframework.data.domain.Pageable;
 
 

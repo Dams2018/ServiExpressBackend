@@ -1,12 +1,16 @@
 package com.serviexpress.apirest.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.entity.Reserva;
+import com.serviexpress.apirest.payload.ReservaResponse;
 import com.serviexpress.apirest.service.impl.ReservaServicesImpl;
 
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,34 +35,52 @@ public class ReservaController {
 
 	// Cliente
 	@PutMapping("/reserva")
-	public ResponseEntity<?> agregarReserva(@RequestBody @Valid Reserva reserva) {
+	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final Reserva reserva) {
 		return ResponseEntity.ok(reservaServicesImpl.crear(reserva));
 
 	}
 
 	@PostMapping("/reserva")
-	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid Reserva reserva) {
+	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final Reserva reserva) {
 		return ResponseEntity.ok(reservaServicesImpl.actualizar(reserva));
 	}
 
 
 	//todas las reservas
 	@GetMapping(value = "/reservas")
-	public List<Reserva> obtenerReserva(Pageable pageable) {
+	public List<Reserva> obtenerReserva(final Pageable pageable) {
 		
 		return reservaServicesImpl.obtenerPorPaginacion(pageable);
 	}
 
 	//para lista de clientes
 	@GetMapping(value = "/{idCliente}/cliente")
-	public List<Reserva> obtenerReservaCliente(Pageable pageable, @PathVariable(value = "idCliente") Long idCliente) {
-		return reservaServicesImpl.obtenerPorPaginacion(pageable, idCliente);
+	public ResponseEntity<?> obtenerReservaCliente(final Pageable pageable, @PathVariable(value = "idCliente") final Long idCliente) {
+		final List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable, idCliente);
+		List <ReservaResponse> listReservaResponse;
+		ReservaResponse reservaResponse = new ReservaResponse();
+		JSONArray array = new JSONArray(); 
+		for (final Reserva reserva2 : reserva) {
+			reservaResponse.setIdreserva(reserva2.getIdreserva());
+			array.add(reservaResponse);
+		}
+		return ResponseEntity.ok(array);
 	}
+
+	public List<ReservaResponse> convertirLista(List<ReservaResponse> Reservas){
+		List<ReservaResponse> mreserva = new ArrayList<>();
+		
+		for(ReservaResponse reserva : Reservas) {
+			mreserva.add(new ReservaResponse(reserva));
+		}
+		return mreserva;
+	}
+
 
 
 	//para lista por estado
 	@GetMapping(value = "/{estado}/estado")
-	public List<Reserva> obtenerReservaEstado(Pageable pageable, @PathVariable(value = "estado") Integer estado) {
+	public List<Reserva> obtenerReservaEstado(final Pageable pageable, @PathVariable(value = "estado") final Integer estado) {
 		return reservaServicesImpl.obtenerPorPaginacion(pageable, estado);
 	}
 
