@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import antlr.collections.List;
 
@@ -12,6 +13,9 @@ import antlr.collections.List;
 @Table(name = "Reserva", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
         "idreserva"
+    }),
+    @UniqueConstraint(columnNames = {
+        "idvehiculo"
     })
 })
 @Entity
@@ -27,8 +31,10 @@ public class Reserva implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idreserva;
     private Long idcliente;
+    private Long idvehiculo;
 
     //guardar lista de id serv y prodcuto luego en el front mostrar los servicio por ende cuando se mande la lista al front debo sacar los id recorrerlos y devolver lista de servicio
+    @NotBlank
     private String servicios;
     private String productos;
     private Date fechareserva;
@@ -87,6 +93,7 @@ public class Reserva implements Serializable{
         this.horareserva = reserva.horareserva;
         this.estado = reserva.estado;
         this.productos = reserva.productos;
+        this.idvehiculo = reserva.idvehiculo;
     }
 
     public int getEstado() {
@@ -113,10 +120,20 @@ public class Reserva implements Serializable{
         this.productos = productos;
     }
 
-    public Reserva(Long idreserva, Long idcliente, String servicios, String productos, Date fechareserva,
-            String horareserva, int estado) {
+
+    public Long getIdvehiculo() {
+        return idvehiculo;
+    }
+
+    public void setIdvehiculo(Long idvehiculo) {
+        this.idvehiculo = idvehiculo;
+    }
+
+    public Reserva(Long idreserva, Long idcliente, Long idvehiculo, String servicios, String productos,
+            Date fechareserva, String horareserva, int estado) {
         this.idreserva = idreserva;
         this.idcliente = idcliente;
+        this.idvehiculo = idvehiculo;
         this.servicios = servicios;
         this.productos = productos;
         this.fechareserva = fechareserva;
