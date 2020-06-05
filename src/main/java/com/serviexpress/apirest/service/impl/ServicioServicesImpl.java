@@ -5,19 +5,14 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.serviexpress.apirest.entity.Categoria;
-
-import com.serviexpress.apirest.repository.CategoriaRepository;
-
-
-
+import com.serviexpress.apirest.entity.Servicio;
+import com.serviexpress.apirest.repository.ServicioRepository;
 import com.serviexpress.apirest.service.UniversalServices;
 
 import com.serviexpress.apirest.vo.MensajeVO;
@@ -25,11 +20,11 @@ import com.serviexpress.apirest.vo.ResultadoVO;
 
 import org.springframework.data.domain.Pageable;
 
-@Service("serviCategoria")
-public class CategoriaServicesImpl extends UniversalServices<Categoria> {
+@Service("serviServicio")
+public class ServicioServicesImpl extends UniversalServices<Servicio> {
 	@Autowired
-	@Qualifier("repositoriocategoria")
-	private CategoriaRepository repositorio;
+	@Qualifier("repositorioservicio")
+	private ServicioRepository repositorio;
 	private static final Log logger = LogFactory.getLog(UniversalServices.class);
 	ResultadoVO salida = new ResultadoVO();
 	MensajeVO mensajeError = new MensajeVO();
@@ -38,14 +33,14 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 
 
 	@Override
-	public ResponseEntity<?> actualizar(Categoria generico) {
-		logger.info("ACTUALIZANDO CATEGORIA");
+	public ResponseEntity<?> actualizar(Servicio generico) {
+		logger.info("ACTUALIZANDO SERVICIO");
 		try {
-			Categoria categoria = repositorio.findById(generico.getIdcategoria())
-					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
-			categoria = generico;
-			repositorio.save(categoria);
-			logger.info("CATEGORIA ACTUALIZADA");
+			Servicio Servicio = repositorio.findById(generico.getIdservicio())
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			Servicio = generico;
+			repositorio.save(Servicio);
+			logger.info("SERVICIO ACTUALIZADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -54,12 +49,11 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	}
 
 	@Override
-	public ResponseEntity<?> crear(Categoria generico) {
-		logger.info("CREANDO CATEGORIA");
+	public ResponseEntity<?> crear(Servicio generico) {
+		logger.info("CREANDO SERVICIO");
 		try {
-//FALTAN VALIDACIONES REVISAR DESPUES
 			repositorio.save(generico);
-			logger.info("CATEGORIA CREADA");
+			logger.info("SERVICIO CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -68,20 +62,21 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	}
 
 	@Override
-	public Categoria findById(Long idCategoria) {
-		logger.info("OBTENIENDO CATEGORIA POR ID");
-		return repositorio.findById(idCategoria).orElse(null);
+	public Servicio findByIdServicio(Long idServicio) {
+		logger.info("OBTENIENDO SERVICIO POR ID");
+		return repositorio.findById(idServicio).orElse(null);
 	}
+
 	
 
 	@Override
-	public List<Categoria> obtener() {
-		logger.info("OBTENIENDO TODOS LAS CATEGIRIAS");
+	public List<Servicio> obtener() {
+		logger.info("OBTENIENDO TODOS LOS SERVICIOS");
 		return repositorio.findAll();
 	}
 
 	@Override
-	public List<Categoria> obtenerPorPaginacion(Pageable pageable){
+	public List<Servicio> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
 	}
 }

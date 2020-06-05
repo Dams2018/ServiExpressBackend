@@ -5,8 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.entity.Categoria;
+import com.serviexpress.apirest.entity.Servicio;
 import com.serviexpress.apirest.entity.Vehiculo;
 import com.serviexpress.apirest.service.impl.CategoriaServicesImpl;
+import com.serviexpress.apirest.service.impl.ServicioServicesImpl;
 import com.serviexpress.apirest.service.impl.VehiculoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,38 +27,42 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
 
 @RestController
-@RequestMapping("/api/categoria")
-public class CategoriaController {
+@RequestMapping("/api/servicio")
+public class ServicioController {
 
 	@Autowired
-	@Qualifier("serviCategoria")
-	CategoriaServicesImpl categoriaServicesImpl;
+	@Qualifier("serviServicio")
+	ServicioServicesImpl servicioServicesImpl;
 
 
 	// Cliente
-	@PutMapping("/categoria")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Categoria categoria) {
-		return ResponseEntity.ok(categoriaServicesImpl.crear(categoria));
+	@PutMapping("/servicio")
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Servicio servicio) {
+		return ResponseEntity.ok(servicioServicesImpl.crear(servicio));
 
 	}
 
-	@PostMapping("/categoria")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Categoria categoria) {
-		return ResponseEntity.ok(categoriaServicesImpl.actualizar(categoria));
+	@PostMapping("/servicio")
+	public ResponseEntity<?> actualizarServicio(@RequestBody @Valid Servicio servicio) {
+		return ResponseEntity.ok(servicioServicesImpl.actualizar(servicio));
 	}
 
-	@GetMapping("/categorias/{idCategoria}")
-	public Categoria show(@PathVariable Long idCategoria){
+	@GetMapping(value = "/servicios")
+	public List<Servicio> obtenerServicio(Pageable pageable) {
 		
-		return categoriaServicesImpl.findById(idCategoria);
+		return servicioServicesImpl.obtenerPorPaginacion(pageable);
 	}
 
-	@GetMapping(value = "/categorias")
-	public List<Categoria> obtenerCategoria(Pageable pageable) {
+	@GetMapping("/servicios/{idServicio}")
+	public Servicio show(@PathVariable Long idServicio){
 		
-		return categoriaServicesImpl.obtenerPorPaginacion(pageable);
+		return servicioServicesImpl.findByIdServicio(idServicio);
 	}
 
+	@GetMapping(value = "/allservicios")
+	public List<Servicio> allServicios() {
+		return servicioServicesImpl.obtener();
+	}
 
 
 

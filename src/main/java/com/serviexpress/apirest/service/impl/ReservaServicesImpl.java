@@ -5,19 +5,15 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.serviexpress.apirest.entity.Categoria;
-
-import com.serviexpress.apirest.repository.CategoriaRepository;
-
-
-
+import com.serviexpress.apirest.entity.HistorialReserva;
+import com.serviexpress.apirest.entity.Reserva;
+import com.serviexpress.apirest.repository.ReservaRepository;
 import com.serviexpress.apirest.service.UniversalServices;
 
 import com.serviexpress.apirest.vo.MensajeVO;
@@ -25,11 +21,10 @@ import com.serviexpress.apirest.vo.ResultadoVO;
 
 import org.springframework.data.domain.Pageable;
 
-@Service("serviCategoria")
-public class CategoriaServicesImpl extends UniversalServices<Categoria> {
+@Service
+public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	@Autowired
-	@Qualifier("repositoriocategoria")
-	private CategoriaRepository repositorio;
+	private ReservaRepository repositorio;
 	private static final Log logger = LogFactory.getLog(UniversalServices.class);
 	ResultadoVO salida = new ResultadoVO();
 	MensajeVO mensajeError = new MensajeVO();
@@ -38,14 +33,14 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 
 
 	@Override
-	public ResponseEntity<?> actualizar(Categoria generico) {
-		logger.info("ACTUALIZANDO CATEGORIA");
+	public ResponseEntity<?> actualizar(Reserva generico) {
+		logger.info("ACTUALIZANDO PRODUCTO");
 		try {
-			Categoria categoria = repositorio.findById(generico.getIdcategoria())
-					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
-			categoria = generico;
-			repositorio.save(categoria);
-			logger.info("CATEGORIA ACTUALIZADA");
+			Reserva reserva = repositorio.findById(generico.getIdreserva())
+					.orElseThrow(() -> new IllegalStateException("reserva no existe."));
+			reserva = generico;
+			repositorio.save(reserva);
+			logger.info("PRODUCTO ACTUALIZADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -54,12 +49,12 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	}
 
 	@Override
-	public ResponseEntity<?> crear(Categoria generico) {
-		logger.info("CREANDO CATEGORIA");
+	public ResponseEntity<?> crear(Reserva generico) {
+		logger.info("CREANDO PRODUCTO");
 		try {
-//FALTAN VALIDACIONES REVISAR DESPUES
 			repositorio.save(generico);
-			logger.info("CATEGORIA CREADA");
+			//falta agregar el historial de reserva
+			logger.info("PRODUCTO CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -67,21 +62,27 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 		}
 	}
 
-	@Override
-	public Categoria findById(Long idCategoria) {
-		logger.info("OBTENIENDO CATEGORIA POR ID");
-		return repositorio.findById(idCategoria).orElse(null);
-	}
 	
 
 	@Override
-	public List<Categoria> obtener() {
-		logger.info("OBTENIENDO TODOS LAS CATEGIRIAS");
+	public List<Reserva> obtener() {
+		logger.info("OBTENIENDO TODOS LOS PRODUCTO");
 		return repositorio.findAll();
 	}
 
 	@Override
-	public List<Categoria> obtenerPorPaginacion(Pageable pageable){
+	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Long id) {
+		return repositorio.findAllByIdcliente(pageable, id).getContent();
+	}
+
+	@Override
+	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Integer estado) {
+		return repositorio.findAllByEstado(pageable, estado).getContent();
+	}
+
+
+	@Override
+	public List<Reserva> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
 	}
 }

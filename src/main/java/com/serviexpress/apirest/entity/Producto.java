@@ -14,6 +14,10 @@ public class Producto implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+  
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +27,7 @@ public class Producto implements Serializable {
     private String nombre;
     @NotBlank
     @Size(max = 255)
-    private String descripción;
+    private String descripcion;
     private double valorbase;
     private Long categoria;
 
@@ -43,12 +47,12 @@ public class Producto implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public double getValorbase() {
@@ -77,22 +81,30 @@ public class Producto implements Serializable {
         this.idproducto = idproducto;
     }
 
-    public Producto(Long idproducto, @NotBlank @Size(max = 20) String nombre,
-            @NotBlank @Size(max = 255) String descripción, double valorbase, Long categoria) {
-        this.idproducto = idproducto;
-        this.nombre = nombre;
-        this.descripción = descripción;
-        this.valorbase = valorbase;
-        this.categoria = categoria;
-    }
+
 
     
     public Producto( Producto producto) {
         this.idproducto = producto.idproducto;
         this.nombre = producto.nombre;
-        this.descripción = producto.descripción;
+        this.descripcion = producto.descripcion;
         this.valorbase = producto.valorbase;
         this.categoria = producto.categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto [categoria=" + categoria + ", descripcion=" + descripcion + ", idproducto=" + idproducto
+                + ", nombre=" + nombre + ", valorbase=" + valorbase + "]";
+    }
+
+    public Producto(Long idproducto, @NotBlank @Size(max = 20) String nombre,
+            @NotBlank @Size(max = 255) String descripcion, double valorbase, Long categoria) {
+        this.idproducto = idproducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.valorbase = valorbase;
+        this.categoria = categoria;
     }
 
 }

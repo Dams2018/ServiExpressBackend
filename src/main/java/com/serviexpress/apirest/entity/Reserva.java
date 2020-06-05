@@ -5,12 +5,17 @@ import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import antlr.collections.List;
+
 
 
 @Table(name = "Reserva", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
         "idreserva"
+    }),
+    @UniqueConstraint(columnNames = {
+        "idvehiculo"
     })
 })
 @Entity
@@ -26,11 +31,15 @@ public class Reserva implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idreserva;
     private Long idcliente;
+    private Long idvehiculo;
 
     //guardar lista de id serv y prodcuto luego en el front mostrar los servicio por ende cuando se mande la lista al front debo sacar los id recorrerlos y devolver lista de servicio
+    @NotBlank
     private String servicios;
+    private String productos;
     private Date fechareserva;
     private String horareserva;
+    private int estado;
 
 
 
@@ -57,13 +66,6 @@ public class Reserva implements Serializable{
         this.idcliente = idcliente;
     }
 
-    public String getServicios() {
-        return servicios;
-    }
-
-    public void setServicios(String servicios) {
-        this.servicios = servicios;
-    }
 
     public Date getFechareserva() {
         return fechareserva;
@@ -81,13 +83,6 @@ public class Reserva implements Serializable{
         this.horareserva = horareserva;
     }
 
-    public Reserva(Long idreserva, Long idcliente, String servicios, Date fechareserva, String horareserva) {
-        this.idreserva = idreserva;
-        this.idcliente = idcliente;
-        this.servicios = servicios;
-        this.fechareserva = fechareserva;
-        this.horareserva = horareserva;
-    }
 
     public Reserva( Reserva reserva) {
 
@@ -96,7 +91,59 @@ public class Reserva implements Serializable{
         this.servicios = reserva.servicios;
         this.fechareserva = reserva.fechareserva;
         this.horareserva = reserva.horareserva;
+        this.estado = reserva.estado;
+        this.productos = reserva.productos;
+        this.idvehiculo = reserva.idvehiculo;
     }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public String getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(String servicios) {
+        this.servicios = servicios;
+    }
+
+    public String getProductos() {
+        return productos;
+    }
+
+    public void setProductos(String productos) {
+        this.productos = productos;
+    }
+
+
+    public Long getIdvehiculo() {
+        return idvehiculo;
+    }
+
+    public void setIdvehiculo(Long idvehiculo) {
+        this.idvehiculo = idvehiculo;
+    }
+
+    public Reserva(Long idreserva, Long idcliente, Long idvehiculo, String servicios, String productos,
+            Date fechareserva, String horareserva, int estado) {
+        this.idreserva = idreserva;
+        this.idcliente = idcliente;
+        this.idvehiculo = idvehiculo;
+        this.servicios = servicios;
+        this.productos = productos;
+        this.fechareserva = fechareserva;
+        this.horareserva = horareserva;
+        this.estado = estado;
+    }
+
+
+
+
 
 
    
