@@ -5,11 +5,14 @@ import java.util.List;
 import javax.validation.Valid;
 
 
-import com.serviexpress.apirest.entity.Producto;
+import com.serviexpress.apirest.entity.category.*;
+import com.serviexpress.apirest.payload.ApiResponse;
+import com.serviexpress.apirest.payload.request.ProductoRequest;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,27 +37,27 @@ public class ProductoController {
 
 
 	@PutMapping("/producto")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Producto producto) {
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid ProductoRequest producto) {
 		return ResponseEntity.ok(productoServicesImpl.crear(producto));
 
 	}
 
 	@PostMapping("/producto")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Producto producto) {
+	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid ProductoRequest producto) {
 		return ResponseEntity.ok(productoServicesImpl.actualizar(producto));
 	}
 
 	@GetMapping(value = "/{idCategoria}")
-	public List<Producto> obtenerProductoByCategoria(Pageable pageable, @PathVariable(value = "idCategoria") Long idCategoria) {
+	public ResponseEntity<?> obtenerProductoByCategoria(Pageable pageable, @PathVariable(value = "idCategoria") Long idCategoria) {
+		try {
+			return new ResponseEntity<List<ProductoRequest>>(productoServicesImpl.obtenerPorPaginacion(pageable,idCategoria),HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "No se pudo obtener el listado"),HttpStatus.BAD_REQUEST);
+		}
 		
-		return productoServicesImpl.obtenerPorPaginacion(pageable,idCategoria);
+
 	}
 
-
-	@GetMapping(value = "/allproducto")
-	public List<Producto> allServicios(Pageable pageable) {
-		return productoServicesImpl.obtenerPorPaginacion(pageable);
-	}
 
 
 }

@@ -1,4 +1,4 @@
-package com.serviexpress.apirest.entity;
+package com.serviexpress.apirest.entity.category;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Table(name = "Categoria", uniqueConstraints = { @UniqueConstraint(columnNames = { "idcategoria" }) })
+@Table(name = "Categoria", uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }) })
 @Entity
 public class Categoria implements Serializable {
 
@@ -18,7 +18,7 @@ public class Categoria implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idcategoria;
+    private Long id;
     @NotBlank
     @Size(max = 20)
     private String nombre;
@@ -51,26 +51,34 @@ public class Categoria implements Serializable {
     }
 
 
-    public Categoria(Long idcategoria, @NotBlank @Size(max = 20) String nombre, @Size(max = 255) String descripcion) {
-        this.idcategoria = idcategoria;
+    public Categoria(Long id, @NotBlank @Size(max = 20) String nombre, @Size(max = 255) String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
     public Categoria( Categoria categoria) {
-        this.idcategoria = categoria.idcategoria;
+        this.id = categoria.id;
         this.nombre = categoria.nombre;
         this.descripcion = categoria.descripcion;
     }
 
-    public Long getIdcategoria() {
-        return idcategoria;
-    }
-
-    public void setIdcategoria(Long idcategoria) {
-        this.idcategoria = idcategoria;
-    }
 
     
+
+
+    /**
+     * @return Long return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.serviexpress.apirest.entity.Categoria;
+import com.serviexpress.apirest.entity.category.*;
 import com.serviexpress.apirest.entity.Servicio;
 import com.serviexpress.apirest.entity.Vehiculo;
 import com.serviexpress.apirest.service.impl.CategoriaServicesImpl;

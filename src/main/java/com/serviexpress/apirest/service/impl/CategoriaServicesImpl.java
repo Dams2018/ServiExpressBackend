@@ -3,6 +3,7 @@ package com.serviexpress.apirest.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.serviexpress.apirest.entity.Categoria;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.serviexpress.apirest.entity.category.*;
+import com.serviexpress.apirest.payload.ApiResponse;
+import com.serviexpress.apirest.payload.request.CategoriaRequest;
 import com.serviexpress.apirest.repository.CategoriaRepository;
 
 
@@ -25,8 +28,8 @@ import com.serviexpress.apirest.vo.ResultadoVO;
 
 import org.springframework.data.domain.Pageable;
 
-@Service("serviCategoria")
-public class CategoriaServicesImpl extends UniversalServices<Categoria> {
+@Service
+public class CategoriaServicesImpl extends UniversalServices<CategoriaRequest> {
 	@Autowired
 	@Qualifier("repositoriocategoria")
 	private CategoriaRepository repositorio;
@@ -38,15 +41,17 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 
 
 	@Override
-	public ResponseEntity<?> actualizar(Categoria generico) {
+	public ResponseEntity<?> actualizar(CategoriaRequest generico) {
 		logger.info("ACTUALIZANDO CATEGORIA");
 		try {
-			Categoria categoria = repositorio.findById(generico.getIdcategoria())
-					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
-			categoria = generico;
+			Categoria categoria = repositorio.findById(generico.getId())
+					.orElseThrow(() -> new IllegalStateException("Categoria"));
+			categoria.setNombre(generico.getName());
+			categoria.setDescripcion(generico.getDescription());
 			repositorio.save(categoria);
 			logger.info("CATEGORIA ACTUALIZADA");
-			return ResponseEntity.ok(generico);
+			ApiResponse response = new ApiResponse(true, "Categoria Actualizada");
+			return new ResponseEntity<ApiResponse>(response,HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -54,13 +59,16 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	}
 
 	@Override
-	public ResponseEntity<?> crear(Categoria generico) {
-		logger.info("CREANDO CATEGORIA");
+	public ResponseEntity<?> crear(CategoriaRequest generico) {
+
 		try {
-//FALTAN VALIDACIONES REVISAR DESPUES
-			repositorio.save(generico);
+			logger.info("CREANDO CATEGORIA: "+new ObjectMapper().writeValueAsString(generico));
+		//FALTAN VALIDACIONES REVISAR DESPUES
+			Categoria newCategoria = new Categoria(generico.getId(), generico.getName(), generico.getDescription());
+			repositorio.save(newCategoria);
 			logger.info("CATEGORIA CREADA");
-			return ResponseEntity.ok(generico);
+			ApiResponse response = new ApiResponse(true, "Categoria Creada");
+			return new ResponseEntity<ApiResponse>(response,HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -70,13 +78,29 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	
 
 	@Override
-	public List<Categoria> obtener() {
+	public List<CategoriaRequest> obtener() {
 		logger.info("OBTENIENDO TODOS LAS CATEGIRIAS");
-		return repositorio.findAll();
+		List<CategoriaRequest> listCategory = new ArrayList<>();
+
+		for (Categoria categoria : repositorio.findAll()) {
+			CategoriaRequest frontCategory = new CategoriaRequest(categoria.getId(), categoria.getNombre(), categoria.getDescripcion());
+			listCategory.add(frontCategory);
+		}
+
+		return listCategory;
 	}
 
 	@Override
-	public List<Categoria> obtenerPorPaginacion(Pageable pageable){
-		return repositorio.findAll(pageable).getContent();
+	public List<CategoriaRequest> obtenerPorPaginacion(Pageable pageable){
+		List<CategoriaRequest> listCategory = new ArrayList<>();
+
+		for (Categoria categoria : repositorio.findAll(pageable).getContent()) {
+			CategoriaRequest frontCategory = new CategoriaRequest(categoria.getId(), categoria.getNombre(), categoria.getDescripcion());
+			listCategory.add(frontCategory);
+		}
+		
+		return listCategory;
 	}
+
+
 }

@@ -32,7 +32,6 @@ import com.serviexpress.apirest.exception.AppException;
 import com.serviexpress.apirest.exception.ResourceNotFoundException;
 import com.serviexpress.apirest.payload.ApiResponse;
 import com.serviexpress.apirest.payload.ChangeRequest;
-import com.serviexpress.apirest.payload.JwtAuthenticationResponse;
 import com.serviexpress.apirest.payload.LoginRequest;
 import com.serviexpress.apirest.payload.SignUpRequest;
 import com.serviexpress.apirest.repository.ClienteRepository;
@@ -59,9 +58,7 @@ import org.jose4j.lang.JoseException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Key;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;

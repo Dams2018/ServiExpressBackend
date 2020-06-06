@@ -2,9 +2,6 @@ package com.serviexpress.apirest.service;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 
-import com.serviexpress.apirest.entity.Reserva;
-import com.serviexpress.apirest.payload.ReservaResponse;
-
 import org.springframework.data.domain.Pageable;
 
 
@@ -28,11 +25,16 @@ public abstract class UniversalServices<T> {
     }
 
     //estado de reserva
-    public List<T> obtenerPorPaginacion(Pageable pageable,Integer estado){
+    public List<?> obtenerPorPaginacion(Pageable pageable,Integer estado){
         return null;
     }
 
-    public List<T> obtenerPorPaginacion(Pageable pageable){
+        //estado de reserva
+    public ResponseEntity<?> obtenerPorPaginacion(Pageable pageable,T var){
+        return null;
+    }
+
+    public List<?> obtenerPorPaginacion(Pageable pageable){
         return null;
     }
 }

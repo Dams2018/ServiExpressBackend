@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.serviexpress.apirest.entity.Categoria;
-import com.serviexpress.apirest.entity.Vehiculo;
+import com.serviexpress.apirest.payload.request.CategoriaRequest;
 import com.serviexpress.apirest.service.impl.CategoriaServicesImpl;
-import com.serviexpress.apirest.service.impl.VehiculoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,27 +26,29 @@ import org.springframework.data.domain.Pageable;
 public class CategoriaController {
 
 	@Autowired
-	@Qualifier("serviCategoria")
 	CategoriaServicesImpl categoriaServicesImpl;
 
 
-	// Cliente
-	@PutMapping("/categoria")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Categoria categoria) {
-		return ResponseEntity.ok(categoriaServicesImpl.crear(categoria));
+	// Crear categoria
+	@PutMapping("/add")
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid CategoriaRequest categoria) {
+		return categoriaServicesImpl.crear(categoria);
 
 	}
 
-	@PostMapping("/categoria")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Categoria categoria) {
-		return ResponseEntity.ok(categoriaServicesImpl.actualizar(categoria));
+	//Actualizar Categoria
+	@PostMapping("/update")
+	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid CategoriaRequest categoria) {
+		return categoriaServicesImpl.actualizar(categoria);
 	}
 
+	//Listar Categoria
 	@GetMapping(value = "/categorias")
-	public List<Categoria> obtenerCategoria(Pageable pageable) {
+	public List<CategoriaRequest> obtenerCategoria(Pageable pageable) {
 		
 		return categoriaServicesImpl.obtenerPorPaginacion(pageable);
 	}
+
 
 
 
