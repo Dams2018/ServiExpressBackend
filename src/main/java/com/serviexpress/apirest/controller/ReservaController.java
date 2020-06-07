@@ -170,4 +170,15 @@ public class ReservaController {
 		return ResponseEntity.ok("No hay reserva activa");
 
 	}
+
+
+
+	@GetMapping(value = "/{id}/{estado}/reserva")
+	public ResponseEntity<?> actualizarEstadoReserva(@PathVariable(value = "estado") final Integer estado,
+	@PathVariable(value = "id") final Long id){
+
+		
+
+		return ResponseEntity.ok("Reserva Actulizada");
+	}
 }
