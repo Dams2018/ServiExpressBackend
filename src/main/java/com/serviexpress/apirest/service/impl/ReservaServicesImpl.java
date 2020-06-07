@@ -34,13 +34,13 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public ResponseEntity<?> actualizar(Reserva generico) {
-		logger.info("ACTUALIZANDO PRODUCTO");
+		logger.info("ACTUALIZANDO RESERVA");
 		try {
 			Reserva reserva = repositorio.findById(generico.getIdreserva())
 					.orElseThrow(() -> new IllegalStateException("reserva no existe."));
 			reserva = generico;
 			repositorio.save(reserva);
-			logger.info("PRODUCTO ACTUALIZADO");
+			logger.info("RESERVA ACTUALIZADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -50,11 +50,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public ResponseEntity<?> crear(Reserva generico) {
-		logger.info("CREANDO PRODUCTO");
+		logger.info("CREANDO RESERVA");
 		try {
 			repositorio.save(generico);
 			//falta agregar el historial de reserva
-			logger.info("PRODUCTO CREADO");
+			logger.info("RESERVA CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -66,7 +66,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public List<Reserva> obtener() {
-		logger.info("OBTENIENDO TODOS LOS PRODUCTO");
+		logger.info("OBTENIENDO TODOS LAS RESERVA");
 		return repositorio.findAll();
 	}
 
