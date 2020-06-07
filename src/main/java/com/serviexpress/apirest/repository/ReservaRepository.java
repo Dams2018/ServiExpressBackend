@@ -13,6 +13,7 @@ import com.serviexpress.apirest.entity.Reserva;
 @Repository
 public interface  ReservaRepository extends JpaRepository<Reserva, Serializable>, PagingAndSortingRepository<Reserva, Serializable>{
     public abstract Page<Reserva> findAllByIdcliente(Pageable pageable,Long id);
+    public abstract Page<Reserva> findAllByIdclienteAndActivo(Pageable pageable,Long id, Boolean activo);
     public abstract Page<Reserva> findAllByEstado(Pageable pageable, Integer estado);
     public abstract Page<Reserva> findAll(Pageable pageable);
 }

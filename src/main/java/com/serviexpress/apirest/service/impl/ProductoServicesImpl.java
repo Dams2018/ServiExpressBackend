@@ -62,6 +62,13 @@ public class ProductoServicesImpl extends UniversalServices<Producto> {
 		}
 	}
 
+	@Override
+	public Producto findByIdProducto(Long idproducto) {
+		logger.info("OBTENIENDO PRODUCTO POR ID");
+		return repositorio.findById(idproducto).orElse(null);
+	}
+
+	
 	
 
 	@Override

@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.serviexpress.apirest.entity.HistorialReserva;
 import com.serviexpress.apirest.entity.Reserva;
+import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.repository.ReservaRepository;
+import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.service.UniversalServices;
 
 import com.serviexpress.apirest.vo.MensajeVO;
@@ -29,18 +32,19 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	ResultadoVO salida = new ResultadoVO();
 	MensajeVO mensajeError = new MensajeVO();
 	String[] mensajes = new String[3];
-
+	@Autowired
+	UserRepository userRepository;
 
 
 	@Override
 	public ResponseEntity<?> actualizar(Reserva generico) {
-		logger.info("ACTUALIZANDO PRODUCTO");
+		logger.info("ACTUALIZANDO RESERVA");
 		try {
 			Reserva reserva = repositorio.findById(generico.getIdreserva())
 					.orElseThrow(() -> new IllegalStateException("reserva no existe."));
 			reserva = generico;
 			repositorio.save(reserva);
-			logger.info("PRODUCTO ACTUALIZADO");
+			logger.info("RESERVA ACTUALIZADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -50,11 +54,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public ResponseEntity<?> crear(Reserva generico) {
-		logger.info("CREANDO PRODUCTO");
+		logger.info("CREANDO RESERVA");
 		try {
 			repositorio.save(generico);
 			//falta agregar el historial de reserva
-			logger.info("PRODUCTO CREADO");
+			logger.info("RESERVA CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
@@ -66,12 +70,17 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public List<Reserva> obtener() {
-		logger.info("OBTENIENDO TODOS LOS PRODUCTO");
+		logger.info("OBTENIENDO TODOS LAS RESERVA");
 		return repositorio.findAll();
 	}
 
 	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Long id) {
+		return repositorio.findAllByIdcliente(pageable, id).getContent();
+	}
+
+	@Override
+	public List<Reserva> obtenerPorPaginacionReservaActiva(Pageable pageable, Long id, Boolean activo) {
 		return repositorio.findAllByIdcliente(pageable, id).getContent();
 	}
 
@@ -84,5 +93,26 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
+	}
+	@Override
+
+	public ResponseEntity<?> findByIdReserva(Long idReserva, int estado){
+
+		Reserva reserva = repositorio.findById(idReserva)
+		.orElseThrow(() -> new IllegalStateException("reserva no existe."));
+		reserva.setActivo(true);
+		reserva.setEstado(estado);
+		
+		repositorio.save(reserva);
+
+
+		//ver despues
+		// User user = userRepository.findById(reserva.getIdcliente())
+		// .orElseThrow(() -> new IllegalStateException("UserName no existe."));
+		
+		// System.out.println(user.getEmail());
+		logger.info("RESERVA ACTIVADA");
+		return ResponseEntity.ok(reserva);
+
 	}
 }

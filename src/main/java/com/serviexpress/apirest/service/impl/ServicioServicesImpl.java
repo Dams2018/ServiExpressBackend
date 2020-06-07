@@ -61,6 +61,12 @@ public class ServicioServicesImpl extends UniversalServices<Servicio> {
 		}
 	}
 
+	@Override
+	public Servicio findByIdServicio(Long idServicio) {
+		logger.info("OBTENIENDO SERVICIO POR ID");
+		return repositorio.findById(idServicio).orElse(null);
+	}
+
 	
 
 	@Override
