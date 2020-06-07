@@ -177,7 +177,7 @@ public class ReservaController {
 	public ResponseEntity<?> actualizarEstadoReserva(@PathVariable(value = "estado") final Integer estado,
 	@PathVariable(value = "id") final Long id){
 
-		
+		reservaServicesImpl.findByIdReserva(id,estado);
 
 		return ResponseEntity.ok("Reserva Actulizada");
 	}
