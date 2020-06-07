@@ -76,6 +76,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	}
 
 	@Override
+	public List<Reserva> obtenerPorPaginacionReservaActiva(Pageable pageable, Long id, Boolean activo) {
+		return repositorio.findAllByIdcliente(pageable, id).getContent();
+	}
+
+	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Integer estado) {
 		return repositorio.findAllByEstado(pageable, estado).getContent();
 	}

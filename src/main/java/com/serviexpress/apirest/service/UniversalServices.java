@@ -41,6 +41,10 @@ public abstract class UniversalServices<T> {
     public List<T> obtenerPorPaginacion(Pageable pageable,Integer estado){
         return null;
     }
+    //estado de reserva
+    public List<T> obtenerPorPaginacionReservaActiva(Pageable pageable, Long idcliente, Boolean activo){
+        return null;
+    }
 
     public List<T> obtenerPorPaginacion(Pageable pageable){
         return null;
