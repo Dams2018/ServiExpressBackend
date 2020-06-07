@@ -13,6 +13,7 @@ import com.serviexpress.apirest.payload.ReservaResponse;
 import com.serviexpress.apirest.service.impl.ReservaServicesImpl;
 
 import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -73,23 +74,26 @@ public class ReservaController {
 			reservaResponse.setIdreserva(reserva2.getIdreserva());
 
 			long num = Long.parseLong(reserva2.getServicios());
-			Servicio servicio = servicioRepository.findById(num).orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			Servicio servicio = servicioRepository.findById(num)
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
 			reservaResponse.setServicios(servicio.getNombre());
 
 			long num2 = Long.parseLong(reserva2.getProductos());
-			Producto producto = productoRepository.findById(num2).orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			Producto producto = productoRepository.findById(num2)
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
 			reservaResponse.setProductos(producto.getNombre());
 
 			reservaResponse.setHorareserva(reserva2.getHorareserva());
 			reservaResponse.setFechareserva(reserva2.getFechareserva());
 
-
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
-			.orElseThrow(() -> new IllegalStateException("Patente no existe."));
-			
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+
 			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
+
+			reservaResponse.setEstado(reserva2.getEstado());
 			array.add(reservaResponse);
 
 		}
@@ -109,23 +113,25 @@ public class ReservaController {
 			reservaResponse.setIdreserva(reserva2.getIdreserva());
 
 			long num = Long.parseLong(reserva2.getServicios());
-			Servicio servicio = servicioRepository.findById(num).orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			Servicio servicio = servicioRepository.findById(num)
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
 			reservaResponse.setServicios(servicio.getNombre());
 
 			long num2 = Long.parseLong(reserva2.getProductos());
-			Producto producto = productoRepository.findById(num2).orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			Producto producto = productoRepository.findById(num2)
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
 			reservaResponse.setProductos(producto.getNombre());
 
 			reservaResponse.setHorareserva(reserva2.getHorareserva());
 			reservaResponse.setFechareserva(reserva2.getFechareserva());
 
-
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
-			.orElseThrow(() -> new IllegalStateException("Patente no existe."));
-			
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+
 			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
+			reservaResponse.setEstado(reserva2.getEstado());
 			array.add(reservaResponse);
 
 		}
@@ -141,4 +147,38 @@ public class ReservaController {
 		return reservaServicesImpl.obtenerPorPaginacion(pageable, estado);
 	}
 
+	@GetMapping(value = "/{idCliente}/{activo}/cliente")
+	public ResponseEntity<?> obtenerReservaClienteActivo(final Pageable pageable,
+			@PathVariable(value = "idCliente") final Long idCliente,
+			@PathVariable(value = "activo") final Boolean activo) {
+
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacionReservaActiva(pageable, idCliente, activo);
+		for (Reserva reserva2 : reserva) {
+			JSONObject lista = new JSONObject();
+
+			if (reserva2.isActivo()) {
+
+
+				lista.put("estado", reserva2.getEstado());
+		
+				return ResponseEntity.ok(lista);
+			} else {
+
+			}
+		}
+
+		return ResponseEntity.ok("No hay reserva activa");
+
+	}
+
+
+
+	@GetMapping(value = "/{id}/{estado}/reserva")
+	public ResponseEntity<?> actualizarEstadoReserva(@PathVariable(value = "estado") final Integer estado,
+	@PathVariable(value = "id") final Long id){
+
+		
+
+		return ResponseEntity.ok("Reserva Actulizada");
+	}
 }

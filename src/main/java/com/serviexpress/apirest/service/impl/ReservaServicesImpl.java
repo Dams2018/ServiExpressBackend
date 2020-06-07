@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -76,6 +77,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	}
 
 	@Override
+	public List<Reserva> obtenerPorPaginacionReservaActiva(Pageable pageable, Long id, Boolean activo) {
+		return repositorio.findAllByIdcliente(pageable, id).getContent();
+	}
+
+	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Integer estado) {
 		return repositorio.findAllByEstado(pageable, estado).getContent();
 	}
@@ -84,5 +90,18 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
+	}
+	@Override
+
+	public ResponseEntity<?> findByIdReserva(Long idReserva, int estado){
+
+		Reserva reserva = repositorio.findById(idReserva)
+		.orElseThrow(() -> new IllegalStateException("reserva no existe."));
+		reserva.setActivo(true);
+		reserva.setEstado(estado);
+		repositorio.save(reserva);
+		logger.info("RESERVA ACTIVADA");
+		return ResponseEntity.ok(reserva);
+
 	}
 }

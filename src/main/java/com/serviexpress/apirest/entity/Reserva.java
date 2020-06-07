@@ -8,19 +8,10 @@ import javax.validation.constraints.NotBlank;
 
 import antlr.collections.List;
 
-
-
-@Table(name = "Reserva", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {
-        "idreserva"
-    }),
-    @UniqueConstraint(columnNames = {
-        "idvehiculo"
-    })
-})
+@Table(name = "Reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idreserva" }),
+        @UniqueConstraint(columnNames = { "idvehiculo" }) })
 @Entity
-public class Reserva implements Serializable{
-    
+public class Reserva implements Serializable {
 
     /**
      *
@@ -33,15 +24,16 @@ public class Reserva implements Serializable{
     private Long idcliente;
     private Long idvehiculo;
 
-    //guardar lista de id serv y prodcuto luego en el front mostrar los servicio por ende cuando se mande la lista al front debo sacar los id recorrerlos y devolver lista de servicio
+    // guardar lista de id serv y prodcuto luego en el front mostrar los servicio
+    // por ende cuando se mande la lista al front debo sacar los id recorrerlos y
+    // devolver lista de servicio
     @NotBlank
     private String servicios;
     private String productos;
     private Date fechareserva;
     private String horareserva;
     private int estado;
-
-
+    private Boolean activo;
 
     public Reserva() {
     }
@@ -66,7 +58,6 @@ public class Reserva implements Serializable{
         this.idcliente = idcliente;
     }
 
-
     public Date getFechareserva() {
         return fechareserva;
     }
@@ -81,19 +72,6 @@ public class Reserva implements Serializable{
 
     public void setHorareserva(String horareserva) {
         this.horareserva = horareserva;
-    }
-
-
-    public Reserva( Reserva reserva) {
-
-        this.idreserva = reserva.idreserva;
-        this.idcliente = reserva.idcliente;
-        this.servicios = reserva.servicios;
-        this.fechareserva = reserva.fechareserva;
-        this.horareserva = reserva.horareserva;
-        this.estado = reserva.estado;
-        this.productos = reserva.productos;
-        this.idvehiculo = reserva.idvehiculo;
     }
 
     public int getEstado() {
@@ -120,7 +98,6 @@ public class Reserva implements Serializable{
         this.productos = productos;
     }
 
-
     public Long getIdvehiculo() {
         return idvehiculo;
     }
@@ -129,8 +106,35 @@ public class Reserva implements Serializable{
         this.idvehiculo = idvehiculo;
     }
 
-    public Reserva(Long idreserva, Long idcliente, Long idvehiculo, String servicios, String productos,
-            Date fechareserva, String horareserva, int estado) {
+    public Reserva(Reserva reserva) {
+
+        this.idreserva = reserva.idreserva;
+        this.idcliente = reserva.idcliente;
+        this.servicios = reserva.servicios;
+        this.fechareserva = reserva.fechareserva;
+        this.horareserva = reserva.horareserva;
+        this.estado = reserva.estado;
+        this.productos = reserva.productos;
+        this.idvehiculo = reserva.idvehiculo;
+        this.activo = reserva.activo;
+    }
+
+    /**
+     * @return Boolean return the activo
+     */
+    public Boolean isActivo() {
+        return activo;
+    }
+
+    /**
+     * @param activo the activo to set
+     */
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public Reserva(Long idreserva, Long idcliente, Long idvehiculo, @NotBlank String servicios, String productos,
+            Date fechareserva, String horareserva, int estado, Boolean activo) {
         this.idreserva = idreserva;
         this.idcliente = idcliente;
         this.idvehiculo = idvehiculo;
@@ -139,12 +143,7 @@ public class Reserva implements Serializable{
         this.fechareserva = fechareserva;
         this.horareserva = horareserva;
         this.estado = estado;
+        this.activo = activo;
     }
 
-
-
-
-
-
-   
 }
