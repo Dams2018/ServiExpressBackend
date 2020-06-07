@@ -64,9 +64,37 @@ public class ReservaController {
 
 	// todas las reservas
 	@GetMapping(value = "/reservas")
-	public List<Reserva> obtenerReserva(final Pageable pageable) {
+	public ResponseEntity<?> obtenerReserva(final Pageable pageable) {
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
+		JSONArray array = new JSONArray();
 
-		return reservaServicesImpl.obtenerPorPaginacion(pageable);
+		for (Reserva reserva2 : reserva) {
+			ReservaResponse reservaResponse = new ReservaResponse();
+			reservaResponse.setIdreserva(reserva2.getIdreserva());
+
+			long num = Long.parseLong(reserva2.getServicios());
+			Servicio servicio = servicioRepository.findById(num).orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			reservaResponse.setServicios(servicio.getNombre());
+
+			long num2 = Long.parseLong(reserva2.getProductos());
+			Producto producto = productoRepository.findById(num2).orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			reservaResponse.setProductos(producto.getNombre());
+
+			reservaResponse.setHorareserva(reserva2.getHorareserva());
+			reservaResponse.setFechareserva(reserva2.getFechareserva());
+
+
+			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
+			.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			
+			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
+			reservaResponse.setMarca(vehiculo2.getMarca());
+			reservaResponse.setPatente(vehiculo2.getPatente());
+			array.add(reservaResponse);
+
+		}
+
+		return ResponseEntity.ok(array);
 	}
 
 	// para lista de clientes
@@ -95,7 +123,7 @@ public class ReservaController {
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
 			.orElseThrow(() -> new IllegalStateException("Patente no existe."));
 			
-			reservaResponse.setVeichulo(vehiculo2.getMarca());
+			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			array.add(reservaResponse);
