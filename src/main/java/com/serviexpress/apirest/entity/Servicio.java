@@ -19,7 +19,7 @@ public class Servicio implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idservicio;
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 50)
     private String nombre;
     @NotBlank
     @Size(max = 255)
