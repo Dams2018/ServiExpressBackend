@@ -23,7 +23,7 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idproducto;
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 50)
     private String nombre;
     @NotBlank
     @Size(max = 255)
