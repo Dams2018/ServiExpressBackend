@@ -20,7 +20,7 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idcategoria;
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 50)
     private String nombre;
     @Size(max = 255)
     private String descripcion;
