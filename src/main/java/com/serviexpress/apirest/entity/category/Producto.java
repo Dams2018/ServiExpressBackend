@@ -33,19 +33,19 @@ public class Producto implements Serializable {
     @Size(max = 400)
     private String descripcion;
 
-    @NotBlank
+
     private int precioNeto;
 
-    @NotBlank
+
     private int iva;
 
-    @NotBlank
+
     private int precio;
 
-    @NotBlank
+
     private EstadoProducto estado;
 
-    @NotBlank
+
     @ManyToOne
     @JoinColumn(name = "id_det_cat")
     private DetalleCategoria detalleCategoria;

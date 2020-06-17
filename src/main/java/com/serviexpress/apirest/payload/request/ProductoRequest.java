@@ -20,6 +20,10 @@ public class ProductoRequest {
 
     private EstadoProducto estadoProducto;
 
+    private long subCategoria;
+
+    private int cantidad;
+
     /**
      * 
      */
@@ -140,6 +144,38 @@ public class ProductoRequest {
      */
     public void setEstadoProducto(EstadoProducto estadoProducto) {
         this.estadoProducto = estadoProducto;
+    }
+
+
+
+
+    /**
+     * @return long return the subCategoria
+     */
+    public long getSubCategoria() {
+        return subCategoria;
+    }
+
+    /**
+     * @param subCategoria the subCategoria to set
+     */
+    public void setSubCategoria(long subCategoria) {
+        this.subCategoria = subCategoria;
+    }
+
+
+    /**
+     * @return int return the cantidad
+     */
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
 }

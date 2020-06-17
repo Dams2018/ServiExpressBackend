@@ -23,10 +23,10 @@ public class Stock {
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
-    @NotBlank
+
     private int cantidad;
 
-    @NotBlank
+
     private Date fechaActualizacion;
 
     
@@ -91,6 +91,17 @@ public class Stock {
      * 
      */
     public Stock() {
+    }
+
+    /**
+     * @param producto
+     * @param cantidad
+     * @param fechaActualizacion
+     */
+    public Stock(Producto producto, @NotBlank int cantidad, @NotBlank Date fechaActualizacion) {
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.fechaActualizacion = fechaActualizacion;
     }
 
 }
