@@ -2,6 +2,7 @@ package com.serviexpress.apirest.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jose4j.json.internal.json_simple.JSONObject;
 
 import java.util.List;
 
@@ -44,8 +45,15 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 					.orElseThrow(() -> new IllegalStateException("IdEmpleado no existe."));
 					empleado = generico;
 			repositorio.save(empleado);
+			JSONObject lista = new JSONObject();
+			lista.put("idempleado", empleado.getIdempleado());
+			lista.put("rut", empleado.getRut());
+			lista.put("name", empleado.getNombre());
+			lista.put("apellido", empleado.getApellido());
+			lista.put("fechaNacimiento", empleado.getFechaNacimiento());
+			lista.put("telefono", empleado.getTelefono());
 			logger.info("EMPLEADO ACTUALIZADO");
-			return ResponseEntity.ok(generico);
+			return ResponseEntity.ok(lista);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -66,15 +74,22 @@ public class EmpleadoServicesImpl  extends PersonaServices<Empleado> {
 				}
 			}
 			// Comprabar usuario si existe en la base de datos
-			User user = userRepository.findById(generico.getId_usuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
+			User user = userRepository.findById(generico.getIdusuario()).orElseThrow(() -> new IllegalStateException("IdUsuario no existe."));
 			user.setActive(true);
 			try {
 				repositorio.save(generico);
 				userRepository.save(user);
-				logger.info("CLIENTE CREADA");
-				return ResponseEntity.ok(generico);
+				JSONObject lista = new JSONObject();
+				lista.put("idempleado", generico.getIdempleado());
+				lista.put("rut", generico.getRut());
+				lista.put("name", generico.getNombre());
+				lista.put("apellido", generico.getApellido());
+				lista.put("fechaNacimiento", generico.getFechaNacimiento());
+				lista.put("telefono", generico.getTelefono());
+				logger.info("EMPLEADO CREADO");
+				return ResponseEntity.ok(lista);
 			} catch (Exception e) {
-				return new ResponseEntity<>("El usuario, ya cuenta con cliente registrado", HttpStatus.CONFLICT);
+				return new ResponseEntity<>("El usuario, ya cuenta con empleado registrado", HttpStatus.CONFLICT);
 			}
 
 		} catch (Exception e) {

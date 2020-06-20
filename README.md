@@ -249,3 +249,81 @@ http://127.0.0.1:8090/api/entidad/clientes?page=0
 ]
 
 ```
+```
+
+```
+## Agregar vehículo PUT
+```
+http://127.0.0.1:8090/api/vehiculo/vehiculo
+
+Se debe enviar id cliente
+
+{
+	"idcliente" :90,
+	"patente" : "vg-48-93",
+	"marca" : "Audi",
+	"tipovehiculo" : "Sedan",
+	"anio" : "2020",
+	"nrochasis" : "dsfdsg516g0"
+}
+
+
+
+```
+
+## Eliminar vehículo POST
+```
+http://127.0.0.1:8090/api/vehiculo/vehiculo
+
+EN PROXIMA VERSION SOLO SERA NESESARIO ID
+Es nesesario por el momento enviar todo los datos pero, el active debe ir en false, esto no elimina el vehículo solo lo desactiva
+
+{
+	
+	"idvehiculo" :100,
+	"idcliente" :92,
+	"patente" : "vg-48-80",
+	"marca" : "Audi",
+	"tipovehiculo" : "Sedan",
+	"anio" : "2020",
+	"nrochasis" : "8455f5g40",
+	"active" : false
+}
+
+
+
+
+
+
+```
+## Actulizar vehículo POST
+```
+
+EN PROXIMA VERSIONES SE PODRA ENVIAR SOLO DATOS NECESARIOS DE MOMENTO SE DEBE ENVIAR TODO
+http://127.0.0.1:8090/api/vehiculo/vehiculo
+se debe enviar obligatorio idvehiculo y idcliente y siempre el active en true.
+
+{
+	
+	"idvehiculo" :100,
+	"idcliente" :92,
+	"patente" : "vg-48-80",
+	"marca" : "Audi",
+	"tipovehiculo" : "Sedan",
+	"anio" : "2020",
+	"nrochasis" : "8455f5g40",
+	"active" : true
+}
+
+
+
+
+
+
+```
+## Listar vehículo por cliente GET
+```
+
+```
+## Listar todos los vehículo GET
+```
