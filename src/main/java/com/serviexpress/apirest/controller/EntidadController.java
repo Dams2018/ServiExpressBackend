@@ -51,10 +51,10 @@ public class EntidadController {
 		return servicli.obtenerPorPaginacion(pageable);
 	}
 
-	@GetMapping(value = "/allclientes")
-	public List<Cliente> allClientes() {
-		return servicli.obtener();
-	}
+		@GetMapping(value = "/allclientes")
+		public List<Cliente> allClientes() {
+			return servicli.obtener();
+		}
 
 	// Empleado
 	@PutMapping("/empleado")

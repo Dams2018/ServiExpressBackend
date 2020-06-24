@@ -2,11 +2,12 @@
 
 package com.serviexpress.apirest.entity;
 
-import java.io.Serializable;
+
+
+import java.util.Date;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 @Table(name = "Satifaccion", uniqueConstraints = { @UniqueConstraint(columnNames = { "idsatifaccion" }) })
 @Entity
@@ -20,9 +21,18 @@ public class Satifaccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idsatifaccion;
-    private double nota1;
-    private double nota2;
-    private double nota3;
+    private String nombre;
+    private String tipo;
+    private Date fecha;
+
+    
+
+    public Satifaccion( Satifaccion satifaccion) {
+
+        this.nombre = satifaccion.nombre;
+        this.tipo = satifaccion.tipo;
+        this.fecha = satifaccion.fecha;
+    }
 
     public Long getIdsatifaccion() {
         return idsatifaccion;
@@ -32,45 +42,43 @@ public class Satifaccion {
         this.idsatifaccion = idsatifaccion;
     }
 
-    public double getNota1() {
-        return nota1;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNota1(double nota1) {
-        this.nota1 = nota1;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public double getNota2() {
-        return nota2;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setNota2(double nota2) {
-        this.nota2 = nota2;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public double getNota3() {
-        return nota3;
+
+
+    public Satifaccion(Long idsatifaccion, String nombre, String tipo, Date fecha) {
+        this.idsatifaccion = idsatifaccion;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha = fecha;
     }
 
-    public void setNota3(double nota3) {
-        this.nota3 = nota3;
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public Satifaccion() {
     }
 
-    public Satifaccion(double nota1, double nota2, double nota3) {
-        this.nota1 = nota1;
-        this.nota2 = nota2;
-        this.nota3 = nota3;
-    }
-
-    public Satifaccion( Satifaccion satifaccion) {
-
-        this.nota1 = satifaccion.nota1;
-        this.nota2 = satifaccion.nota2;
-        this.nota3 = satifaccion.nota3;
-    }
+  
 
 
 
