@@ -1,12 +1,15 @@
 package com.serviexpress.apirest.service;
 
 import org.springframework.http.ResponseEntity;
+
+import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 
 import com.serviexpress.apirest.entity.Categoria;
 import com.serviexpress.apirest.entity.Producto;
+import com.serviexpress.apirest.entity.Proveedor;
 import com.serviexpress.apirest.entity.Servicio;
+import com.serviexpress.apirest.payload.Encuesta;
 
 import org.springframework.data.domain.Pageable;
 
@@ -18,6 +21,10 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
+    public  ResponseEntity<?> crearwithList(List<Encuesta> generico) {
+        return null;
+    }
+
     public ResponseEntity<?> actualizar(T generico) {
         return null;
     }
@@ -26,6 +33,10 @@ public abstract class UniversalServices<T> {
         return null;
     }
     public Categoria findById(Long idCategoria) {
+        return null;
+    }
+    
+    public Proveedor findByIdProveedor(Long idProveedor) {
         return null;
     }
 
@@ -58,6 +69,10 @@ public abstract class UniversalServices<T> {
     }
 
     public ResponseEntity<?> findByIdReserva(Long idReserva, int estado) {
+        return null;
+    }
+
+    public ResponseEntity<?> obtenerEncuesta() {
         return null;
     }
 }

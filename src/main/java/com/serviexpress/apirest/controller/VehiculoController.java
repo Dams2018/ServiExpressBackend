@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @RestController
@@ -45,6 +43,7 @@ public class VehiculoController {
 	public List<Vehiculo> obtenerVehiculo(Pageable pageable, @PathVariable(value = "idCliente") Long idCliente) {
 		return vehiculoServicesImpl.obtenerPorPaginacion(pageable, idCliente);
 	}
+
 	@GetMapping(value = "/{idCliente}/allvehiculo")
 	public List<Vehiculo> obtenerVehiculos( @PathVariable(value = "idCliente") Long idCliente) {
 		return vehiculoServicesImpl.obtenerTodosPaginacion(idCliente);
