@@ -37,5 +37,6 @@ public class SatifaccionController {
 	@GetMapping(value = "/encuesta")
 	public ResponseEntity<?> obtener() {
 		return ResponseEntity.ok(satifaccionServicesImpl.obtenerEncuesta());
+
 	}
 }

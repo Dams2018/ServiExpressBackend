@@ -1,6 +1,8 @@
 package com.serviexpress.apirest.service;
 
 import org.springframework.http.ResponseEntity;
+
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +68,7 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
-    public long obtenerEncuesta() {
-        return 0;
+    public ResponseEntity<?> obtenerEncuesta() {
+        return null;
     }
 }
