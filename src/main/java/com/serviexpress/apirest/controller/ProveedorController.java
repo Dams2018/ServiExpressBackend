@@ -50,8 +50,8 @@ public class ProveedorController {
 	}
 
 	@GetMapping(value = "/allproveedores")
-	public List<Proveedor> allProveedores(Pageable pageable) {
-		return proveedorServicesImpl.obtenerPorPaginacion(pageable);
+	public List<Proveedor> allProveedores() {
+		return proveedorServicesImpl.obtener();
 	}
 
 }

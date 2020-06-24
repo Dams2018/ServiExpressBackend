@@ -18,6 +18,7 @@ import com.serviexpress.apirest.service.UniversalServices;
 
 import com.serviexpress.apirest.vo.MensajeVO;
 import com.serviexpress.apirest.vo.ResultadoVO;
+import org.springframework.data.domain.Pageable;
 
 
 @Service("serviProveedor")
@@ -72,8 +73,13 @@ public class ProveedoresServicesImpl extends UniversalServices<Proveedor> {
 
 	@Override
 	public List<Proveedor> obtener() {
-		logger.info("OBTENIENDO TODOS LOS PROVEEDORES");
+		logger.info("OBTENIENDO TODOS LOS Proveedores");
 		return repositorio.findAll();
+	}
+
+	@Override
+	public List<Proveedor> obtenerPorPaginacion(Pageable pageable){
+		return repositorio.findAll(pageable).getContent();
 	}
 
 }
