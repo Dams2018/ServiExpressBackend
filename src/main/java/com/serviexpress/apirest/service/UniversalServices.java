@@ -64,4 +64,10 @@ public abstract class UniversalServices<T> {
     public ResponseEntity<?> findByIdReserva(Long idReserva, int estado) {
         return null;
     }
+    
+    //PEDIDO
+    public ResponseEntity<?> findByIdPedido(Long idPedido, int estado) {
+        return null;
+    }
+
 }
