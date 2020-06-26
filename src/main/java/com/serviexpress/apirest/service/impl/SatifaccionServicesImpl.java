@@ -72,7 +72,6 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 		Long talvez = repositorio.countByNombreAndTipoAndFechaBetween("recomendacion", "talvez",fechaini, fechafin);
 		Long norecomendaria = repositorio.countByNombreAndTipoAndFechaBetween("recomendacion", "norecomendaria",fechaini, fechafin);
 
-	
 
 
 			//long test = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",
@@ -83,7 +82,7 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 		servicio.put("regular", +regular);
 		servicio.put("malo", +malo);
 		servicio.put("muymalo", +muymalo);
-		//servicio.put("test", +test);
+		//servicio.put("test", +test.toString());
 
 		// segunda encuesta
 
