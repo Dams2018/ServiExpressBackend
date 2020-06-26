@@ -58,32 +58,32 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 		try {
 		JSONObject lista = new JSONObject();
 		// primera encuesta
-		Long exelente = repositorio.countByNombreAndTipo("servicio", "exelente");
-		Long bueno = repositorio.countByNombreAndTipo("servicio", "bueno");
-		Long regular = repositorio.countByNombreAndTipo("servicio", "regular");
-		Long malo = repositorio.countByNombreAndTipo("servicio", "malo");
-		Long muymalo = repositorio.countByNombreAndTipo("servicio", "muymalo");
+		Long exelente = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "exelente",fechaini, fechafin);
+		Long bueno = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",fechaini, fechafin);
+		Long regular = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "regular",fechaini, fechafin);
+		Long malo = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "malo",fechaini, fechafin);
+		Long muymalo = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "muymalo",fechaini, fechafin);
 
-		Long lento = repositorio.countByNombreAndTipo("tiempo", "lento");
-		Long normal = repositorio.countByNombreAndTipo("tiempo", "normal");
-		Long rapido = repositorio.countByNombreAndTipo("tiempo", "rapido");
+		Long lento = repositorio.countByNombreAndTipoAndFechaBetween("tiempo", "lento",fechaini, fechafin);
+		Long normal = repositorio.countByNombreAndTipoAndFechaBetween("tiempo", "normal",fechaini, fechafin);
+		Long rapido = repositorio.countByNombreAndTipoAndFechaBetween("tiempo", "rapido",fechaini, fechafin);
 
-		Long recomendaria = repositorio.countByNombreAndTipo("recomendacion", "recomendaria");
-		Long talvez = repositorio.countByNombreAndTipo("recomendacion", "talvez");
-		Long norecomendaria = repositorio.countByNombreAndTipo("recomendacion", "norecomendaria");
+		Long recomendaria = repositorio.countByNombreAndTipoAndFechaBetween("recomendacion", "recomendaria",fechaini, fechafin);
+		Long talvez = repositorio.countByNombreAndTipoAndFechaBetween("recomendacion", "talvez",fechaini, fechafin);
+		Long norecomendaria = repositorio.countByNombreAndTipoAndFechaBetween("recomendacion", "norecomendaria",fechaini, fechafin);
 
 	
 
 
-			long test = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",
-			fechaini, fechafin);
+			//long test = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",
+			//fechaini, fechafin);
 		JSONObject servicio = new JSONObject();
 		servicio.put("exelente", +exelente);
 		servicio.put("bueno", +bueno);
 		servicio.put("regular", +regular);
 		servicio.put("malo", +malo);
 		servicio.put("muymalo", +muymalo);
-		servicio.put("test", +test);
+		//servicio.put("test", +test);
 
 		// segunda encuesta
 
