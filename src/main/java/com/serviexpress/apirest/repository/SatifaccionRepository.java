@@ -17,7 +17,7 @@ public interface  SatifaccionRepository extends JpaRepository<Satifaccion, Seria
 
         long countByNombreAndTipo(String nombre, String tipo);
         // long countByNombreAndTipoAndFechaFieldBetweenFecha(String nombre, String tipo, String ini, String fin);
-        long countByNombreAndTipoAndFechaBetween(String nombre, String tipo,Date fecha_dateStart, Date fecha_dateEnd);
+        long countByNombreAndTipoAndFechaBetween(String nombre, String tipo, Date fecha_dateStart, Date fecha_dateEnd);
         
         List<Satifaccion> findByNombre(String nombre);
 }

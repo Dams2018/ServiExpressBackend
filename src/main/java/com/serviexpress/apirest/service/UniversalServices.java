@@ -3,6 +3,7 @@ package com.serviexpress.apirest.service;
 import org.springframework.http.ResponseEntity;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import com.serviexpress.apirest.entity.Categoria;
@@ -72,7 +73,7 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
-    public ResponseEntity<?> obtenerEncuesta() {
+    public ResponseEntity<?> obtenerEncuesta( Date fechaini, Date fechafin) {
         return null;
     }
     

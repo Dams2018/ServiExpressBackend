@@ -38,6 +38,8 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 				satifaccion.setTipo(encuesta.getTipo());
 				satifaccion.setFecha(encuesta.getFecha());
 
+				System.out.println("SATI "+satifaccion.getFecha());
+
 				repositorio.save(satifaccion);
 
 			}
@@ -51,7 +53,7 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 	}
 
 	@Override
-	public ResponseEntity<?> obtenerEncuesta() {
+	public ResponseEntity<?> obtenerEncuesta( Date fechaini, Date fechafin) {
 		logger.info("OBTENIENDO ENCUESTA");
 		try {
 		JSONObject lista = new JSONObject();
@@ -71,17 +73,17 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 		Long norecomendaria = repositorio.countByNombreAndTipo("recomendacion", "norecomendaria");
 
 	
-			Date date1 = new SimpleDateFormat("dd/MM/yy").parse("21/06/20");
 
-			// long test = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "exelente",
-			// date1, date1);
+
+			long test = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",
+			fechaini, fechafin);
 		JSONObject servicio = new JSONObject();
 		servicio.put("exelente", +exelente);
 		servicio.put("bueno", +bueno);
 		servicio.put("regular", +regular);
 		servicio.put("malo", +malo);
-		// servicio.put("muymalo", +muymalo);
-		// servicio.put("test", +test);
+		servicio.put("muymalo", +muymalo);
+		servicio.put("test", +test);
 
 		// segunda encuesta
 
