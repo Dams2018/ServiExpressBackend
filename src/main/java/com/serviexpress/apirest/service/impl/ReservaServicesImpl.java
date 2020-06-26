@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.serviexpress.apirest.entity.HistorialReserva;
 import com.serviexpress.apirest.entity.Reserva;
+import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.repository.ReservaRepository;
+import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.service.UniversalServices;
 
 import com.serviexpress.apirest.vo.MensajeVO;
@@ -30,7 +32,8 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	ResultadoVO salida = new ResultadoVO();
 	MensajeVO mensajeError = new MensajeVO();
 	String[] mensajes = new String[3];
-
+	@Autowired
+	UserRepository userRepository;
 
 
 	@Override
@@ -99,7 +102,15 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		.orElseThrow(() -> new IllegalStateException("reserva no existe."));
 		reserva.setActivo(true);
 		reserva.setEstado(estado);
+		
 		repositorio.save(reserva);
+
+
+		//ver despues
+		// User user = userRepository.findById(reserva.getIdcliente())
+		// .orElseThrow(() -> new IllegalStateException("UserName no existe."));
+		
+		// System.out.println(user.getEmail());
 		logger.info("RESERVA ACTIVADA");
 		return ResponseEntity.ok(reserva);
 
