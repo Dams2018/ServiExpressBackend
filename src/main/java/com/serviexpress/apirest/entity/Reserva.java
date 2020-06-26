@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import antlr.collections.List;
 
 @Table(name = "Reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idreserva" }),
         @UniqueConstraint(columnNames = { "idvehiculo" }) })

@@ -75,4 +75,10 @@ public abstract class UniversalServices<T> {
     public ResponseEntity<?> obtenerEncuesta() {
         return null;
     }
+    
+    //PEDIDO
+    public ResponseEntity<?> findByIdPedido(Long idPedido, int estado) {
+        return null;
+    }
+
 }
