@@ -17,9 +17,9 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idpedido;
-	private Long idempleado;
-	private Long idproveedor;
-	private Long idproducto;
+	private Long empleado;
+	private Long proveedor;
+	private Long producto;
 	private String cantidad;
 	private Date fechapedido;
 	private Date fecharecibo;
@@ -36,28 +36,28 @@ public class Pedido implements Serializable {
 		this.idpedido = idpedido;
 	}
 
-	public Long getIdempleado() {
-		return idempleado;
+	public Long getEmpleado() {
+		return empleado;
 	}
 
-	public void setIdempleado(Long idempleado) {
-		this.idempleado = idempleado;
+	public void setEmpleado(Long empleado) {
+		this.empleado = empleado;
 	}
 
-	public Long getIdproveedor() {
-		return idproveedor;
+	public Long getProveedor() {
+		return proveedor;
 	}
 
-	public void setIdproveedor(Long idproveedor) {
-		this.idproveedor = idproveedor;
+	public void setProveedor(Long proveedor) {
+		this.proveedor = proveedor;
 	}
 
-	public Long getIdproducto() {
-		return idproducto;
+	public Long getProducto() {
+		return producto;
 	}
 
-	public void setIdproducto(Long idproducto) {
-		this.idproducto = idproducto;
+	public void setProducto(Long producto) {
+		this.producto = producto;
 	}
 
 	public String getCantidad() {
@@ -94,27 +94,34 @@ public class Pedido implements Serializable {
 
 	public Pedido(Pedido pedido) {
 		this.idpedido = pedido.idpedido;
-		this.idempleado = pedido.idempleado;
-		this.idproveedor = pedido.idproveedor;
-		this.idproveedor = pedido.idproveedor;
-		this.idproducto = pedido.idproducto;
+		this.empleado = pedido.empleado;
+		this.proveedor = pedido.proveedor;
+		this.proveedor = pedido.proveedor;
+		this.producto = pedido.producto;
 		this.cantidad = pedido.cantidad;
 		this.fechapedido = pedido.fechapedido;
 		this.fecharecibo = pedido.fecharecibo;
 		this.estado = pedido.estado;
 	}
 
-	public Pedido(Long idpedido, Long idempleado, Long idproveedor, Long idproducto, String cantidad, Date fechapedido,
+	@Override
+    public String toString() {
+        return "Pedido [producto=" + producto + ", proveedor=" + proveedor + ", empelado=" + empleado
+                + ", cantidad=" + cantidad + ", fechapedido=" + fechapedido + ", fecharecibo" + fecharecibo + ", estado=" + estado + "]";
+    }
+
+	public Pedido(Long idpedido, Long empleado, Long proveedor, Long producto, String cantidad, Date fechapedido,
 			Date fecharecibo, int estado) {
 		this.idpedido = idpedido;
-		this.idempleado = idempleado;
-		this.idproveedor = idproveedor;
-		this.idproveedor = idproveedor;
-		this.idproducto = idproducto;
+		this.empleado = empleado;
+		this.proveedor = proveedor;
+		this.producto = producto;
 		this.cantidad = cantidad;
 		this.fechapedido = fechapedido;
 		this.fecharecibo = fecharecibo;
 		this.estado = estado;
 	}
+
+	
 
 }
