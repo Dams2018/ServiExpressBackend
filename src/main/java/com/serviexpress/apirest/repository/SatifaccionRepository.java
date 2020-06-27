@@ -1,7 +1,6 @@
 package com.serviexpress.apirest.repository;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,8 @@ public interface  SatifaccionRepository extends JpaRepository<Satifaccion, Seria
         long countByNombreAndTipo(String nombre, String tipo);
         // long countByNombreAndTipoAndFechaFieldBetweenFecha(String nombre, String tipo, String ini, String fin);
         long countByNombreAndTipoAndFechaBetween(String nombre, String tipo, Date fecha_dateStart, Date fecha_dateEnd);
-        
+
+
+
         List<Satifaccion> findByNombre(String nombre);
 }
