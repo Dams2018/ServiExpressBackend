@@ -21,12 +21,16 @@ public class Pedido implements Serializable {
 	private Long proveedor;
 	private Long producto;
 	private String cantidad;
+	@Temporal(TemporalType.DATE)
 	private Date fechapedido;
 	private Date fecharecibo;
 	private int estado;
 
 	public Pedido() {
 	}
+	@PrePersist
+	public void prePersist() {
+		fechapedido = new Date();}
 
 	public Long getIdpedido() {
 		return idpedido;
