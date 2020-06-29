@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.entity.Pedido;
-import com.serviexpress.apirest.entity.Proveedor;
+
 import com.serviexpress.apirest.service.impl.PedidoServicesImpl;
 
 
@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.serviexpress.apirest.repository.EmpleadoRepository;
-import com.serviexpress.apirest.repository.ProductoRepository;
-import com.serviexpress.apirest.repository.ProveedorRepository;
 
 
 import org.springframework.data.domain.Pageable;

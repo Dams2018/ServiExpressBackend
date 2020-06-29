@@ -22,7 +22,6 @@ import com.serviexpress.apirest.entity.Proveedor;
 import com.serviexpress.apirest.service.impl.ProveedoresServicesImpl;
 
 
-import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/proveedor")
