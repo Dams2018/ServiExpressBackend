@@ -24,6 +24,7 @@ public class Pedido implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fechapedido;
 	private Date fecharecibo;
+	private String comentariopedido;
 	private int estado;
 
 	public Pedido() {
@@ -88,6 +89,14 @@ public class Pedido implements Serializable {
 		this.fecharecibo = fecharecibo;
 	}
 
+	public String getComentariopedido() {
+		return comentariopedido;
+	}
+
+	public void setComentariopedido(String comentariopedido) {
+		this.comentariopedido = comentariopedido;
+	}
+
 	public int getEstado() {
 		return estado;
 	}
@@ -105,17 +114,18 @@ public class Pedido implements Serializable {
 		this.cantidad = pedido.cantidad;
 		this.fechapedido = pedido.fechapedido;
 		this.fecharecibo = pedido.fecharecibo;
+		this.comentariopedido = pedido.comentariopedido;
 		this.estado = pedido.estado;
 	}
 
 	@Override
     public String toString() {
         return "Pedido [producto=" + producto + ", proveedor=" + proveedor + ", empelado=" + empleado
-                + ", cantidad=" + cantidad + ", fechapedido=" + fechapedido + ", fecharecibo" + fecharecibo + ", estado=" + estado + "]";
+                + ", cantidad=" + cantidad + ", fechapedido=" + fechapedido + ", fecharecibo" + fecharecibo + ", comentariopedido" + comentariopedido + ", estado=" + estado + "]";
     }
 
 	public Pedido(Long idpedido, Long empleado, Long proveedor, Long producto, String cantidad, Date fechapedido,
-			Date fecharecibo, int estado) {
+			Date fecharecibo, String comentariopedido, int estado) {
 		this.idpedido = idpedido;
 		this.empleado = empleado;
 		this.proveedor = proveedor;
@@ -123,8 +133,11 @@ public class Pedido implements Serializable {
 		this.cantidad = cantidad;
 		this.fechapedido = fechapedido;
 		this.fecharecibo = fecharecibo;
+		this.comentariopedido = comentariopedido;
 		this.estado = estado;
 	}
+
+	
 
 	
 
