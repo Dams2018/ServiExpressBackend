@@ -29,6 +29,7 @@ public class Reserva implements Serializable {
     @NotBlank
     private String servicios;
     private String productos;
+    @Temporal(TemporalType.DATE)
     private Date fechareserva;
     private String horareserva;
     private int estado;

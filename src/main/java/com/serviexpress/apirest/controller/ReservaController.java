@@ -213,7 +213,7 @@ public class ReservaController {
 		}else if (estado==3) {
 			estado1="Limpieza";
 		}else if (estado==4) {
-			estado1="Terminando";
+			estado1="Pagar Servicio";
 		}else if (estado==5) {
 			estado1="Servicio Completo";
 		}
