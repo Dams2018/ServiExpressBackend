@@ -29,6 +29,7 @@ public class SatifaccionController {
 	@PutMapping("/ingresarencuesta")
 	public ResponseEntity<?> agregarEncuesta(@RequestBody @Valid final List<Encuesta> encuesta) {
 
+		
 		return ResponseEntity.ok(satifaccionServicesImpl.crearwithList(encuesta));
 	}
 

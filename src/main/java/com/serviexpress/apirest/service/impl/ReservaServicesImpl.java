@@ -3,6 +3,7 @@ package com.serviexpress.apirest.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +95,14 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
 	}
+
+	@Override
+	public List<Reserva> obtenerPorPaginacion(Date fini, Date ffin){
+		System.out.println("lol"+fini);
+		System.out.println("TEST "+repositorio.getAllBetweenFecha("01/15/2010","01/15/2021").toString());
+		return repositorio.findAllByActivoAndFechaBetween(true,fini,ffin);
+	}
+
 	@Override
 
 	public ResponseEntity<?> findByIdReserva(Long idReserva, int estado){
