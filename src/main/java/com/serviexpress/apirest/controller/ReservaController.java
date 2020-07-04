@@ -336,7 +336,7 @@ public class ReservaController {
 			reservaResponse.setProductos(producto.getNombre());
 
 			reservaResponse.setHorareserva(reserva2.getHorareserva());
-			reservaResponse.setFechareserva(reserva2.getFechareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
 
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
 					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
