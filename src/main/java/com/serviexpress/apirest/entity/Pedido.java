@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Table(name = "Pedido", uniqueConstraints = { @UniqueConstraint(columnNames = { "idpedido" }) })
 @Entity
 public class Pedido implements Serializable {
@@ -17,12 +19,17 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idpedido;
-	private Long empleado;
-	private Long proveedor;
-	private Long producto;
+    private String empleado;
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    private Proveedor proveedor;
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    private Producto producto;
 	private String cantidad;
 	@Temporal(TemporalType.DATE)
 	private Date fechapedido;
+	@Temporal(TemporalType.DATE)
 	private Date fecharecibo;
 	private String comentariopedido;
 	private int estado;
@@ -41,27 +48,28 @@ public class Pedido implements Serializable {
 		this.idpedido = idpedido;
 	}
 
-	public Long getEmpleado() {
+	public String getEmpleado() {
 		return empleado;
 	}
 
-	public void setEmpleado(Long empleado) {
+	public void setEmpleado(String empleado) {
 		this.empleado = empleado;
 	}
+	
 
-	public Long getProveedor() {
+	public Proveedor getProveedor() {
 		return proveedor;
 	}
 
-	public void setProveedor(Long proveedor) {
+	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
 	}
 
-	public Long getProducto() {
+	public Producto getProducto() {
 		return producto;
 	}
 
-	public void setProducto(Long producto) {
+	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
 
@@ -124,7 +132,7 @@ public class Pedido implements Serializable {
                 + ", cantidad=" + cantidad + ", fechapedido=" + fechapedido + ", fecharecibo" + fecharecibo + ", comentariopedido" + comentariopedido + ", estado=" + estado + "]";
     }
 
-	public Pedido(Long idpedido, Long empleado, Long proveedor, Long producto, String cantidad, Date fechapedido,
+	public Pedido(Long idpedido, String empleado, Proveedor proveedor, Producto producto, String cantidad, Date fechapedido,
 			Date fecharecibo, String comentariopedido, int estado) {
 		this.idpedido = idpedido;
 		this.empleado = empleado;
@@ -136,6 +144,10 @@ public class Pedido implements Serializable {
 		this.comentariopedido = comentariopedido;
 		this.estado = estado;
 	}
+
+
+
+	
 
 	
 
