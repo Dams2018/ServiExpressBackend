@@ -73,6 +73,10 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
+    public List<T> obtenerPorPaginacion(Date fini, Date ffin){
+        return null;
+    }
+
     public ResponseEntity<?> findByIdReserva(Long idReserva, int estado) {
         return null;
     }

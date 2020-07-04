@@ -60,14 +60,6 @@ public class Satifaccion {
     }
 
 
-
-    public Satifaccion(Long idsatifaccion, String nombre, String tipo, Date fecha) {
-        this.idsatifaccion = idsatifaccion;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.fecha = fecha;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -80,6 +72,12 @@ public class Satifaccion {
     }
 
   
+    public Satifaccion(Long idsatifaccion, String nombre, String tipo, Date fecha) {
+        this.idsatifaccion = idsatifaccion;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha = fecha;
+    }
 
 
 
