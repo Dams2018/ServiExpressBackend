@@ -55,8 +55,10 @@ public class SatifaccionServicesImpl extends UniversalServices<Satifaccion> {
 	@Override
 	public ResponseEntity<?> obtenerEncuesta( Date fechaini, Date fechafin) {
 		logger.info("OBTENIENDO ENCUESTA");
+		System.out.println("lol "+fechaini);
 		try {
 		JSONObject lista = new JSONObject();
+		
 		// primera encuesta
 		Long exelente = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "exelente",fechaini, fechafin);
 		Long bueno = repositorio.countByNombreAndTipoAndFechaBetween("servicio", "bueno",fechaini, fechafin);
