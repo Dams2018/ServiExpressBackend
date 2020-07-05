@@ -3,6 +3,7 @@ package com.serviexpress.apirest.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,8 @@ public class PedidoServicesImpl extends UniversalServices<Pedido> {
 		Pedido pedido = repositorio.findById(idPedido)
 		.orElseThrow(() -> new IllegalStateException("Pedido no existe."));
 		pedido.setEstado(estado);
+		Date myDate = new Date();
+		pedido.setFecharecibo(myDate);
 		repositorio.save(pedido);
 		return ResponseEntity.ok(pedido);
 

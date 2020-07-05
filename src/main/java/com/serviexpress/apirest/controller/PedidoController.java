@@ -38,6 +38,7 @@ public class PedidoController {
 	// Cliente
 	@PutMapping("/pedido")
 	public ResponseEntity<?> agregarPedido(@RequestBody @Valid final Pedido pedido) {
+		System.out.println(pedido.getEmpleado());
 		return ResponseEntity.ok(pedidoServicesImpl.crear(pedido));
 
 	}
@@ -59,9 +60,6 @@ public class PedidoController {
 			@PathVariable(value = "estado") final Integer estado) {
 		return pedidoServicesImpl.obtenerPorPaginacion(pageable, estado);
 	}
-
-
-
 
 	@GetMapping(value = "/{id}/{estado}/pedido")
 	public ResponseEntity<?> actualizarEstadoReserva(@PathVariable(value = "estado") final Integer estado,

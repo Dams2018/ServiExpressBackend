@@ -3,6 +3,10 @@ package com.serviexpress.apirest.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +89,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	}
 
 	@Override
+	public List<Reserva> obtenerPorIdClienteAndEstado(Pageable pageable, Long id, Integer estado) {
+		return repositorio.findAllByIdclienteAndEstado(pageable, id, estado).getContent();
+	}
+
+	@Override
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable, Integer estado) {
 		return repositorio.findAllByEstado(pageable, estado).getContent();
 	}
@@ -94,6 +103,38 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	public List<Reserva> obtenerPorPaginacion(Pageable pageable){
 		return repositorio.findAll(pageable).getContent();
 	}
+
+	@Override
+	public List<Reserva> obtenerPorDay(Pageable pageable){
+		Date date = Calendar.getInstance().getTime();   
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+		String strDate = dateFormat.format(date);  
+		Date date2 = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(date2); 
+        c.add(Calendar.DATE, 1);
+		date2 = c.getTime();
+		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate2 = dateFormat2.format(date2);  
+		return repositorio.getAllDayFecha(pageable, strDate,strDate2).getContent();
+	}
+
+	@Override
+	public List<Reserva> obtenerPorMonth(Pageable pageable){
+		Date date = Calendar.getInstance().getTime();   
+		DateFormat dateFormat = new SimpleDateFormat("MM/yyyy");  
+		String strDate = dateFormat.format(date);  
+		Date date2 = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(date2); 
+        c.add(Calendar.MONTH, 1);
+		date2 = c.getTime();
+		DateFormat dateFormat2 = new SimpleDateFormat("MM/yyyy");
+		String strDate2 = dateFormat2.format(date2);  
+		System.out.println(strDate+" "+strDate2);
+		return repositorio.getAllMonthFecha(pageable, strDate,strDate2).getContent();
+	}
+
 	@Override
 
 	public ResponseEntity<?> findByIdReserva(Long idReserva, int estado){

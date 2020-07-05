@@ -1,5 +1,6 @@
 package com.serviexpress.apirest.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,6 +11,8 @@ import com.serviexpress.apirest.entity.Reserva;
 import com.serviexpress.apirest.entity.Servicio;
 import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.entity.Vehiculo;
+import com.serviexpress.apirest.payload.RangoFecha;
+import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
@@ -79,9 +82,19 @@ public class ReservaController {
 	private ClienteRepository clienteRepository;
 	// Cliente
 	@PutMapping("/reserva")
-	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final Reserva reserva) {
+	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final ReservaRequest reserva) {
 
-		return ResponseEntity.ok(reservaServicesImpl.crear(reserva));
+		Reserva res=new Reserva();
+
+		res.setActivo(false);
+		res.setEstado(reserva.getEstado());
+		res.setFecha(reserva.getFecha());
+		res.setHorareserva(reserva.getHorareserva());
+		res.setIdcliente(reserva.getIdcliente());
+		res.setIdvehiculo(reserva.getIdvehiculo());
+		res.setProductos(reserva.getProductos());
+		res.setServicios(reserva.getServicios());
+		return ResponseEntity.ok(reservaServicesImpl.crear(res));
 
 	}
 
@@ -89,6 +102,88 @@ public class ReservaController {
 	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final Reserva reserva) {
 
 		return ResponseEntity.ok(reservaServicesImpl.actualizar(reserva));
+	}
+
+	// todas las reservas empleado por fecha hoy
+
+	@GetMapping(value = "/reservasday")
+	public ResponseEntity<?> obtenerReservaDay(final Pageable pageable) {
+
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay(pageable);
+		System.out.println(reserva.toString());
+		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
+		System.out.println(reserva.toString());
+		JSONArray array = new JSONArray();
+
+		for (Reserva reserva2 : reserva) {
+			ReservaResponse reservaResponse = new ReservaResponse();
+			reservaResponse.setIdreserva(reserva2.getIdreserva());
+
+			long num = Long.parseLong(reserva2.getServicios());
+			Servicio servicio = servicioRepository.findById(num)
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			reservaResponse.setServicios(servicio.getNombre());
+
+			long num2 = Long.parseLong(reserva2.getProductos());
+			Producto producto = productoRepository.findById(num2)
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			reservaResponse.setProductos(producto.getNombre());
+
+			reservaResponse.setHorareserva(reserva2.getHorareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
+
+			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+
+			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
+			reservaResponse.setMarca(vehiculo2.getMarca());
+			reservaResponse.setPatente(vehiculo2.getPatente());
+
+			reservaResponse.setEstado(reserva2.getEstado());
+			array.add(reservaResponse);
+
+		}
+
+		return ResponseEntity.ok(array);
+	}
+
+	@GetMapping(value = "/reservasmonth")
+	public ResponseEntity<?> obtenerReservaMonth(final Pageable pageable) {
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorMonth(pageable);
+		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
+		System.out.println(reserva.toString());
+		JSONArray array = new JSONArray();
+
+		for (Reserva reserva2 : reserva) {
+			ReservaResponse reservaResponse = new ReservaResponse();
+			reservaResponse.setIdreserva(reserva2.getIdreserva());
+
+			long num = Long.parseLong(reserva2.getServicios());
+			Servicio servicio = servicioRepository.findById(num)
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			reservaResponse.setServicios(servicio.getNombre());
+
+			long num2 = Long.parseLong(reserva2.getProductos());
+			Producto producto = productoRepository.findById(num2)
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			reservaResponse.setProductos(producto.getNombre());
+
+			reservaResponse.setHorareserva(reserva2.getHorareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
+
+			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+
+			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
+			reservaResponse.setMarca(vehiculo2.getMarca());
+			reservaResponse.setPatente(vehiculo2.getPatente());
+
+			reservaResponse.setEstado(reserva2.getEstado());
+			array.add(reservaResponse);
+
+		}
+
+		return ResponseEntity.ok(array);
 	}
 
 	// todas las reservas
@@ -112,7 +207,7 @@ public class ReservaController {
 			reservaResponse.setProductos(producto.getNombre());
 
 			reservaResponse.setHorareserva(reserva2.getHorareserva());
-			reservaResponse.setFechareserva(reserva2.getFechareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
 
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
 					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
@@ -129,6 +224,8 @@ public class ReservaController {
 		return ResponseEntity.ok(array);
 	}
 
+
+	
 	// para lista de clientes
 	@GetMapping(value = "/{idCliente}/cliente")
 	public ResponseEntity<?> obtenerReservaCliente(final Pageable pageable,
@@ -151,7 +248,7 @@ public class ReservaController {
 			reservaResponse.setProductos(producto.getNombre());
 
 			reservaResponse.setHorareserva(reserva2.getHorareserva());
-			reservaResponse.setFechareserva(reserva2.getFechareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
 
 			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
 					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
@@ -184,15 +281,20 @@ public class ReservaController {
 		for (Reserva reserva2 : reserva) {
 			JSONObject lista = new JSONObject();
 
-			if (reserva2.isActivo()) {
+			try {
+				if (reserva2.getActivo()) {
 
 
-				lista.put("estado", reserva2.getEstado());
-		
-				return ResponseEntity.ok(lista);
-			} else {
-
+					lista.put("estado", reserva2.getEstado());
+			
+					return ResponseEntity.ok(lista);
+				} else {
+	
+				}
+			} catch (Exception e) {
+				return ResponseEntity.ok("No hay reserva activa");
 			}
+
 		}
 
 		return ResponseEntity.ok("No hay reserva activa");
@@ -213,7 +315,7 @@ public class ReservaController {
 		}else if (estado==3) {
 			estado1="Limpieza";
 		}else if (estado==4) {
-			estado1="Terminando";
+			estado1="Pagar Servicio";
 		}else if (estado==5) {
 			estado1="Servicio Completo";
 		}
@@ -242,5 +344,44 @@ public class ReservaController {
 
 
 		
+	}
+
+	@GetMapping(value = "/{id}/{estado}/estado")
+	public ResponseEntity<?> obtenerReservaClienteAndEstado(final Pageable pageable,
+			@PathVariable(value = "id") final Long id,
+			@PathVariable(value = "estado") final Integer estado) {
+		// return reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable,id, estado);
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable,id, estado);
+		JSONArray array = new JSONArray();
+
+		for (Reserva reserva2 : reserva) {
+			ReservaResponse reservaResponse = new ReservaResponse();
+			reservaResponse.setIdreserva(reserva2.getIdreserva());
+
+			long num = Long.parseLong(reserva2.getServicios());
+			Servicio servicio = servicioRepository.findById(num)
+					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
+			reservaResponse.setServicios(servicio.getNombre());
+
+			long num2 = Long.parseLong(reserva2.getProductos());
+			Producto producto = productoRepository.findById(num2)
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+			reservaResponse.setProductos(producto.getNombre());
+
+			reservaResponse.setHorareserva(reserva2.getHorareserva());
+			reservaResponse.setFechareserva(reserva2.getFecha());
+
+			Vehiculo vehiculo2 = vehiculoRepository.findById(reserva2.getIdvehiculo())
+					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
+
+			reservaResponse.setVeichulo(vehiculo2.getTipovehiculo());
+			reservaResponse.setMarca(vehiculo2.getMarca());
+			reservaResponse.setPatente(vehiculo2.getPatente());
+			reservaResponse.setEstado(reserva2.getEstado());
+			array.add(reservaResponse);
+
+		}
+
+		return ResponseEntity.ok(array);
 	}
 }

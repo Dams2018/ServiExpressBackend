@@ -56,6 +56,11 @@ public class ProductoController {
 		return productoServicesImpl.findByIdProducto(idproducto);
 	}
 
+	@GetMapping(value = "/productos")
+	public List<Producto> getAll() {
+		return productoServicesImpl.obtener();
+	}
+
 
 	@GetMapping(value = "/allproducto")
 	public List<Producto> allServicios(Pageable pageable) {
