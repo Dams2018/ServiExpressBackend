@@ -282,7 +282,7 @@ public class ReservaController {
 			JSONObject lista = new JSONObject();
 
 			try {
-				if (reserva2.getActivo()) {
+				if (reserva2.getActivo()&&reserva2.getEstado()!=6) {
 
 
 					lista.put("estado", reserva2.getEstado());
