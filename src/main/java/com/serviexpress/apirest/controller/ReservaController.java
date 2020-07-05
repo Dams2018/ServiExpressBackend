@@ -335,7 +335,7 @@ public class ReservaController {
 			long num2 = Long.parseLong(reserva.getServicios());
 			double valorProducto = productoServicesImpl.findByIdProducto(num).getValorbase();
 			double valorServocio = servicioServicesImpl.findByIdServicio(num2).getValorbase();
-
+			reservaServicesImpl.findByIdReserva(id,6);
 			System.out.println("oki "+valorProducto+" "+valorServocio+"falta meterlo a la tabla para el reporte");
 			return ResponseEntity.ok("Reserva Terminada");
 		} else {
