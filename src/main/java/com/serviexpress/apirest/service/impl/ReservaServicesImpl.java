@@ -57,6 +57,10 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	@Override
 	public ResponseEntity<?> crear(Reserva generico) {
 		logger.info("CREANDO RESERVA");
+
+		Calendar c = Calendar.getInstance(); 
+        c.setTime(generico.getFecha()); 
+		generico.setFecha(c.getTime());
 		try {
 			repositorio.save(generico);
 			//falta agregar el historial de reserva
@@ -104,19 +108,26 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public List<Reserva> obtenerPorDay(Pageable pageable){
-		Date date = Calendar.getInstance().getTime();   
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
-		String strDate = dateFormat.format(date);  
+		// Date date = Calendar.getInstance().getTime();   
+		// DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+		// String strDate = dateFormat.format(date);  
+		Date date1 = new Date();
+        Calendar c1 = Calendar.getInstance(); 
+		c1.setTime(date1); 
+		c1.add(Calendar.DATE, -1);
+		date1 = c1.getTime();
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate = dateFormat.format(date1); 
 
 
 		Date date2 = new Date();
         Calendar c = Calendar.getInstance(); 
         c.setTime(date2); 
-        c.add(Calendar.DATE, -1);
 		date2 = c.getTime();
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
-		String strDate2 = dateFormat2.format(date2);  
-		return repositorio.getAllDayFecha(pageable, strDate2,strDate).getContent();
+		String strDate2 = dateFormat2.format(date2); 
+		System.out.println(strDate+" "+strDate2); 
+		return repositorio.getAllDayFecha(pageable, strDate,strDate2).getContent();
 	}
 
 	@Override
