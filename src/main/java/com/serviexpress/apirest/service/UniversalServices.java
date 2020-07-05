@@ -33,7 +33,7 @@ public abstract class UniversalServices<T> {
     public List<T> obtener() {
         return null;
     }
-    public Categoria findById(Long idCategoria) {
+    public Categoria findByIdCategoria(Long idCategoria) {
         return null;
     }
     

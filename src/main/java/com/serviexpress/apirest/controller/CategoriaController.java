@@ -48,7 +48,7 @@ public class CategoriaController {
 	@GetMapping("/categorias/{idCategoria}")
 	public Categoria show(@PathVariable Long idCategoria){
 		
-		return categoriaServicesImpl.findById(idCategoria);
+		return categoriaServicesImpl.findByIdCategoria(idCategoria);
 	}
 
 	@GetMapping(value = "/categorias")

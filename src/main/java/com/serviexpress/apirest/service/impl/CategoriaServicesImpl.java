@@ -68,7 +68,7 @@ public class CategoriaServicesImpl extends UniversalServices<Categoria> {
 	}
 
 	@Override
-	public Categoria findById(Long idCategoria) {
+	public Categoria findByIdCategoria(Long idCategoria) {
 		logger.info("OBTENIENDO CATEGORIA POR ID");
 		return repositorio.findById(idCategoria).orElse(null);
 	}
