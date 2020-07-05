@@ -98,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         .antMatchers("/api/auth/requestpass/{id}").permitAll()
                         .antMatchers("/api/auth/requestpass/{username}").permitAll()
                         .antMatchers("/api/auth/changepassword/{id}").permitAll()
+                        .antMatchers("/api/reserva/{id}/{estado}/reserva").permitAll()
                         .antMatchers("/api/auth/**").hasRole("ADMIN")
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll()

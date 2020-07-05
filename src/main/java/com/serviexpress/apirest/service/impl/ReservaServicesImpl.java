@@ -153,6 +153,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		Reserva reserva = repositorio.findById(idReserva)
 		.orElseThrow(() -> new IllegalStateException("reserva no existe."));
 		reserva.setActivo(true);
+		System.out.println(estado);
 		reserva.setEstado(estado);
 		
 		repositorio.save(reserva);
