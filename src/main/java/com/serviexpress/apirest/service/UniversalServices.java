@@ -73,7 +73,11 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
-    public List<T> obtenerPorPaginacion(Date fini, Date ffin){
+    public List<T> obtenerPorDay(){
+        return null;
+    }
+
+    public List<T> obtenerPorMonth(){
         return null;
     }
 
