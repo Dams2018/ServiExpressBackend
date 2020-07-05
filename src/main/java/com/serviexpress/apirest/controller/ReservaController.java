@@ -107,9 +107,9 @@ public class ReservaController {
 	// todas las reservas empleado por fecha hoy
 
 	@GetMapping(value = "/reservasday")
-	public ResponseEntity<?> obtenerReservaDay() {
+	public ResponseEntity<?> obtenerReservaDay(final Pageable pageable) {
 
-		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay();
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay(pageable);
 		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
 		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
@@ -147,8 +147,8 @@ public class ReservaController {
 	}
 
 	@GetMapping(value = "/reservasmonth")
-	public ResponseEntity<?> obtenerReservaMonth() {
-		List<Reserva> reserva = reservaServicesImpl.obtenerPorMonth();
+	public ResponseEntity<?> obtenerReservaMonth(final Pageable pageable) {
+		List<Reserva> reserva = reservaServicesImpl.obtenerPorMonth(pageable);
 		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
 		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();

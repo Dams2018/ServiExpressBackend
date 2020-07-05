@@ -73,11 +73,11 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
-    public List<T> obtenerPorDay(){
+    public List<T> obtenerPorDay(Pageable pageable){
         return null;
     }
 
-    public List<T> obtenerPorMonth(){
+    public List<T> obtenerPorMonth(Pageable pageable){
         return null;
     }
 
