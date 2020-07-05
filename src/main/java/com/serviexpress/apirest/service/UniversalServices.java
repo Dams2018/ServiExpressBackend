@@ -2,7 +2,7 @@ package com.serviexpress.apirest.service;
 
 import org.springframework.http.ResponseEntity;
 
-import java.text.ParseException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -53,10 +53,6 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
-
-
-    //RESERVA
-    //estado de reserva
     public List<T> obtenerPorPaginacion(Pageable pageable,Integer estado){
         return null;
     }
@@ -94,4 +90,12 @@ public abstract class UniversalServices<T> {
         return null;
     }
 
+
+    public ResponseEntity<?> findVS() {
+        return null;
+    }
+
+    public ResponseEntity<?> crearVS(double monto, long idreserva) {
+        return null;
+    }
 }
