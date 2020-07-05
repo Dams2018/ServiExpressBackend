@@ -8,9 +8,12 @@ import javax.validation.Valid;
 
 import com.serviexpress.apirest.payload.Encuesta;
 import com.serviexpress.apirest.payload.RangoFecha;
+import com.serviexpress.apirest.service.MyBatisService;
+import com.serviexpress.apirest.service.impl.ReporteInServicesImpl;
 import com.serviexpress.apirest.service.impl.SatifaccionServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/satifaccion")
 public class SatifaccionController {
 
+
+	@Autowired
+	MyBatisService myBatisService;
+
 	@Autowired
 	SatifaccionServicesImpl satifaccionServicesImpl;
+
+	@Autowired
+	@Qualifier("servireportein")
+	ReporteInServicesImpl reporteInServicesImpl;
 
 	@PutMapping("/ingresarencuesta")
 	public ResponseEntity<?> agregarEncuesta(@RequestBody @Valid final List<Encuesta> encuesta) {
@@ -47,5 +58,13 @@ public class SatifaccionController {
 
 		return ResponseEntity.ok(satifaccionServicesImpl.obtenerEncuesta(rangofecha.getFechaini(), rangofecha.getFechafin()));
 
+	}
+
+	@GetMapping(value = "/reportein")
+	public ResponseEntity<?> obtenerReporteIn() {
+
+		myBatisService.getEgreso();
+		myBatisService.getIngreso();
+		return ResponseEntity.ok(myBatisService.getIngreso());
 	}
 }

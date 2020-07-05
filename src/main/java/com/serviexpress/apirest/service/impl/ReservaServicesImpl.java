@@ -114,7 +114,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		Date date1 = new Date();
         Calendar c1 = Calendar.getInstance(); 
 		c1.setTime(date1); 
-		c1.add(Calendar.DATE, -1);
+		c1.add(Calendar.DATE, -7);
 		date1 = c1.getTime();
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String strDate = dateFormat.format(date1); 
@@ -122,7 +122,8 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 		Date date2 = new Date();
         Calendar c = Calendar.getInstance(); 
-        c.setTime(date2); 
+		c.setTime(date2); 
+		c.add(Calendar.DATE, +1);
 		date2 = c.getTime();
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
 		String strDate2 = dateFormat2.format(date2); 
