@@ -3,6 +3,9 @@ package com.serviexpress.apirest.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -102,10 +105,34 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	}
 
 	@Override
-	public List<Reserva> obtenerPorPaginacion(Date fini, Date ffin){
-		System.out.println("lol"+fini);
-		System.out.println("TEST "+repositorio.getAllBetweenFecha("01/15/2010","01/15/2021").toString());
-		return repositorio.findAllByActivoAndFechaBetween(true,fini,ffin);
+	public List<Reserva> obtenerPorDay(){
+		Date date = Calendar.getInstance().getTime();   
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+		String strDate = dateFormat.format(date);  
+		Date date2 = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(date2); 
+        c.add(Calendar.DATE, 1);
+		date2 = c.getTime();
+		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate2 = dateFormat2.format(date2);  
+		return repositorio.getAllDayFecha(strDate,strDate2);
+	}
+
+	@Override
+	public List<Reserva> obtenerPorMonth(){
+		Date date = Calendar.getInstance().getTime();   
+		DateFormat dateFormat = new SimpleDateFormat("MM/yyyy");  
+		String strDate = dateFormat.format(date);  
+		Date date2 = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(date2); 
+        c.add(Calendar.MONTH, 1);
+		date2 = c.getTime();
+		DateFormat dateFormat2 = new SimpleDateFormat("MM/yyyy");
+		String strDate2 = dateFormat2.format(date2);  
+		System.out.println(strDate+" "+strDate2);
+		return repositorio.getAllMonthFecha(strDate,strDate2);
 	}
 
 	@Override
