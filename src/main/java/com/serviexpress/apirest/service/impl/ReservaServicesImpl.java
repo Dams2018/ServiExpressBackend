@@ -8,17 +8,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.serviexpress.apirest.entity.HistorialReserva;
+
 import com.serviexpress.apirest.entity.Reserva;
-import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.repository.ReservaRepository;
 import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.service.UniversalServices;
@@ -109,14 +107,16 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		Date date = Calendar.getInstance().getTime();   
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
 		String strDate = dateFormat.format(date);  
+
+
 		Date date2 = new Date();
         Calendar c = Calendar.getInstance(); 
         c.setTime(date2); 
-        c.add(Calendar.DATE, 1);
+        c.add(Calendar.DATE, -1);
 		date2 = c.getTime();
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
 		String strDate2 = dateFormat2.format(date2);  
-		return repositorio.getAllDayFecha(pageable, strDate,strDate2).getContent();
+		return repositorio.getAllDayFecha(pageable, strDate2,strDate).getContent();
 	}
 
 	@Override
