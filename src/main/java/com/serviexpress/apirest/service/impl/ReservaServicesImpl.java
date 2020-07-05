@@ -105,7 +105,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	}
 
 	@Override
-	public List<Reserva> obtenerPorDay(){
+	public List<Reserva> obtenerPorDay(Pageable pageable){
 		Date date = Calendar.getInstance().getTime();   
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
 		String strDate = dateFormat.format(date);  
@@ -116,11 +116,11 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		date2 = c.getTime();
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
 		String strDate2 = dateFormat2.format(date2);  
-		return repositorio.getAllDayFecha(strDate,strDate2);
+		return repositorio.getAllDayFecha(pageable, strDate,strDate2).getContent();
 	}
 
 	@Override
-	public List<Reserva> obtenerPorMonth(){
+	public List<Reserva> obtenerPorMonth(Pageable pageable){
 		Date date = Calendar.getInstance().getTime();   
 		DateFormat dateFormat = new SimpleDateFormat("MM/yyyy");  
 		String strDate = dateFormat.format(date);  
@@ -132,7 +132,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/yyyy");
 		String strDate2 = dateFormat2.format(date2);  
 		System.out.println(strDate+" "+strDate2);
-		return repositorio.getAllMonthFecha(strDate,strDate2);
+		return repositorio.getAllMonthFecha(pageable, strDate,strDate2).getContent();
 	}
 
 	@Override
