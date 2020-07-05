@@ -32,6 +32,12 @@ public class Proveedor implements Serializable {
     private String telefono;
     @NotBlank
     @Size(max = 60)
+    private String empresa;
+    @NotBlank
+    @Size(max = 40)
+    private String producto;
+    @NotBlank
+    @Size(max = 60)
     private String correo;
     private boolean active;
 
@@ -46,6 +52,8 @@ public class Proveedor implements Serializable {
         this.apellido = proveedor.apellido;
         this.telefono = proveedor.telefono;
         this.correo = proveedor.correo;
+        this.empresa = proveedor.empresa;
+        this.producto = proveedor.producto;
         this.active = proveedor.active;
     }
 
@@ -102,7 +110,23 @@ public class Proveedor implements Serializable {
 
 	public boolean isActive() {
 		return active;
-	}
+    }
+    
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
 
 	public void setActive(boolean active) {
 		this.active = active;
@@ -110,14 +134,18 @@ public class Proveedor implements Serializable {
 
 	public Proveedor(Long idproveedor, @NotBlank @Size(max = 10) String rut,
             @NotBlank @Size(max = 20) String nombre,@NotBlank @Size(max = 40) String apellido, @NotBlank @Size(max = 10) String telefono,
-            @NotBlank @Size(max = 60) String correo, boolean active) {
+            @NotBlank @Size(max = 60) String correo, @NotBlank @Size(max = 60) String empresa, @NotBlank @Size(max = 60) String producto, boolean active) {
 		this.idproveedor = idproveedor;
         this.rut = rut;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
+        this.empresa = empresa;
+        this.producto = producto;
         this.correo = correo;
         this.active = active;
     }
+
+    
 
 }

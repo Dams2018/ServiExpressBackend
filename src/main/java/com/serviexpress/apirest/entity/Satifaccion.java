@@ -16,14 +16,15 @@ public class Satifaccion {
     /**
      * al momento de selecionar un servicio capturar id categoria enviarla al buscar productos con el id de categoria cargrar combocx de prodcuto esto para reserva
      */
-    private static final long serialVersionUID = 1L;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idsatifaccion;
     private String nombre;
     private String tipo;
-    private Date fecha;
+	@Temporal(TemporalType.DATE)
+	private Date fecha;
 
     
 
@@ -59,14 +60,6 @@ public class Satifaccion {
     }
 
 
-
-    public Satifaccion(Long idsatifaccion, String nombre, String tipo, Date fecha) {
-        this.idsatifaccion = idsatifaccion;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.fecha = fecha;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -79,6 +72,12 @@ public class Satifaccion {
     }
 
   
+    public Satifaccion(Long idsatifaccion, String nombre, String tipo, Date fecha) {
+        this.idsatifaccion = idsatifaccion;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.fecha = fecha;
+    }
 
 
 
