@@ -110,6 +110,7 @@ public class ReservaController {
 	public ResponseEntity<?> obtenerReservaDay(final Pageable pageable) {
 
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay(pageable);
+		System.out.println(reserva.toString());
 		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
 		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
