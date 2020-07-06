@@ -66,6 +66,7 @@ public class SatifaccionController {
 	@GetMapping(value = "/reportein")
 	public ResponseEntity<?> obtenerReporteIn() {
 
+		System.out.println("REPORTE3");
 		List<String> meses= new ArrayList<>();
 		List<String> valorEgreso= new ArrayList<>();
 		List<String> valorIngreso= new ArrayList<>();

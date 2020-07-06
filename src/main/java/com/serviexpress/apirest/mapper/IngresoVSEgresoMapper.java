@@ -14,11 +14,11 @@ public interface IngresoVSEgresoMapper {
 	"FROM REPORTEIN "+	
 	"GROUP BY TO_CHAR(fecha, 'mm/yyyy') order by fecha asc") 
 
-    public List<IngresoVsEgreso> getEgreso();	
+    public List<IngresoVsEgreso> getIngreso();	
     
     @Select("SELECT SUM(sueldo)total, TO_CHAR(fecha, 'mm/yyyy') fecha "+
 	"FROM SUELDO "+	
 	"GROUP BY TO_CHAR(fecha, 'mm/yyyy') order by fecha asc") 
 
-	public List<IngresoVsEgreso> getIngreso();	
+	public List<IngresoVsEgreso> getEgreso();	
 }
