@@ -8,16 +8,27 @@ public class ResponseReservaPago implements Serializable {
      *
      */
     private static final long serialVersionUID = 6046265631296318320L;
+    String idreserva;
     String nombre;
     String apellido;
     String rut;
     String marca;
     String modelo;
     String patente;
+    String nombreproducto;
+    String nombreservicio;
     String estadoreserva;
     String total;
 
     public ResponseReservaPago() {
+    }
+
+    public String getIdreserva() {
+        return idreserva;
+    }
+
+    public void setIdreserva(String idreserva) {
+        this.idreserva = idreserva;
     }
 
     public String getNombre() {
@@ -68,6 +79,22 @@ public class ResponseReservaPago implements Serializable {
         this.patente = patente;
     }
 
+    public String getNombreproducto() {
+        return nombreproducto;
+    }
+
+    public void setNombreproducto(String nombreproducto) {
+        this.nombreproducto = nombreproducto;
+    }
+
+    public String getNombreservicio() {
+        return nombreservicio;
+    }
+
+    public void setNombreservicio(String nombreservicio) {
+        this.nombreservicio = nombreservicio;
+    }
+
     public String getEstadoreserva() {
         return estadoreserva;
     }
@@ -86,11 +113,13 @@ public class ResponseReservaPago implements Serializable {
 
     @Override
     public String toString() {
-        return "ResponseReservaPago [apellido=" + apellido + ", estadoreserva=" + estadoreserva + ", marca=" + marca
-                + ", modelo=" + modelo + ", nombre=" + nombre + ", patente=" + patente + ", rut=" + rut + ", total="
-                + total + "]";
+        return "ResponseReservaPago [apellido=" + apellido + ", estadoreserva=" + estadoreserva + ", idreserva="
+                + idreserva + ", marca=" + marca + ", modelo=" + modelo + ", nombre=" + nombre + ", nombreproducto="
+                + nombreproducto + ", nombreservicio=" + nombreservicio + ", patente=" + patente + ", rut=" + rut
+                + ", total=" + total + "]";
     }
 
+   
     
     
 
