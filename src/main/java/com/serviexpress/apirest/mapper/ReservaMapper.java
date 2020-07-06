@@ -24,7 +24,7 @@ public interface ReservaMapper {
 	"INNER JOIN servicio s "+
 	"ON r.servicios = s.idservicio "+
 	"WHERE "+
-	"v.patente = '#{patente}' and r.estado = 4 ") 
+	"v.patente = #{patente} and r.estado = 4 ") 
 
     public List<ResponseReservaPago> getReservaCliente(@Param("patente") String patente);	
     

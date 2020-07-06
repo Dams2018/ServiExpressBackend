@@ -15,6 +15,8 @@ public class MyBatisServiceImlp implements MyBatisService {
 
     @Autowired
     IngresoVSEgresoMapper ingresoVSEgresoMapper;
+
+    @Autowired
     ReservaMapper reservaMapper;
     
     @Override
@@ -31,7 +33,7 @@ public class MyBatisServiceImlp implements MyBatisService {
 
     @Override
     public List<ResponseReservaPago> getReservaCliente(String patente) {
-        System.out.println(patente);
+
         return reservaMapper.getReservaCliente(patente);
     }
 

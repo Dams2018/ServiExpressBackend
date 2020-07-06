@@ -395,7 +395,7 @@ public class ReservaController {
 
 	@GetMapping(value = "/{patente}/patente")
 	public List<ResponseReservaPago> obtenerReservaPago(@PathVariable(value = "patente") final String patente) {
-		System.out.println(patente);
+
 		return myBatisService.getReservaCliente(patente);
 	}
 }
