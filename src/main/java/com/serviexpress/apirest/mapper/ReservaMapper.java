@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Select;
 public interface ReservaMapper {
     
     @Select("SELECT c.nombre as nombre,c.apellido as apellido,c.rut as rut,v.marca as marca,v.modelo as modelo,v.patente as patente, "+
-	"r.estado as estadoreserva,p.valorbase + s.valorbase as total "+
+	"r.estado as estadoreserva,p.valorbase + s.valorbase as total, r.idreserva as idreserva, p.nombre as nombreproducto, s.nombre as nombreservicio "+
 	"FROM reserva r "+
 	"INNER JOIN vehiculo v "+
 	"ON r.idvehiculo = v.idvehiculo "+
