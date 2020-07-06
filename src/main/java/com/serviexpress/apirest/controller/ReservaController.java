@@ -14,7 +14,9 @@ import com.serviexpress.apirest.entity.Vehiculo;
 import com.serviexpress.apirest.payload.RangoFecha;
 import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
+import com.serviexpress.apirest.payload.Response.ResponseReservaPago;
 import com.serviexpress.apirest.service.EmailService;
+import com.serviexpress.apirest.service.MyBatisService;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
 import com.serviexpress.apirest.service.impl.ReporteInServicesImpl;
 import com.serviexpress.apirest.service.impl.ReservaServicesImpl;
@@ -45,6 +47,9 @@ import org.springframework.data.domain.Pageable;
 @RestController
 @RequestMapping("/api/reserva")
 public class ReservaController {
+
+	@Autowired
+	MyBatisService myBatisService;
 
 	@Autowired
 	EmailService emailService;
@@ -386,5 +391,11 @@ public class ReservaController {
 		}
 
 		return ResponseEntity.ok(array);
+	}
+
+	@GetMapping(value = "/{patente}/patente")
+	public List<ResponseReservaPago> obtenerReservaPago(@PathVariable(value = "patente") final String patente) {
+
+		return myBatisService.getReservaCliente(patente);
 	}
 }

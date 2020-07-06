@@ -7,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 
-@Table(name = "Reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idreserva" }),
-        @UniqueConstraint(columnNames = { "idvehiculo" }) })
+@Table(name = "Reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idreserva" }) })
 @Entity
 public class Reserva implements Serializable {
 
