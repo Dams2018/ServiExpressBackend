@@ -30,7 +30,7 @@ public class ServiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ServiApplication.class, args);
 
-		test();
+		// test();
 	
 	}
 
