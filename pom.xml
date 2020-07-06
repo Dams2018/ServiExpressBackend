@@ -8,7 +8,7 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
-		</parent>
+	</parent>
 	<groupId>com.linkpoint</groupId>
 	<artifactId>ServiExpressBakend</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
@@ -20,6 +20,17 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.khipu</groupId>
+			<artifactId>khipu-api-client</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.28</version>
+		</dependency>
 		<!-- For Working with Json Web Tokens (JWT) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -78,20 +89,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
-	    <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-mail</artifactId>
-		    </dependency>
-			<dependency>
-    <groupId>org.bitbucket.b_c</groupId>
-    <artifactId>jose4j</artifactId>
-    <version>0.7.0</version>
-  </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bitbucket.b_c</groupId>
+			<artifactId>jose4j</artifactId>
+			<version>0.7.0</version>
+		</dependency>
 
-  
+
 	</dependencies>
 
 
