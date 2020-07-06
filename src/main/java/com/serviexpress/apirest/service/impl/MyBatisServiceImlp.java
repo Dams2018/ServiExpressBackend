@@ -15,6 +15,8 @@ public class MyBatisServiceImlp implements MyBatisService {
 
     @Autowired
     IngresoVSEgresoMapper ingresoVSEgresoMapper;
+
+    @Autowired
     ReservaMapper reservaMapper;
     
     @Override
