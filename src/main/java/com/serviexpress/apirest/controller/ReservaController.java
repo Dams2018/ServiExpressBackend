@@ -266,6 +266,7 @@ public class ReservaController {
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			reservaResponse.setEstado(reserva2.getEstado());
+			reservaResponse.setTotalreserva(reserva2.getTotalreserva());
 			array.add(reservaResponse);
 
 		}
