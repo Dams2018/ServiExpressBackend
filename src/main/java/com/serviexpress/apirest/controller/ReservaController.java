@@ -287,8 +287,9 @@ public class ReservaController {
 			@PathVariable(value = "activo") final Boolean activo) {
 
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacionReservaActiva(pageable, idCliente, activo);
+		JSONObject lista = new JSONObject();
 		for (Reserva reserva2 : reserva) {
-			JSONObject lista = new JSONObject();
+
 
 			try {
 				if (reserva2.getActivo() && reserva2.getEstado() != 6) {
@@ -300,12 +301,16 @@ public class ReservaController {
 
 				}
 			} catch (Exception e) {
-				return ResponseEntity.ok("No hay reserva activa");
+				lista.put("estado", "0");
+
+				return ResponseEntity.ok(lista);
 			}
 
 		}
 
-		return ResponseEntity.ok("No hay reserva activa");
+		lista.put("estado", "0");
+
+		return ResponseEntity.ok(lista);
 
 	}
 
