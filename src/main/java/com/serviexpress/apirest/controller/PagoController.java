@@ -42,7 +42,7 @@ public class PagoController {
 
         Map<String, Object> options = new HashMap<>();
         options.put("transactionId", "MTI-100");
-        options.put("returnUrl", "http://localhost:4200/home/progresoreserva");
+        options.put("returnUrl", "http://localhost:4200/pagoexito");
         options.put("cancelUrl", "http://localhost:4200/home/progresoreserva");
         options.put("pictureUrl", "https://github.com/juliojimenez-98/ServiExpressFront/raw/master/logo.jpg");
         options.put("notifyUrl", "http://localhost:4200/home/progresoreserva");
