@@ -1,20 +1,22 @@
 package com.serviexpress.apirest.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.khipu.ApiClient;
 import com.khipu.ApiException;
 import com.khipu.api.client.PaymentsApi;
 import com.khipu.api.model.PaymentsCreateResponse;
+import com.serviexpress.apirest.payload.Response.PagoResponse;
 import com.serviexpress.apirest.vo.ResultadoVO;
 
-import org.jose4j.json.internal.json_simple.JSONObject;
+
 import org.jose4j.lang.JoseException;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +26,9 @@ public class PagoController {
     ResultadoVO salida = new ResultadoVO();
 
 
-    @GetMapping(value ="/pago")
-    public PaymentsCreateResponse pago() throws JoseException,
+
+    @PostMapping(value ="/pago")
+    public PaymentsCreateResponse pago(@RequestBody @Valid PagoResponse pagoResponse) throws JoseException,
             ApiException {
         System.out.println("entra");
 
@@ -47,13 +50,15 @@ public class PagoController {
         options.put("pictureUrl", "https://github.com/juliojimenez-98/ServiExpressFront/raw/master/logo.jpg");
         options.put("notifyUrl", "http://localhost:4200/home/progresoreserva");
         options.put("notifyApiVersion", "1.3");
+        options.put("idReserva", pagoResponse.getIdReserva());
 
         PaymentsCreateResponse response;
- 
-            response = paymentsApi.paymentsPost("Compra de prueba de la API" // Motivo de la compra
+ System.out.println(pagoResponse.getValor());
+            response = paymentsApi.paymentsPost("Pago del servicio "+pagoResponse.getServicio()+" incluido productos DEMO" // Motivo de la compra
                     , "CLP" // Monedas disponibles CLP, USD, ARS, BOB
-                    , 200.0 // Monto
+                    , 30000.0000 // Monto
                     , options // campos opcionales
+  
             );
 
             return response;
