@@ -9,10 +9,9 @@ import com.serviexpress.apirest.entity.Pedido;
 import com.serviexpress.apirest.service.impl.PedidoServicesImpl;
 
 
-import org.jose4j.json.internal.json_simple.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 import org.springframework.data.domain.Pageable;
 
 @RestController
@@ -33,7 +30,6 @@ public class PedidoController {
 
 	@Autowired
 	PedidoServicesImpl pedidoServicesImpl;
-
 
 	// Cliente
 	@PutMapping("/pedido")
@@ -53,7 +49,6 @@ public class PedidoController {
 		return pedidoServicesImpl.obtener();
 	}
 
-
 	// para lista por estado
 	@GetMapping(value = "/{estado}/estado")
 	public List<Pedido> obtenerPedidoEstado(final Pageable pageable,
@@ -63,10 +58,12 @@ public class PedidoController {
 
 	@GetMapping(value = "/{id}/{estado}/pedido")
 	public ResponseEntity<?> actualizarEstadoReserva(@PathVariable(value = "estado") final Integer estado,
-	@PathVariable(value = "id") final Long id){
+			@PathVariable(value = "id") final Long id) {
 
-		pedidoServicesImpl.findByIdPedido(id,estado);
+		pedidoServicesImpl.findByIdPedido(id, estado);
 
 		return ResponseEntity.ok("Pedido Actulizada");
 	}
+
+	
 }

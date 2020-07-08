@@ -22,9 +22,10 @@ public interface  ReservaRepository extends JpaRepository<Reserva, Serializable>
     public abstract Page<Reserva> findAllByEstado(Pageable pageable, Integer estado);
     public abstract Page<Reserva> findAll(Pageable pageable);
     // List<Reserva> findAllByActivoAndFechaBetween(boolean estado ,@Param("fecha_dateStart") Date fecha_dateStart,@Param("fecha_dateEnd") Date fecha_dateEnd);
-    @Query(value = "from Reserva t where FECHA >= TO_DATE(:startDate,'mm/dd/yyyy') and FECHA < TO_DATE(:startDate2,'mm/dd/yyyy')")
+    @Query(value = "from Reserva t where FECHA >= TO_DATE(:startDate,'mm/dd/yyyy') and FECHA < TO_DATE(:startDate2,'mm/dd/yyyy') and ESTADO=0 OR ESTADO=1 OR ESTADO=2 OR ESTADO=3 OR ESTADO=4 OR ESTADO=5 order by 4 desc" )
+                                 //WHERE FECHA >= TO_DATE('07/04/2020','mm/dd/yyyy') and FECHA < TO_DATE('07/05/2020','mm/dd/yyyy')
     public abstract Page<Reserva> getAllDayFecha(Pageable pageable, String startDate, String startDate2);
-    @Query(value = "from Reserva t where FECHA >= TO_DATE(:startDate,'mm/yyyy') and FECHA < TO_DATE(:startDate2,'mm/yyyy') and ACTIVO=false")
+    @Query(value = "from Reserva t where FECHA >= TO_DATE(:startDate,'mm/yyyy') and FECHA < TO_DATE(:startDate2,'mm/yyyy') and ACTIVO=false order by 4 desc")
     public abstract Page<Reserva>  getAllMonthFecha(Pageable pageable, String startDate, String startDate2);
 
 }

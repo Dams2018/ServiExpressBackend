@@ -8,17 +8,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.serviexpress.apirest.entity.HistorialReserva;
+
 import com.serviexpress.apirest.entity.Reserva;
-import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.repository.ReservaRepository;
 import com.serviexpress.apirest.repository.UserRepository;
 import com.serviexpress.apirest.service.UniversalServices;
@@ -59,6 +57,10 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 	@Override
 	public ResponseEntity<?> crear(Reserva generico) {
 		logger.info("CREANDO RESERVA");
+
+		Calendar c = Calendar.getInstance(); 
+        c.setTime(generico.getFecha()); 
+		generico.setFecha(c.getTime());
 		try {
 			repositorio.save(generico);
 			//falta agregar el historial de reserva
@@ -106,16 +108,26 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 
 	@Override
 	public List<Reserva> obtenerPorDay(Pageable pageable){
-		Date date = Calendar.getInstance().getTime();   
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
-		String strDate = dateFormat.format(date);  
+		// Date date = Calendar.getInstance().getTime();   
+		// DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");  
+		// String strDate = dateFormat.format(date);  
+		Date date1 = new Date();
+        Calendar c1 = Calendar.getInstance(); 
+		c1.setTime(date1); 
+		c1.add(Calendar.DATE, -7);
+		date1 = c1.getTime();
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate = dateFormat.format(date1); 
+
+
 		Date date2 = new Date();
         Calendar c = Calendar.getInstance(); 
-        c.setTime(date2); 
-        c.add(Calendar.DATE, 1);
+		c.setTime(date2); 
+		c.add(Calendar.DATE, +1);
 		date2 = c.getTime();
 		DateFormat dateFormat2 = new SimpleDateFormat("MM/dd/yyyy");
-		String strDate2 = dateFormat2.format(date2);  
+		String strDate2 = dateFormat2.format(date2); 
+		System.out.println(strDate+" "+strDate2); 
 		return repositorio.getAllDayFecha(pageable, strDate,strDate2).getContent();
 	}
 
@@ -142,6 +154,7 @@ public class ReservaServicesImpl extends UniversalServices<Reserva> {
 		Reserva reserva = repositorio.findById(idReserva)
 		.orElseThrow(() -> new IllegalStateException("reserva no existe."));
 		reserva.setActivo(true);
+		System.out.println(estado);
 		reserva.setEstado(estado);
 		
 		repositorio.save(reserva);
