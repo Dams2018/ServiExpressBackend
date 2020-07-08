@@ -40,6 +40,8 @@ public class Producto implements Serializable {
     }
 
 
+
+
     public String getNombre() {
         return nombre;
     }
@@ -103,13 +105,9 @@ public class Producto implements Serializable {
         this.categoria = producto.categoria;
     }
 
-    @Override
-    public String toString() {
-        return "Producto [categoria=" + categoria + ", descripcion=" + descripcion + ", idproducto=" + idproducto
-                + ", nombre=" + nombre + ", valorbase=" + valorbase + ", stock=" + stock + "]";
-    }
+    
 
-    public Producto(Long idproducto, @NotBlank @Size(max = 20) String nombre,
+    public Producto(Long idproducto, @NotBlank @Size(max = 50) String nombre,
             @NotBlank @Size(max = 255) String descripcion, double valorbase, Number stock, Long categoria) {
         this.idproducto = idproducto;
         this.nombre = nombre;
@@ -119,5 +117,12 @@ public class Producto implements Serializable {
         this.categoria = categoria;
     }
 
+    @Override
+    public String toString() {
+        return "Producto [categoria=" + categoria + ", descripcion=" + descripcion + ", idproducto=" + idproducto
+                + ", nombre=" + nombre + ", valorbase=" + valorbase + ", stock=" + stock + "]";
+    }
+
+   
     
 }

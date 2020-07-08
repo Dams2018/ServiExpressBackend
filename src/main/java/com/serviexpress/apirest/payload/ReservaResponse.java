@@ -24,6 +24,7 @@ public class ReservaResponse implements Serializable{
     private String horareserva;
     private int estado;
     private String patente;
+    private double totalreserva;
 
     public ReservaResponse() {
     }
@@ -108,11 +109,21 @@ public class ReservaResponse implements Serializable{
         this.patente = patente;
     }
 
+    
+
+    public double getTotalreserva() {
+        return totalreserva;
+    }
+
+    public void setTotalreserva(double totalreserva) {
+        this.totalreserva = totalreserva;
+    }
+
     @Override
     public String toString() {
         return "ReservaResponse [Marca=" + Marca + ", Veichulo=" + Veichulo + ", estado=" + estado + ", fechareserva="
                 + fechareserva + ", horareserva=" + horareserva + ", idreserva=" + idreserva + ", patente=" + patente
-                + ", productos=" + productos + ", servicios=" + servicios + "]";
+                + ", productos=" + productos + ", servicios=" + servicios + ", totalreserva=" + totalreserva + "]";
     }
 
 
