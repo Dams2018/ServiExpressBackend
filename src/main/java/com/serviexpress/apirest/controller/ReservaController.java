@@ -306,6 +306,7 @@ public class ReservaController {
 					lista.put("estado", reserva2.getEstado());
 					lista.put("monto", monto);
 					lista.put("servicio", servicio);
+					lista.put("idReserva", reserva2.getIdreserva());
 
 					return ResponseEntity.ok(lista);
 				} else {

@@ -50,6 +50,7 @@ public class PagoController {
         options.put("pictureUrl", "https://github.com/juliojimenez-98/ServiExpressFront/raw/master/logo.jpg");
         options.put("notifyUrl", "http://localhost:4200/home/progresoreserva");
         options.put("notifyApiVersion", "1.3");
+        options.put("idReserva", pagoResponse.getIdReserva());
 
         PaymentsCreateResponse response;
  System.out.println(pagoResponse.getValor());
@@ -57,6 +58,7 @@ public class PagoController {
                     , "CLP" // Monedas disponibles CLP, USD, ARS, BOB
                     , 30000.0000 // Monto
                     , options // campos opcionales
+  
             );
 
             return response;
