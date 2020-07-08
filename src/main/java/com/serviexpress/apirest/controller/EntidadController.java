@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.serviexpress.apirest.entity.Cliente;
 import com.serviexpress.apirest.entity.Empleado;
+import com.serviexpress.apirest.payload.response.EntidadDTO;
+import com.serviexpress.apirest.payload.response.EntidadEmpDTO;
 import com.serviexpress.apirest.service.impl.ClienteServicesImpl;
 import com.serviexpress.apirest.service.impl.EmpleadoServicesImpl;
 
@@ -33,15 +35,33 @@ public class EntidadController {
 	@Qualifier("serviemp")
 	EmpleadoServicesImpl serviemp;
 
+	Cliente cliente = new Cliente();
+	Empleado empleado = new Empleado();
+
 	// Cliente
 	@PutMapping("/cliente")
-	public ResponseEntity<?> agregarCliente(@RequestBody @Valid Cliente cliente) {
+	public ResponseEntity<?> agregarCliente(@RequestBody @Valid EntidadDTO entidadDTO) {
+
+		cliente.setNombre(entidadDTO.getNombre());
+		cliente.setApellido(entidadDTO.getApellido());
+		cliente.setFechaNacimiento(entidadDTO.getFechaNacimiento());
+		cliente.setIdusuario(entidadDTO.getIdusuario());
+		cliente.setTelefono(entidadDTO.getTelefono());
+		cliente.setRut(entidadDTO.getRut());
 		return ResponseEntity.ok(servicli.crear(cliente));
 
 	}
 
 	@PostMapping("/cliente")
-	public ResponseEntity<?> actualizarCliente(@RequestBody @Valid Cliente cliente) {
+	public ResponseEntity<?> actualizarCliente(@RequestBody @Valid EntidadDTO entidadDTO) {
+
+		cliente.setNombre(entidadDTO.getNombre());
+		cliente.setApellido(entidadDTO.getApellido());
+		cliente.setFechaNacimiento(entidadDTO.getFechaNacimiento());
+		cliente.setIdusuario(entidadDTO.getIdusuario());
+		cliente.setIdcliente(entidadDTO.getIdcliente());
+		cliente.setTelefono(entidadDTO.getTelefono());
+		cliente.setRut(entidadDTO.getRut());
 		return ResponseEntity.ok(servicli.actualizar(cliente));
 	}
 
@@ -58,12 +78,26 @@ public class EntidadController {
 
 	// Empleado
 	@PutMapping("/empleado")
-	public ResponseEntity<?> agregarEmpleado(@RequestBody @Valid Empleado empleado) {
+	public ResponseEntity<?> agregarEmpleado(@RequestBody @Valid EntidadEmpDTO entidadEmpDTO) {
+		empleado.setNombre(entidadEmpDTO.getNombre());
+		empleado.setApellido(entidadEmpDTO.getApellido());
+		empleado.setFechaNacimiento(entidadEmpDTO.getFechaNacimiento());
+		empleado.setIdusuario(entidadEmpDTO.getIdusuario());
+		empleado.setTelefono(entidadEmpDTO.getTelefono());
+		empleado.setRut(entidadEmpDTO.getRut());
 		return ResponseEntity.ok(serviemp.crear(empleado));
 	}
 
 	@PostMapping("/empleado")
-	public ResponseEntity<?> actualizarEmpleado(@RequestBody @Valid Empleado empleado) {
+	public ResponseEntity<?> actualizarEmpleado(@RequestBody @Valid EntidadEmpDTO entidadEmpDTO) {
+
+		empleado.setNombre(entidadEmpDTO.getNombre());
+		empleado.setApellido(entidadEmpDTO.getApellido());
+		empleado.setFechaNacimiento(entidadEmpDTO.getFechaNacimiento());
+		empleado.setIdusuario(entidadEmpDTO.getIdusuario());
+		empleado.setTelefono(entidadEmpDTO.getTelefono());
+		empleado.setRut(entidadEmpDTO.getRut());
+		empleado.setIdempleado(entidadEmpDTO.getIdempleado());
 		return ResponseEntity.ok(serviemp.actualizar(empleado));
 	}
 
