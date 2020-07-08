@@ -266,6 +266,7 @@ public class ReservaController {
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			reservaResponse.setEstado(reserva2.getEstado());
+			reservaResponse.setTotalreserva(reserva2.getTotalreserva());
 			array.add(reservaResponse);
 
 		}
@@ -287,25 +288,41 @@ public class ReservaController {
 			@PathVariable(value = "activo") final Boolean activo) {
 
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacionReservaActiva(pageable, idCliente, activo);
+		JSONObject lista = new JSONObject();
+		double monto = 0;
 		for (Reserva reserva2 : reserva) {
-			JSONObject lista = new JSONObject();
+
 
 			try {
 				if (reserva2.getActivo() && reserva2.getEstado() != 6) {
 
+					long num = Long.parseLong(reserva2.getProductos());
+					long num2 = Long.parseLong(reserva2.getServicios());
+					double valorProducto = productoServicesImpl.findByIdProducto(num).getValorbase();
+					double valorServocio = servicioServicesImpl.findByIdServicio(num2).getValorbase();
+					String servicio = servicioServicesImpl.findByIdServicio(num2).getNombre();
+					monto = valorProducto + valorServocio;
+				
 					lista.put("estado", reserva2.getEstado());
+					lista.put("monto", monto);
+					lista.put("servicio", servicio);
+					lista.put("idReserva", reserva2.getIdreserva());
 
 					return ResponseEntity.ok(lista);
 				} else {
 
 				}
 			} catch (Exception e) {
-				return ResponseEntity.ok("No hay reserva activa");
+				lista.put("estado", "0");
+
+				return ResponseEntity.ok(lista);
 			}
 
 		}
 
-		return ResponseEntity.ok("No hay reserva activa");
+		lista.put("estado", "0");
+
+		return ResponseEntity.ok(lista);
 
 	}
 
