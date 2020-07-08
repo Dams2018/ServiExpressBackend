@@ -5,9 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.entity.Categoria;
-import com.serviexpress.apirest.entity.Vehiculo;
+import com.serviexpress.apirest.payload.response.CategoriaDTO;
 import com.serviexpress.apirest.service.impl.CategoriaServicesImpl;
-import com.serviexpress.apirest.service.impl.VehiculoServicesImpl;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,17 +31,22 @@ public class CategoriaController {
 	@Autowired
 	@Qualifier("serviCategoria")
 	CategoriaServicesImpl categoriaServicesImpl;
-
+	Categoria categoria= new Categoria();
 
 	// Cliente
 	@PutMapping("/categoria")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Categoria categoria) {
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid CategoriaDTO categoriaDTO) {
+		categoria.setNombre(categoriaDTO.getNombre());
+		categoria.setDescripcion(categoriaDTO.getDescripcion());
 		return ResponseEntity.ok(categoriaServicesImpl.crear(categoria));
 
 	}
 
 	@PostMapping("/categoria")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Categoria categoria) {
+	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid CategoriaDTO categoriaDTO) {
+		categoria.setIdcategoria(categoriaDTO.getIdcategoria());
+		categoria.setNombre(categoriaDTO.getNombre());
+		categoria.setDescripcion(categoriaDTO.getDescripcion());
 		return ResponseEntity.ok(categoriaServicesImpl.actualizar(categoria));
 	}
 

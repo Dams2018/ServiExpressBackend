@@ -1,6 +1,6 @@
 package com.serviexpress.apirest.controller;
 
-import java.io.Console;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import com.khipu.ApiClient;
 import com.khipu.ApiException;
 import com.khipu.api.client.PaymentsApi;
 import com.khipu.api.model.PaymentsCreateResponse;
-import com.serviexpress.apirest.payload.Response.PagoResponse;
+import com.serviexpress.apirest.payload.response.PagoResponse;
 import com.serviexpress.apirest.vo.ResultadoVO;
 
 
