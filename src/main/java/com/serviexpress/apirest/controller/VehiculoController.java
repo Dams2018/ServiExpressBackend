@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.entity.Vehiculo;
+import com.serviexpress.apirest.payload.response.VehiculoDTO;
 import com.serviexpress.apirest.service.impl.VehiculoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,34 @@ public class VehiculoController {
 	@Autowired
 	@Qualifier("serviVehiculo")
 	VehiculoServicesImpl vehiculoServicesImpl;
-
+	Vehiculo vehiculo= new Vehiculo();
 	// Cliente
 	@PutMapping("/vehiculo")
-	public ResponseEntity<?> agregarVehiculo(@RequestBody @Valid Vehiculo vehiculo) {
+	public ResponseEntity<?> agregarVehiculo(@RequestBody @Valid VehiculoDTO vehiculoDTO) {
+		vehiculo.setActive(vehiculoDTO.isActive());
+		vehiculo.setAnio(vehiculoDTO.getAnio());
+		vehiculo.setIdcliente(vehiculoDTO.getIdcliente());
+		vehiculo.setMarca(vehiculoDTO.getMarca());
+		vehiculo.setModelo(vehiculoDTO.getModelo());
+		vehiculo.setNrochasis(vehiculoDTO.getNrochasis());
+		vehiculo.setPatente(vehiculoDTO.getPatente());
+		vehiculo.setTipovehiculo(vehiculoDTO.getTipovehiculo());
 		return ResponseEntity.ok(vehiculoServicesImpl.crear(vehiculo));
 
 	}
 
 	@PostMapping("/vehiculo")
-	public ResponseEntity<?> actualizarVehiculo(@RequestBody @Valid Vehiculo vehiculo) {
+	public ResponseEntity<?> actualizarVehiculo(@RequestBody @Valid VehiculoDTO vehiculoDTO) {
+
+		vehiculo.setActive(vehiculoDTO.isActive());
+		vehiculo.setAnio(vehiculoDTO.getAnio());
+		vehiculo.setIdcliente(vehiculoDTO.getIdcliente());
+		vehiculo.setMarca(vehiculoDTO.getMarca());
+		vehiculo.setModelo(vehiculoDTO.getModelo());
+		vehiculo.setNrochasis(vehiculoDTO.getNrochasis());
+		vehiculo.setPatente(vehiculoDTO.getPatente());
+		vehiculo.setTipovehiculo(vehiculoDTO.getTipovehiculo());
+		vehiculo.setIdvehiculo(vehiculoDTO.getIdvehiculo());
 		return ResponseEntity.ok(vehiculoServicesImpl.actualizar(vehiculo));
 	}
 

@@ -1,4 +1,4 @@
-package com.serviexpress.apirest.payload.Response;
+package com.serviexpress.apirest.payload.response;
 
 import java.io.Serializable;
 
