@@ -10,40 +10,51 @@ public class ReporteServicio implements Serializable {
     private static final long serialVersionUID = 6046265631296318320L;
     String idreporteservicio;
     String totalservicios;
+    String nombreservicio;
     String mes;
 
     public ReporteServicio() {
     }
 
-    public String getIdreporteservicio() {
-        return idreporteservicio;
-    }
+	public String getIdreporteservicio() {
+		return idreporteservicio;
+	}
 
-    public void setIdreporteservicio(String idreporteservicio) {
-        this.idreporteservicio = idreporteservicio;
-    }
+	public void setIdreporteservicio(String idreporteservicio) {
+		this.idreporteservicio = idreporteservicio;
+	}
 
-    public String getTotalservicios() {
-        return totalservicios;
-    }
+	public String getTotalservicios() {
+		return totalservicios;
+	}
 
-    public void setTotalservicios(String totalservicios) {
-        this.totalservicios = totalservicios;
-    }
+	public void setTotalservicios(String totalservicios) {
+		this.totalservicios = totalservicios;
+	}
 
-    public String getMes() {
-        return mes;
-    }
+	public String getNombreservicio() {
+		return nombreservicio;
+	}
 
-    public void setMes(String mes) {
-        this.mes = mes;
-    }
+	public void setNombreservicio(String nombreservicio) {
+		this.nombreservicio = nombreservicio;
+	}
 
-    @Override
-    public String toString() {
-        return "ReporteServicio [idreporteservicio=" + idreporteservicio + ", mes=" + mes
-                + ", totalservicios=" + totalservicios + "]";
-    }
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	@Override
+	public String toString() {
+		return "ReporteServicio [idreporteservicio=" + idreporteservicio + ", totalservicios=" + totalservicios
+				+ ", nombreservicio=" + nombreservicio + ", mes=" + mes + "]";
+	}
+
+   
 
     
     

@@ -22,47 +22,60 @@ public class ReporteServicios implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idreporteservicio;
     private int totalservicios;
+    private String nombreservicio;
     private Date mes;
 
     public ReporteServicios() {
     }
 
-    public ReporteServicios(Long idreporteservicio, Long idreserva, int totalservicios, Date mes) {
-        this.idreporteservicio = idreporteservicio;
-        this.totalservicios = totalservicios;
-        this.mes = mes;
-    }
+	public ReporteServicios(Long idreporteservicio, int totalservicios, String nombreservicio, Date mes) {
+		this.idreporteservicio = idreporteservicio;
+		this.totalservicios = totalservicios;
+		this.nombreservicio = nombreservicio;
+		this.mes = mes;
+	}
 
-    public Long getIdreporteservicio() {
-        return idreporteservicio;
-    }
+	public Long getIdreporteservicio() {
+		return idreporteservicio;
+	}
 
-    public void setIdreporteservicio(Long idreporteservicio) {
-        this.idreporteservicio = idreporteservicio;
-    }
+	public void setIdreporteservicio(Long idreporteservicio) {
+		this.idreporteservicio = idreporteservicio;
+	}
 
+	public int getTotalservicios() {
+		return totalservicios;
+	}
 
-    public int getTotalservicios() {
-        return totalservicios;
-    }
+	public void setTotalservicios(int totalservicios) {
+		this.totalservicios = totalservicios;
+	}
 
-    public void setTotalservicios(int totalservicios) {
-        this.totalservicios = totalservicios;
-    }
+	public String getNombreservicio() {
+		return nombreservicio;
+	}
 
-    public Date getMes() {
-        return mes;
-    }
+	public void setNombreservicio(String nombreservicio) {
+		this.nombreservicio = nombreservicio;
+	}
 
-    public void setMes(Date mes) {
-        this.mes = mes;
-    }
+	public Date getMes() {
+		return mes;
+	}
 
-    @Override
-    public String toString() {
-        return "ReporteServicios [idreporteservicio=" + idreporteservicio +  ", mes=" + mes
-                + ", totalservicios=" + totalservicios + "]";
-    }
+	public void setMes(Date mes) {
+		this.mes = mes;
+	}
+
+	@Override
+	public String toString() {
+		return "ReporteServicios [idreporteservicio=" + idreporteservicio + ", totalservicios=" + totalservicios
+				+ ", nombreservicio=" + nombreservicio + ", mes=" + mes + "]";
+	}
+	
+	
+
+    
 
     
 
