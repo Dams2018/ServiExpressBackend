@@ -28,11 +28,11 @@ public class ProveedorController {
 	@Autowired
 	@Qualifier("serviProveedor")
 	ProveedoresServicesImpl proveedorServicesImpl;
-	Proveedor proveedor= new Proveedor();
+
 
 	@PutMapping("/proveedor")
 	public ResponseEntity<?> agregarProveedor(@RequestBody @Valid ProveedorDTO proveedorDTO) {
-		
+		Proveedor proveedor= new Proveedor();
 		proveedor.setActive(proveedorDTO.isActive());
 		proveedor.setApellido(proveedorDTO.getApellido());
 		proveedor.setCorreo(proveedorDTO.getCorreo());
@@ -47,7 +47,7 @@ public class ProveedorController {
 
 	@PostMapping("/proveedor")
 	public ResponseEntity<?> actualizarProveedor(@RequestBody @Valid ProveedorDTO proveedorDTO) {
-
+		Proveedor proveedor= new Proveedor();
 		proveedor.setActive(proveedorDTO.isActive());
 		proveedor.setApellido(proveedorDTO.getApellido());
 		proveedor.setCorreo(proveedorDTO.getCorreo());

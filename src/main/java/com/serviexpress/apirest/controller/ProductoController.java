@@ -30,11 +30,12 @@ public class ProductoController {
 	@Autowired
 	@Qualifier("serviProducto")
 	ProductoServicesImpl productoServicesImpl;
-	Producto producto=new Producto();
+
 
 
 	@PutMapping("/producto")
 	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid ProductoDTO productoDTO) {
+		Producto producto=new Producto();
 		producto.setCategoria(productoDTO.getCategoria());
 		producto.setDescripcion(productoDTO.getDescripcion());
 		producto.setNombre(productoDTO.getNombre());
@@ -46,7 +47,7 @@ public class ProductoController {
 
 	@PostMapping("/producto")
 	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid ProductoDTO productoDTO) {
-
+		Producto producto=new Producto();
 		producto.setCategoria(productoDTO.getCategoria());
 		producto.setDescripcion(productoDTO.getDescripcion());
 		producto.setNombre(productoDTO.getNombre());

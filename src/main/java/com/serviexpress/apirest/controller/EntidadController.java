@@ -35,13 +35,13 @@ public class EntidadController {
 	@Qualifier("serviemp")
 	EmpleadoServicesImpl serviemp;
 
-	Cliente cliente = new Cliente();
-	Empleado empleado = new Empleado();
+
+
 
 	// Cliente
 	@PutMapping("/cliente")
 	public ResponseEntity<?> agregarCliente(@RequestBody @Valid EntidadDTO entidadDTO) {
-
+		Cliente cliente = new Cliente();
 		cliente.setNombre(entidadDTO.getNombre());
 		cliente.setApellido(entidadDTO.getApellido());
 		cliente.setFechaNacimiento(entidadDTO.getFechaNacimiento());
@@ -54,7 +54,7 @@ public class EntidadController {
 
 	@PostMapping("/cliente")
 	public ResponseEntity<?> actualizarCliente(@RequestBody @Valid EntidadDTO entidadDTO) {
-
+		Cliente cliente = new Cliente();
 		cliente.setNombre(entidadDTO.getNombre());
 		cliente.setApellido(entidadDTO.getApellido());
 		cliente.setFechaNacimiento(entidadDTO.getFechaNacimiento());
@@ -79,6 +79,7 @@ public class EntidadController {
 	// Empleado
 	@PutMapping("/empleado")
 	public ResponseEntity<?> agregarEmpleado(@RequestBody @Valid EntidadEmpDTO entidadEmpDTO) {
+		Empleado empleado = new Empleado();
 		empleado.setNombre(entidadEmpDTO.getNombre());
 		empleado.setApellido(entidadEmpDTO.getApellido());
 		empleado.setFechaNacimiento(entidadEmpDTO.getFechaNacimiento());
@@ -90,7 +91,7 @@ public class EntidadController {
 
 	@PostMapping("/empleado")
 	public ResponseEntity<?> actualizarEmpleado(@RequestBody @Valid EntidadEmpDTO entidadEmpDTO) {
-
+		Empleado empleado = new Empleado();
 		empleado.setNombre(entidadEmpDTO.getNombre());
 		empleado.setApellido(entidadEmpDTO.getApellido());
 		empleado.setFechaNacimiento(entidadEmpDTO.getFechaNacimiento());

@@ -53,7 +53,7 @@ public class PedidoServicesImpl extends UniversalServices<Pedido> {
 		try {
 			repositorio.save(generico);
 			//falta agregar el historial de reserva
-			logger.info("RESERVA CREADO");
+			logger.info("PEDIDO CREADO");
 			return ResponseEntity.ok(generico);
 		} catch (Exception e) {
 			logger.error("HUBO UN ERROR");

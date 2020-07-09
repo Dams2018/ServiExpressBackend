@@ -31,11 +31,12 @@ public class ServicioController {
 	@Autowired
 	@Qualifier("serviServicio")
 	ServicioServicesImpl servicioServicesImpl;
-	Servicio servicio=new Servicio();
+
 
 	// Cliente
 	@PutMapping("/servicio")
 	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid ServicioDTO servicioDTO) {
+		Servicio servicio=new Servicio();
 		servicio.setCategoria(servicioDTO.getCategoria());
 		servicio.setDescripcion(servicioDTO.getDescripcion());
 		servicio.setNombre(servicioDTO.getNombre());
@@ -46,6 +47,7 @@ public class ServicioController {
 
 	@PostMapping("/servicio")
 	public ResponseEntity<?> actualizarServicio(@RequestBody @Valid ServicioDTO servicioDTO) {
+		Servicio servicio=new Servicio();
 		servicio.setCategoria(servicioDTO.getCategoria());
 		servicio.setDescripcion(servicioDTO.getDescripcion());
 		servicio.setNombre(servicioDTO.getNombre());

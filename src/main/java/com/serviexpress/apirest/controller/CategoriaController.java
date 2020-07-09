@@ -31,11 +31,12 @@ public class CategoriaController {
 	@Autowired
 	@Qualifier("serviCategoria")
 	CategoriaServicesImpl categoriaServicesImpl;
-	Categoria categoria= new Categoria();
+
 
 	// Cliente
 	@PutMapping("/categoria")
 	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid CategoriaDTO categoriaDTO) {
+		Categoria categoria= new Categoria();
 		categoria.setNombre(categoriaDTO.getNombre());
 		categoria.setDescripcion(categoriaDTO.getDescripcion());
 		return ResponseEntity.ok(categoriaServicesImpl.crear(categoria));
@@ -44,6 +45,7 @@ public class CategoriaController {
 
 	@PostMapping("/categoria")
 	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid CategoriaDTO categoriaDTO) {
+		Categoria categoria= new Categoria();
 		categoria.setIdcategoria(categoriaDTO.getIdcategoria());
 		categoria.setNombre(categoriaDTO.getNombre());
 		categoria.setDescripcion(categoriaDTO.getDescripcion());

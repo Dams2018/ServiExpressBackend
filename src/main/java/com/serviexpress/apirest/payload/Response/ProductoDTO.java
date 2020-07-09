@@ -6,7 +6,7 @@ public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private double valorbase;
-    private Number stock;
+    private int stock;
     private Long categoria;
 
     public ProductoDTO() {
@@ -44,11 +44,11 @@ public class ProductoDTO {
         this.valorbase = valorbase;
     }
 
-    public Number getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Number stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 

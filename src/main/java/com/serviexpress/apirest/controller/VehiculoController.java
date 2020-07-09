@@ -27,10 +27,11 @@ public class VehiculoController {
 	@Autowired
 	@Qualifier("serviVehiculo")
 	VehiculoServicesImpl vehiculoServicesImpl;
-	Vehiculo vehiculo= new Vehiculo();
+
 	// Cliente
 	@PutMapping("/vehiculo")
 	public ResponseEntity<?> agregarVehiculo(@RequestBody @Valid VehiculoDTO vehiculoDTO) {
+		Vehiculo vehiculo= new Vehiculo();
 		vehiculo.setActive(vehiculoDTO.isActive());
 		vehiculo.setAnio(vehiculoDTO.getAnio());
 		vehiculo.setIdcliente(vehiculoDTO.getIdcliente());
@@ -45,7 +46,7 @@ public class VehiculoController {
 
 	@PostMapping("/vehiculo")
 	public ResponseEntity<?> actualizarVehiculo(@RequestBody @Valid VehiculoDTO vehiculoDTO) {
-
+		Vehiculo vehiculo= new Vehiculo();
 		vehiculo.setActive(vehiculoDTO.isActive());
 		vehiculo.setAnio(vehiculoDTO.getAnio());
 		vehiculo.setIdcliente(vehiculoDTO.getIdcliente());
