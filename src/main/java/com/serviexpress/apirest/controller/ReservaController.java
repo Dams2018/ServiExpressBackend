@@ -1,6 +1,7 @@
 package com.serviexpress.apirest.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +14,8 @@ import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.entity.Vehiculo;
 import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
+import com.serviexpress.apirest.payload.response.IngresoVsEgreso;
+import com.serviexpress.apirest.payload.response.ReporteServicio;
 import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.service.MyBatisService;
@@ -417,5 +420,58 @@ public class ReservaController {
 	public List<ResponseReservaPago> obtenerReservaPago(@PathVariable(value = "patente") final String patente) {
 
 		return myBatisService.getReservaCliente(patente);
+	}
+
+	@GetMapping(value = "/reporteservicio")
+	public ResponseEntity<?> obtenerReporteServicios() {
+		
+		List<String> mes= new ArrayList<>();
+		List<String> totalServicio= new ArrayList<>();
+		List<String> nombreServicio= new ArrayList<>();
+		JSONObject lista = new JSONObject();
+
+		List <ReporteServicio> reporteServicio = myBatisService.getReporteServicio();
+
+		
+		for (ReporteServicio reporteServicio1 : reporteServicio) {
+			totalServicio.add(reporteServicio1.getTotalservicios());
+			nombreServicio.add(reporteServicio1.getNombreservicio());
+			if (reporteServicio1.getMes().substring(0, 2).equals("01")) {
+				mes.add("Enero");
+				
+			} else if(reporteServicio1.getMes().substring(0, 2).equals("02")) {
+				mes.add("Febrero");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("03")) {
+				mes.add("Marzo");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("04")) {
+				mes.add("Abril");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("05")) {
+				mes.add("Mayo");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("06")) {
+				mes.add("Junio");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("07")) {
+				mes.add("Julio");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("08")) {
+				mes.add("Agosto");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("09")) {
+				mes.add("Septiembre");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("10")) {
+				mes.add("Octubre");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("11")) {
+				mes.add("Noviembre");
+			}else if(reporteServicio1.getMes().substring(0, 2).equals("12")) {
+				mes.add("Diciembre");
+
+			}
+		
+			
+		}
+
+		lista.put("mes", mes);
+		lista.put("totalServicio", totalServicio);
+		lista.put("nombreServicio", nombreServicio);
+	
+
+		return ResponseEntity.ok(lista);
 	}
 }
