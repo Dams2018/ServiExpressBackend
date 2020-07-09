@@ -358,7 +358,7 @@ public class ReservaController {
 		emailService.emailSendReserva(user.getEmail(), cliente.getNombre(), mensaje, estado1);
 		reservaServicesImpl.findByIdReserva(id, estado);
 		if (estado == 5) {
-
+			emailService.emailSendEncuesta(user.getEmail(), cliente.getNombre(), mensaje, estado1);
 			long num = Long.parseLong(reserva.getProductos());
 			long num2 = Long.parseLong(reserva.getServicios());
 			double valorProducto = productoServicesImpl.findByIdProducto(num).getValorbase();
