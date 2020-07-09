@@ -5,6 +5,8 @@ import java.util.List;
 import com.serviexpress.apirest.mapper.IngresoVSEgresoMapper;
 import com.serviexpress.apirest.mapper.ReservaMapper;
 import com.serviexpress.apirest.payload.response.IngresoVsEgreso;
+import com.serviexpress.apirest.payload.response.ReporteServicio;
+import com.serviexpress.apirest.mapper.ReporteServicios;
 import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.MyBatisService;
 
@@ -18,6 +20,9 @@ public class MyBatisServiceImlp implements MyBatisService {
 
     @Autowired
     ReservaMapper reservaMapper;
+
+    @Autowired
+    ReporteServicios reporteServicioMapper;
     
     @Override
     public List<IngresoVsEgreso> getEgreso() {
@@ -35,6 +40,13 @@ public class MyBatisServiceImlp implements MyBatisService {
     public List<ResponseReservaPago> getReservaCliente(String patente) {
 
         return reservaMapper.getReservaCliente(patente);
+    }
+    
+
+    @Override
+    public List<ReporteServicio> getReporteServicio() {
+
+        return reporteServicioMapper.getReporteServicio();
     }
 
 

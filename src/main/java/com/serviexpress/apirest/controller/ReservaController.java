@@ -13,6 +13,7 @@ import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.entity.Vehiculo;
 import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
+import com.serviexpress.apirest.payload.response.ReporteServicio;
 import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.service.MyBatisService;
@@ -417,5 +418,11 @@ public class ReservaController {
 	public List<ResponseReservaPago> obtenerReservaPago(@PathVariable(value = "patente") final String patente) {
 
 		return myBatisService.getReservaCliente(patente);
+	}
+
+	@GetMapping(value = "/reporteservicio")
+	public List<ReporteServicio> obtenerReporteServicios() {
+
+		return myBatisService.getReporteServicio();
 	}
 }
