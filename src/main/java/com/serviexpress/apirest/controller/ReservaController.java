@@ -89,10 +89,11 @@ public class ReservaController {
 	@Autowired
 	@Qualifier("repositoriocli")
 	private ClienteRepository clienteRepository;
-	Reserva res = new Reserva();
+
 	// Cliente
 	@PutMapping("/reserva")
 	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final ReservaRequest reserva) {
+		Reserva res = new Reserva();
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());
@@ -108,7 +109,7 @@ public class ReservaController {
 
 	@PostMapping("/reserva")
 	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final ReservaRequest reserva) {
-
+		Reserva res = new Reserva();
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());

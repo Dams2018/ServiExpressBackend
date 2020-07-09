@@ -21,9 +21,7 @@ public class Empleado implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idempleado;
-
     private Long idusuario;
-
     @NotBlank
     @Size(max = 40)
     private String rut;

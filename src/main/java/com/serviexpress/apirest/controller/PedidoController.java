@@ -30,11 +30,12 @@ public class PedidoController {
 
 	@Autowired
 	PedidoServicesImpl pedidoServicesImpl;
-	Pedido pedido =new Pedido();
+
 	// Cliente
 	@PutMapping("/pedido")
 	public ResponseEntity<?> agregarPedido(@RequestBody @Valid final PedidoDTO PedidoDTO) {
-
+		Pedido pedido =new Pedido();
+		System.out.println(PedidoDTO.toString());
 		pedido.setCantidad(PedidoDTO.getCantidad());
 		pedido.setComentariopedido(PedidoDTO.getComentariopedido());
 		pedido.setEmpleado(PedidoDTO.getEmpleado());
@@ -50,7 +51,7 @@ public class PedidoController {
 
 	@PostMapping("/pedido")
 	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final PedidoDTO PedidoDTO) {
-
+		Pedido pedido =new Pedido();
 		pedido.setCantidad(PedidoDTO.getCantidad());
 		pedido.setComentariopedido(PedidoDTO.getComentariopedido());
 		pedido.setEmpleado(PedidoDTO.getEmpleado());
