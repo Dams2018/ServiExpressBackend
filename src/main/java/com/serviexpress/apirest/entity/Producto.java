@@ -29,7 +29,7 @@ public class Producto implements Serializable {
     @Size(max = 255)
     private String descripcion;
     private double valorbase;
-    private Number stock;
+    private int stock;
     private Long categoria;
 
     public Producto() {
@@ -66,13 +66,6 @@ public class Producto implements Serializable {
         this.valorbase = valorbase;
     }
 
-    public Number getStock() {
-        return stock;
-    }
-
-    public void setStock(Number stock) {
-        this.stock = stock;
-    }
 
 
     public Long getCategoria() {
@@ -108,7 +101,7 @@ public class Producto implements Serializable {
     
 
     public Producto(Long idproducto, @NotBlank @Size(max = 50) String nombre,
-            @NotBlank @Size(max = 255) String descripcion, double valorbase, Number stock, Long categoria) {
+            @NotBlank @Size(max = 255) String descripcion, double valorbase, int stock, Long categoria) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -121,6 +114,14 @@ public class Producto implements Serializable {
     public String toString() {
         return "Producto [categoria=" + categoria + ", descripcion=" + descripcion + ", idproducto=" + idproducto
                 + ", nombre=" + nombre + ", valorbase=" + valorbase + ", stock=" + stock + "]";
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
    

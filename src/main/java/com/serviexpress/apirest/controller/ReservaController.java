@@ -89,10 +89,11 @@ public class ReservaController {
 	@Autowired
 	@Qualifier("repositoriocli")
 	private ClienteRepository clienteRepository;
-	Reserva res = new Reserva();
+
 	// Cliente
 	@PutMapping("/reserva")
 	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final ReservaRequest reserva) {
+		Reserva res = new Reserva();
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());
@@ -101,13 +102,14 @@ public class ReservaController {
 		res.setIdvehiculo(reserva.getIdvehiculo());
 		res.setProductos(reserva.getProductos());
 		res.setServicios(reserva.getServicios());
+		res.setTotalreserva(reserva.getTotalreserva());
 		return ResponseEntity.ok(reservaServicesImpl.crear(res));
 
 	}
 
 	@PostMapping("/reserva")
 	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final ReservaRequest reserva) {
-
+		Reserva res = new Reserva();
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());
@@ -117,6 +119,7 @@ public class ReservaController {
 		res.setProductos(reserva.getProductos());
 		res.setServicios(reserva.getServicios());
 		res.setIdreserva(reserva.getIdreserva());
+		res.setTotalreserva(reserva.getTotalreserva());
 		return ResponseEntity.ok(reservaServicesImpl.actualizar(res));
 	}
 
@@ -402,6 +405,7 @@ public class ReservaController {
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			reservaResponse.setEstado(reserva2.getEstado());
+			reservaResponse.setTotalreserva(reserva2.getTotalreserva());
 			array.add(reservaResponse);
 
 		}

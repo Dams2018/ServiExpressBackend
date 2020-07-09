@@ -2,6 +2,9 @@ package com.serviexpress.apirest.payload.response;
 
 import java.sql.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.serviexpress.apirest.entity.Producto;
 import com.serviexpress.apirest.entity.Proveedor;
 
@@ -13,7 +16,9 @@ public class PedidoDTO {
     private Proveedor proveedor;
     private Producto producto;
 	private String cantidad;
+	@Temporal(TemporalType.DATE)
 	private Date fechapedido;
+	@Temporal(TemporalType.DATE)
 	private Date fecharecibo;
 	private String comentariopedido;
 	private int estado;
