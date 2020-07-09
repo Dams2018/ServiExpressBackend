@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-
 import com.serviexpress.apirest.entity.Producto;
+import com.serviexpress.apirest.payload.response.ProductoDTO;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,26 @@ public class ProductoController {
 
 
 	@PutMapping("/producto")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Producto producto) {
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid ProductoDTO productoDTO) {
+		Producto producto=new Producto();
+		producto.setCategoria(productoDTO.getCategoria());
+		producto.setDescripcion(productoDTO.getDescripcion());
+		producto.setNombre(productoDTO.getNombre());
+		producto.setStock(productoDTO.getStock());
+		producto.setValorbase(productoDTO.getValorbase());
 		return ResponseEntity.ok(productoServicesImpl.crear(producto));
 
 	}
 
 	@PostMapping("/producto")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid Producto producto) {
+	public ResponseEntity<?> actualizarCategoria(@RequestBody @Valid ProductoDTO productoDTO) {
+		Producto producto=new Producto();
+		producto.setCategoria(productoDTO.getCategoria());
+		producto.setDescripcion(productoDTO.getDescripcion());
+		producto.setNombre(productoDTO.getNombre());
+		producto.setStock(productoDTO.getStock());
+		producto.setValorbase(productoDTO.getValorbase());
+		producto.setIdproducto(productoDTO.getIdproducto());
 		return ResponseEntity.ok(productoServicesImpl.actualizar(producto));
 	}
 

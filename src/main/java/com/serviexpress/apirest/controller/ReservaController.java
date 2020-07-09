@@ -1,6 +1,6 @@
 package com.serviexpress.apirest.controller;
 
-import java.util.Date;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,10 +11,9 @@ import com.serviexpress.apirest.entity.Reserva;
 import com.serviexpress.apirest.entity.Servicio;
 import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.entity.Vehiculo;
-import com.serviexpress.apirest.payload.RangoFecha;
 import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
-import com.serviexpress.apirest.payload.Response.ResponseReservaPago;
+import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.service.MyBatisService;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
@@ -94,9 +93,7 @@ public class ReservaController {
 	// Cliente
 	@PutMapping("/reserva")
 	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final ReservaRequest reserva) {
-
 		Reserva res = new Reserva();
-
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());
@@ -105,14 +102,25 @@ public class ReservaController {
 		res.setIdvehiculo(reserva.getIdvehiculo());
 		res.setProductos(reserva.getProductos());
 		res.setServicios(reserva.getServicios());
+		res.setTotalreserva(reserva.getTotalreserva());
 		return ResponseEntity.ok(reservaServicesImpl.crear(res));
 
 	}
 
 	@PostMapping("/reserva")
-	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final Reserva reserva) {
-
-		return ResponseEntity.ok(reservaServicesImpl.actualizar(reserva));
+	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final ReservaRequest reserva) {
+		Reserva res = new Reserva();
+		res.setActivo(false);
+		res.setEstado(reserva.getEstado());
+		res.setFecha(reserva.getFecha());
+		res.setHorareserva(reserva.getHorareserva());
+		res.setIdcliente(reserva.getIdcliente());
+		res.setIdvehiculo(reserva.getIdvehiculo());
+		res.setProductos(reserva.getProductos());
+		res.setServicios(reserva.getServicios());
+		res.setIdreserva(reserva.getIdreserva());
+		res.setTotalreserva(reserva.getTotalreserva());
+		return ResponseEntity.ok(reservaServicesImpl.actualizar(res));
 	}
 
 	// todas las reservas empleado por fecha hoy
@@ -121,9 +129,6 @@ public class ReservaController {
 	public ResponseEntity<?> obtenerReservaDay(final Pageable pageable) {
 
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay(pageable);
-		System.out.println(reserva.toString());
-		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
-		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
 
 		for (Reserva reserva2 : reserva) {
@@ -161,8 +166,6 @@ public class ReservaController {
 	@GetMapping(value = "/reservasmonth")
 	public ResponseEntity<?> obtenerReservaMonth(final Pageable pageable) {
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorMonth(pageable);
-		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
-		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
 
 		for (Reserva reserva2 : reserva) {
@@ -375,7 +378,6 @@ public class ReservaController {
 	@GetMapping(value = "/{id}/{estado}/estado")
 	public ResponseEntity<?> obtenerReservaClienteAndEstado(final Pageable pageable,
 			@PathVariable(value = "id") final Long id, @PathVariable(value = "estado") final Integer estado) {
-		// return reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable,id, estado);
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable, id, estado);
 		JSONArray array = new JSONArray();
 
@@ -403,6 +405,7 @@ public class ReservaController {
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			reservaResponse.setEstado(reserva2.getEstado());
+			reservaResponse.setTotalreserva(reserva2.getTotalreserva());
 			array.add(reservaResponse);
 
 		}

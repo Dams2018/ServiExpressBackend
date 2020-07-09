@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.serviexpress.apirest.entity.Proveedor;
-
-
+import com.serviexpress.apirest.payload.response.ProveedorDTO;
 import com.serviexpress.apirest.service.impl.ProveedoresServicesImpl;
 
 
@@ -31,14 +29,34 @@ public class ProveedorController {
 	@Qualifier("serviProveedor")
 	ProveedoresServicesImpl proveedorServicesImpl;
 
+
 	@PutMapping("/proveedor")
-	public ResponseEntity<?> agregarProveedor(@RequestBody @Valid Proveedor proveedor) {
+	public ResponseEntity<?> agregarProveedor(@RequestBody @Valid ProveedorDTO proveedorDTO) {
+		Proveedor proveedor= new Proveedor();
+		proveedor.setActive(proveedorDTO.isActive());
+		proveedor.setApellido(proveedorDTO.getApellido());
+		proveedor.setCorreo(proveedorDTO.getCorreo());
+		proveedor.setEmpresa(proveedorDTO.getEmpresa());
+		proveedor.setNombre(proveedorDTO.getNombre());
+		proveedor.setProducto(proveedorDTO.getProducto());
+		proveedor.setRut(proveedorDTO.getProducto());
+		proveedor.setTelefono(proveedorDTO.getTelefono());
 		return ResponseEntity.ok(proveedorServicesImpl.crear(proveedor));
 
 	}
 
 	@PostMapping("/proveedor")
-	public ResponseEntity<?> actualizarProveedor(@RequestBody @Valid Proveedor proveedor) {
+	public ResponseEntity<?> actualizarProveedor(@RequestBody @Valid ProveedorDTO proveedorDTO) {
+		Proveedor proveedor= new Proveedor();
+		proveedor.setActive(proveedorDTO.isActive());
+		proveedor.setApellido(proveedorDTO.getApellido());
+		proveedor.setCorreo(proveedorDTO.getCorreo());
+		proveedor.setEmpresa(proveedorDTO.getEmpresa());
+		proveedor.setNombre(proveedorDTO.getNombre());
+		proveedor.setProducto(proveedorDTO.getProducto());
+		proveedor.setRut(proveedorDTO.getProducto());
+		proveedor.setTelefono(proveedorDTO.getTelefono());
+		proveedor.setIdproveedor(proveedorDTO.getIdproveedor());
 		return ResponseEntity.ok(proveedorServicesImpl.actualizar(proveedor));
 	}
 

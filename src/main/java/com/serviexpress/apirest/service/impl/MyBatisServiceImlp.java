@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.serviexpress.apirest.mapper.IngresoVSEgresoMapper;
 import com.serviexpress.apirest.mapper.ReservaMapper;
-import com.serviexpress.apirest.payload.Response.IngresoVsEgreso;
-import com.serviexpress.apirest.payload.Response.ResponseReservaPago;
+import com.serviexpress.apirest.payload.response.IngresoVsEgreso;
+import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.MyBatisService;
 
 import org.springframework.beans.factory.annotation.Autowired;
