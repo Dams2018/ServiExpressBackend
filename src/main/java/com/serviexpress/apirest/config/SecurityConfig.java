@@ -87,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         "/**/*.js")
                         .permitAll()
                         .antMatchers("/api/satifaccion/ingresarencuesta").permitAll()
+                        .antMatchers("/api/reserva/reporteservicio").permitAll()
                         .antMatchers("/api/pago/pago").permitAll()
                         .antMatchers("/api/pedido/pago").permitAll()
                         .antMatchers("/api/reserva/{patente}/patente").permitAll()

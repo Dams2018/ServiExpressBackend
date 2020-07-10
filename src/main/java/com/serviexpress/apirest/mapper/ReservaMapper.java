@@ -2,8 +2,8 @@ package com.serviexpress.apirest.mapper;
 
 import java.util.List;
 
-import com.serviexpress.apirest.payload.Response.IngresoVsEgreso;
-import com.serviexpress.apirest.payload.Response.ResponseReservaPago;
+
+import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

@@ -1,15 +1,14 @@
 package com.serviexpress.apirest.controller;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.serviexpress.apirest.payload.Encuesta;
 import com.serviexpress.apirest.payload.RangoFecha;
-import com.serviexpress.apirest.payload.Response.IngresoVsEgreso;
+import com.serviexpress.apirest.payload.response.IngresoVsEgreso;
 import com.serviexpress.apirest.service.MyBatisService;
 import com.serviexpress.apirest.service.impl.ReporteInServicesImpl;
 import com.serviexpress.apirest.service.impl.SatifaccionServicesImpl;
@@ -43,30 +42,18 @@ public class SatifaccionController {
 	@PutMapping("/ingresarencuesta")
 	public ResponseEntity<?> agregarEncuesta(@RequestBody @Valid final List<Encuesta> encuesta) {
 
-		
 		return ResponseEntity.ok(satifaccionServicesImpl.crearwithList(encuesta));
 	}
 
 	@PostMapping(value = "/encuesta")
 	public ResponseEntity<?> obtener(@RequestBody @Valid final RangoFecha rangofecha) {
-		System.out.println(rangofecha.getFechaini());
-
-		System.out.println(rangofecha.getFechafin());
-		// String date = fecha;
-		// LocalDateTime localdatetime = LocalDateTime.parse(date);
-
-		// System.out.println("origional date as string: " + date);
-		// System.out.println("generated LocalDateTime: " + localdatetime);
-		// //LocalTime lt = LocalTime.parse( fecha ) ;
 
 		return ResponseEntity.ok(satifaccionServicesImpl.obtenerEncuesta(rangofecha.getFechaini(), rangofecha.getFechafin()));
-
 	}
 
 	@GetMapping(value = "/reportein")
 	public ResponseEntity<?> obtenerReporteIn() {
 
-		System.out.println("REPORTE3");
 		List<String> meses= new ArrayList<>();
 		List<String> valorEgreso= new ArrayList<>();
 		List<String> valorIngreso= new ArrayList<>();

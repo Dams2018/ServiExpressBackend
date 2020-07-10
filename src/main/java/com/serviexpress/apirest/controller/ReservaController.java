@@ -1,6 +1,7 @@
 package com.serviexpress.apirest.controller;
 
-import java.util.Date;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,10 +12,11 @@ import com.serviexpress.apirest.entity.Reserva;
 import com.serviexpress.apirest.entity.Servicio;
 import com.serviexpress.apirest.entity.User;
 import com.serviexpress.apirest.entity.Vehiculo;
-import com.serviexpress.apirest.payload.RangoFecha;
 import com.serviexpress.apirest.payload.ReservaRequest;
 import com.serviexpress.apirest.payload.ReservaResponse;
-import com.serviexpress.apirest.payload.Response.ResponseReservaPago;
+import com.serviexpress.apirest.payload.response.IngresoVsEgreso;
+import com.serviexpress.apirest.payload.response.ReporteServicio;
+import com.serviexpress.apirest.payload.response.ResponseReservaPago;
 import com.serviexpress.apirest.service.EmailService;
 import com.serviexpress.apirest.service.MyBatisService;
 import com.serviexpress.apirest.service.impl.ProductoServicesImpl;
@@ -94,9 +96,7 @@ public class ReservaController {
 	// Cliente
 	@PutMapping("/reserva")
 	public ResponseEntity<?> agregarReserva(@RequestBody @Valid final ReservaRequest reserva) {
-
 		Reserva res = new Reserva();
-
 		res.setActivo(false);
 		res.setEstado(reserva.getEstado());
 		res.setFecha(reserva.getFecha());
@@ -105,14 +105,25 @@ public class ReservaController {
 		res.setIdvehiculo(reserva.getIdvehiculo());
 		res.setProductos(reserva.getProductos());
 		res.setServicios(reserva.getServicios());
+		res.setTotalreserva(reserva.getTotalreserva());
 		return ResponseEntity.ok(reservaServicesImpl.crear(res));
 
 	}
 
 	@PostMapping("/reserva")
-	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final Reserva reserva) {
-
-		return ResponseEntity.ok(reservaServicesImpl.actualizar(reserva));
+	public ResponseEntity<?> actualizarReserva(@RequestBody @Valid final ReservaRequest reserva) {
+		Reserva res = new Reserva();
+		res.setActivo(false);
+		res.setEstado(reserva.getEstado());
+		res.setFecha(reserva.getFecha());
+		res.setHorareserva(reserva.getHorareserva());
+		res.setIdcliente(reserva.getIdcliente());
+		res.setIdvehiculo(reserva.getIdvehiculo());
+		res.setProductos(reserva.getProductos());
+		res.setServicios(reserva.getServicios());
+		res.setIdreserva(reserva.getIdreserva());
+		res.setTotalreserva(reserva.getTotalreserva());
+		return ResponseEntity.ok(reservaServicesImpl.actualizar(res));
 	}
 
 	// todas las reservas empleado por fecha hoy
@@ -121,9 +132,6 @@ public class ReservaController {
 	public ResponseEntity<?> obtenerReservaDay(final Pageable pageable) {
 
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorDay(pageable);
-		System.out.println(reserva.toString());
-		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
-		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
 
 		for (Reserva reserva2 : reserva) {
@@ -161,8 +169,6 @@ public class ReservaController {
 	@GetMapping(value = "/reservasmonth")
 	public ResponseEntity<?> obtenerReservaMonth(final Pageable pageable) {
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorMonth(pageable);
-		// List<Reserva> reserva = reservaServicesImpl.obtenerPorPaginacion(pageable);
-		System.out.println(reserva.toString());
 		JSONArray array = new JSONArray();
 
 		for (Reserva reserva2 : reserva) {
@@ -251,6 +257,7 @@ public class ReservaController {
 					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
 			reservaResponse.setServicios(servicio.getNombre());
 
+			System.out.println(reserva2.getProductos());
 			long num2 = Long.parseLong(reserva2.getProductos());
 			Producto producto = productoRepository.findById(num2)
 					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
@@ -354,7 +361,7 @@ public class ReservaController {
 		emailService.emailSendReserva(user.getEmail(), cliente.getNombre(), mensaje, estado1);
 		reservaServicesImpl.findByIdReserva(id, estado);
 		if (estado == 5) {
-
+			emailService.emailSendEncuesta(user.getEmail(), cliente.getNombre(), mensaje, estado1);
 			long num = Long.parseLong(reserva.getProductos());
 			long num2 = Long.parseLong(reserva.getServicios());
 			double valorProducto = productoServicesImpl.findByIdProducto(num).getValorbase();
@@ -375,7 +382,6 @@ public class ReservaController {
 	@GetMapping(value = "/{id}/{estado}/estado")
 	public ResponseEntity<?> obtenerReservaClienteAndEstado(final Pageable pageable,
 			@PathVariable(value = "id") final Long id, @PathVariable(value = "estado") final Integer estado) {
-		// return reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable,id, estado);
 		List<Reserva> reserva = reservaServicesImpl.obtenerPorIdClienteAndEstado(pageable, id, estado);
 		JSONArray array = new JSONArray();
 
@@ -403,6 +409,7 @@ public class ReservaController {
 			reservaResponse.setMarca(vehiculo2.getMarca());
 			reservaResponse.setPatente(vehiculo2.getPatente());
 			reservaResponse.setEstado(reserva2.getEstado());
+			reservaResponse.setTotalreserva(reserva2.getTotalreserva());
 			array.add(reservaResponse);
 
 		}
@@ -414,5 +421,57 @@ public class ReservaController {
 	public List<ResponseReservaPago> obtenerReservaPago(@PathVariable(value = "patente") final String patente) {
 
 		return myBatisService.getReservaCliente(patente);
+	}
+
+	@GetMapping(value = "/reporteservicio")
+	public ResponseEntity<?> obtenerReporteServicios() {
+		
+		List<String> mes= new ArrayList<>();
+		List<String> totalServicio= new ArrayList<>();
+		List<String> nombreServicio= new ArrayList<>();
+		JSONObject lista = new JSONObject();
+
+		List <ReporteServicio> reporteServicio = myBatisService.getReporteServicio();
+
+		
+		for (ReporteServicio reporteServicio1 : reporteServicio) {
+			totalServicio.add(reporteServicio1.getTotalservicios());
+			nombreServicio.add(reporteServicio1.getNombreservicio());
+			// if (reporteServicio1.getMes().substring(0, 2).equals("01")) {
+			// 	mes.add("Enero");
+			// } else if(reporteServicio1.getMes().substring(0, 2).equals("02")) {
+			// 	mes.add("Febrero");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("03")) {
+			// 	mes.add("Marzo");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("04")) {
+			// 	mes.add("Abril");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("05")) {
+			// 	mes.add("Mayo");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("06")) {
+			// 	mes.add("Junio");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("07")) {
+			// 	mes.add("Julio");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("08")) {
+			// 	mes.add("Agosto");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("09")) {
+			// 	mes.add("Septiembre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("10")) {
+			// 	mes.add("Octubre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("11")) {
+			// 	mes.add("Noviembre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("12")) {
+			// 	mes.add("Diciembre");
+
+			// }
+		
+			
+		}
+
+		lista.put("mes", mes);
+		lista.put("totalServicio", totalServicio);
+		lista.put("nombreServicio", nombreServicio);
+	
+
+		return ResponseEntity.ok(lista);
 	}
 }

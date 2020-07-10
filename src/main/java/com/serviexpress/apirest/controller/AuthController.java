@@ -32,7 +32,6 @@ import com.serviexpress.apirest.exception.AppException;
 import com.serviexpress.apirest.exception.ResourceNotFoundException;
 import com.serviexpress.apirest.payload.ApiResponse;
 import com.serviexpress.apirest.payload.ChangeRequest;
-import com.serviexpress.apirest.payload.JwtAuthenticationResponse;
 import com.serviexpress.apirest.payload.LoginRequest;
 import com.serviexpress.apirest.payload.SignUpRequest;
 import com.serviexpress.apirest.repository.ClienteRepository;
