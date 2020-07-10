@@ -257,6 +257,7 @@ public class ReservaController {
 					.orElseThrow(() -> new IllegalStateException("Servicio no existe."));
 			reservaResponse.setServicios(servicio.getNombre());
 
+			System.out.println(reserva2.getProductos());
 			long num2 = Long.parseLong(reserva2.getProductos());
 			Producto producto = productoRepository.findById(num2)
 					.orElseThrow(() -> new IllegalStateException("Patente no existe."));
@@ -436,33 +437,32 @@ public class ReservaController {
 		for (ReporteServicio reporteServicio1 : reporteServicio) {
 			totalServicio.add(reporteServicio1.getTotalservicios());
 			nombreServicio.add(reporteServicio1.getNombreservicio());
-			if (reporteServicio1.getMes().substring(0, 2).equals("01")) {
-				mes.add("Enero");
-				
-			} else if(reporteServicio1.getMes().substring(0, 2).equals("02")) {
-				mes.add("Febrero");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("03")) {
-				mes.add("Marzo");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("04")) {
-				mes.add("Abril");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("05")) {
-				mes.add("Mayo");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("06")) {
-				mes.add("Junio");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("07")) {
-				mes.add("Julio");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("08")) {
-				mes.add("Agosto");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("09")) {
-				mes.add("Septiembre");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("10")) {
-				mes.add("Octubre");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("11")) {
-				mes.add("Noviembre");
-			}else if(reporteServicio1.getMes().substring(0, 2).equals("12")) {
-				mes.add("Diciembre");
+			// if (reporteServicio1.getMes().substring(0, 2).equals("01")) {
+			// 	mes.add("Enero");
+			// } else if(reporteServicio1.getMes().substring(0, 2).equals("02")) {
+			// 	mes.add("Febrero");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("03")) {
+			// 	mes.add("Marzo");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("04")) {
+			// 	mes.add("Abril");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("05")) {
+			// 	mes.add("Mayo");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("06")) {
+			// 	mes.add("Junio");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("07")) {
+			// 	mes.add("Julio");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("08")) {
+			// 	mes.add("Agosto");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("09")) {
+			// 	mes.add("Septiembre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("10")) {
+			// 	mes.add("Octubre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("11")) {
+			// 	mes.add("Noviembre");
+			// }else if(reporteServicio1.getMes().substring(0, 2).equals("12")) {
+			// 	mes.add("Diciembre");
 
-			}
+			// }
 		
 			
 		}
