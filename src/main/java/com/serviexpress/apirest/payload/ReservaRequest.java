@@ -18,6 +18,7 @@ public class ReservaRequest implements Serializable {
 	private Date fecha;
     private String horareserva;
     private int estado;
+    private double totalreserva;
     private Boolean activo;
 
     public ReservaRequest() {
@@ -95,11 +96,20 @@ public class ReservaRequest implements Serializable {
         this.activo = activo;
     }
 
+
+    public double getTotalreserva() {
+        return totalreserva;
+    }
+
+    public void setTotalreserva(double totalreserva) {
+        this.totalreserva = totalreserva;
+    }
+
     @Override
     public String toString() {
-        return "Reserva [activo=" + activo + ", estado=" + estado + ", fecha=" + fecha + ", horareserva=" + horareserva
-                + ", idcliente=" + idcliente + ", idreserva=" + idreserva + ", idvehiculo=" + idvehiculo
-                + ", productos=" + productos + ", servicios=" + servicios + "]";
+        return "ReservaRequest [activo=" + activo + ", estado=" + estado + ", fecha=" + fecha + ", horareserva="
+                + horareserva + ", idcliente=" + idcliente + ", idreserva=" + idreserva + ", idvehiculo=" + idvehiculo
+                + ", productos=" + productos + ", servicios=" + servicios + ", totalreserva=" + totalreserva + "]";
     }
 
 }

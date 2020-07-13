@@ -14,8 +14,8 @@ import com.serviexpress.apirest.entity.ReporteIn;
 
 
 
-@Repository("repositoriorportein")
-public interface  ReporteInRepository extends JpaRepository<ReporteIn, Serializable>, PagingAndSortingRepository<ReporteIn, Serializable>{
+@Repository("repositoriorporteservicio")
+public interface  ReporteServicioRepository extends JpaRepository<ReporteIn, Serializable>, PagingAndSortingRepository<ReporteIn, Serializable>{
         
        
 }

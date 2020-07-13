@@ -4,12 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.serviexpress.apirest.entity.Categoria;
 import com.serviexpress.apirest.entity.Servicio;
-import com.serviexpress.apirest.entity.Vehiculo;
-import com.serviexpress.apirest.service.impl.CategoriaServicesImpl;
+import com.serviexpress.apirest.payload.response.ServicioDTO;
 import com.serviexpress.apirest.service.impl.ServicioServicesImpl;
-import com.serviexpress.apirest.service.impl.VehiculoServicesImpl;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,13 +35,24 @@ public class ServicioController {
 
 	// Cliente
 	@PutMapping("/servicio")
-	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid Servicio servicio) {
+	public ResponseEntity<?> agregarCategoria(@RequestBody @Valid ServicioDTO servicioDTO) {
+		Servicio servicio=new Servicio();
+		servicio.setCategoria(servicioDTO.getCategoria());
+		servicio.setDescripcion(servicioDTO.getDescripcion());
+		servicio.setNombre(servicioDTO.getNombre());
+		servicio.setValorbase(servicioDTO.getValorbase());
 		return ResponseEntity.ok(servicioServicesImpl.crear(servicio));
 
 	}
 
 	@PostMapping("/servicio")
-	public ResponseEntity<?> actualizarServicio(@RequestBody @Valid Servicio servicio) {
+	public ResponseEntity<?> actualizarServicio(@RequestBody @Valid ServicioDTO servicioDTO) {
+		Servicio servicio=new Servicio();
+		servicio.setCategoria(servicioDTO.getCategoria());
+		servicio.setDescripcion(servicioDTO.getDescripcion());
+		servicio.setNombre(servicioDTO.getNombre());
+		servicio.setValorbase(servicioDTO.getValorbase());
+		servicio.setIdservicio(servicioDTO.getIdservicio());
 		return ResponseEntity.ok(servicioServicesImpl.actualizar(servicio));
 	}
 

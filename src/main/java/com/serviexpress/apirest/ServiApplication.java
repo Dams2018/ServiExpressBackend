@@ -7,6 +7,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.annotation.PostConstruct;
 
+
 import java.util.TimeZone;
 
 @SpringBootApplication
@@ -18,12 +19,13 @@ public class ServiApplication {
 	void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
-		
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServiApplication.class, args);
 
+	
+	
 	}
 
 }

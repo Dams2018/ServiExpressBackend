@@ -87,7 +87,39 @@ public class EmailServiceImpl implements EmailService {
 		context.setVariable("name", name);
 		context.setVariable("mensaje", mensaje);
 		context.setVariable("estado", estado);
-		return templateEngine.process("MyHTML", context);
+		return templateEngine.process("MyHTML2", context);
+	}
+
+	@Override
+	public void emailSendEncuesta(String email, String name, String mensaje, String estado) {
+		String processedHTMLTemplate = this.constructHTMLEncuesta(name, mensaje, estado);
+
+		
+		MimeMessagePreparator preparator = message -> {
+			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED,
+					"UTF-8");
+			helper.setFrom("serviexpress2080@gmail.com");
+			helper.setTo(email);
+				helper.setSubject("Hola "+ name);
+			helper.setText(processedHTMLTemplate, true);
+		};
+
+		try {
+			System.out.println("Enviando email a " + email);
+			mailSender.send(preparator);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	private String constructHTMLEncuesta(String name,String mensaje, String estado) {
+
+		Context context = new Context();
+		context.setVariable("name", name);
+		context.setVariable("mensaje", mensaje);
+		context.setVariable("estado", estado);
+		return templateEngine.process("MyHTML3", context);
 	}
     
 }
